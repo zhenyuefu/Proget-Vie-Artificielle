@@ -28,11 +28,16 @@ class World:
 
         self.MountainsType=[]
 
+        self.Grass=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
+
         self.Map_trees=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
 
         self.Map_obtacles=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
 
         self.Map_mountains=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
+
+        self.p_grass = 2
+
 
         #Type de montagnes
 
@@ -92,9 +97,9 @@ class World:
 
         # Obstacles random placement
 
-        for x in range(0,len(self.Map_trees[0])):
+        for x in range(0,len(self.Map_obtacles[0])):
 
-            for y in range(0,len(self.Map_trees)):
+            for y in range(0,len(self.Map_obtacles)):
 
                 if not y==self.size_tile_Y//2 and not x==self.size_factor_X//2:
 
@@ -106,8 +111,24 @@ class World:
 
                             self.Map_obtacles[y][x]=1
 
-        
+                            continue
 
+        for x in range(0,len(self.Grass[0])):
+
+            for y in range(0,len(self.Grass)):
+
+                if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1 and not self.Map_obtacles==1:
+
+                    p = randint(0,10)
+
+                    if p < self.p_grass:
+
+                        self.Grass[y][x]=1
+
+
+
+        
+        # Grass random placement
     
         #self.size_X, self.size_Y = 128,128
 
@@ -119,7 +140,8 @@ class World:
         self.background_image_filename = 'dirt.png'   # image backgound 
         self.tree_image_filename = 'treeSmall.png' 
         self.burn_tree_image_filename = 'smokeOrange0.png' 
-        self.sandbag_image_filename = 'sandbagBrown.png'        
+        self.sandbag_image_filename = 'sandbagBrown.png'  
+        self.grass_image_filename = 'grass.png'      
         
 
         pygame.init()          
@@ -140,6 +162,9 @@ class World:
 
         self.sandbag = pygame.image.load(self.sandbag_image_filename).convert_alpha()
         self.sandbag = pygame.transform.scale(self.sandbag, (int(self.size_tile_X), int(self.size_tile_Y)))
+
+        self.grass = pygame.image.load(self.grass_image_filename).convert_alpha()
+        self.grass = pygame.transform.scale(self.grass, (int(self.size_tile_X), int(self.size_tile_Y)))
 
 
         self.Tmp = self.Case
@@ -201,14 +226,16 @@ class World:
                 #for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y), int(self.size_Y*self.scaleMultiplier)):
                 for y in range(0,len(self.Map_trees)):
                     self.screen.blit(self.background,(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
-                    # if (self.Map_trees[y][x]==1):
-                    #     self.screen.blit(self.tree,(x*self.size_tile_X,y*self.size_tile_Y))
-                    # if (self.Map_trees[y][x]==2):
-                    #     self.screen.blit(self.burn_tree,(x*self.size_tile_X,y*self.size_tile_Y))
-                    # if (self.Map_obtacles[y][x]==1):
-                    #     self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
+                    if (self.Map_trees[y][x]==1):
+                        self.screen.blit(self.tree,(x*self.size_tile_X,y*self.size_tile_Y))
+                    if (self.Map_trees[y][x]==2):
+                        self.screen.blit(self.burn_tree,(x*self.size_tile_X,y*self.size_tile_Y))
+                    if (self.Map_obtacles[y][x]==1):
+                        self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
                     if (self.Map_mountains[y][x]==1):
                         self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
+                    if (self.Grass[y][x]==1):
+                        self.screen.blit(self.grass,(x*self.size_tile_X,y*self.size_tile_Y))
                     
 
             pygame.display.update()                  
