@@ -116,10 +116,10 @@ class World:
 
         # self.scaleMultiplier_Y = self.size_tile_Y / self.size_Y
                                             
-        self.background_image_filename = 'topdowntanks/PNG/Environment/dirt.png'   # image backgound 
-        self.tree_image_filename = 'topdowntanks/PNG/Environment/treeSmall.png' 
-        self.burn_tree_image_filename = 'topdowntanks/PNG/Smoke/smokeOrange0.png' 
-        self.sandbag_image_filename = 'topdowntanks/PNG/Obstacles/sandbagBrown.png'        
+        self.background_image_filename = 'dirt.png'   # image backgound 
+        self.tree_image_filename = 'treeSmall.png' 
+        self.burn_tree_image_filename = 'smokeOrange0.png' 
+        self.sandbag_image_filename = 'sandbagBrown.png'        
         
 
         pygame.init()          
