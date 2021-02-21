@@ -12,7 +12,7 @@ class World:
     classe principale du jeux
     """
 
-    def __init__(self, size_factor_X=50, size_factor_Y=28, size_tile_X=23, size_tile_Y=23):
+    def __init__(self, size_factor_X=60, size_factor_Y=36, size_tile_X=16, size_tile_Y=16):
         """
         constructeur de la classe
         size_factor_X et size_factor_Y représentent la taille du plateau de jeux en nombre de tuiles 64*64 pixels
@@ -36,7 +36,11 @@ class World:
 
         self.Map_mountains=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
 
-        self.p_grass = 2
+        self.p_grass = 0.1
+
+        self.p1 = 0.003
+
+        self.p2 = 0.001
 
 
         #Type de montagnes
@@ -75,9 +79,7 @@ class World:
 
                 if not self.Map_mountains[y][x]==1:
 
-                    p = randint(0,10)
-
-                    if p < 5 :
+                    if random() < 0.2 :
 
                         self.Map_trees[y][x]=1
 
@@ -101,17 +103,14 @@ class World:
 
             for y in range(0,len(self.Map_obtacles)):
 
-                if not y==self.size_tile_Y//2 and not x==self.size_factor_X//2:
+                if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1:
 
-                    if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1:
+                    if random() < 0.2 :
 
-                        p = randint(0,10)
+                        self.Map_obtacles[y][x]=1
 
-                        if p < 5 :
-
-                            self.Map_obtacles[y][x]=1
-
-                            continue
+                            
+        # Grass random placement
 
         for x in range(0,len(self.Grass[0])):
 
@@ -119,16 +118,13 @@ class World:
 
                 if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1 and not self.Map_obtacles==1:
 
-                    p = randint(0,10)
-
-                    if p < self.p_grass:
+                    if random() < self.p_grass:
 
                         self.Grass[y][x]=1
 
 
 
-        
-        # Grass random placement
+    
     
         #self.size_X, self.size_Y = 128,128
 
@@ -181,6 +177,14 @@ class World:
         x = cell.getY()
         y = cell.getX()
 
+        if self.Map_trees[y][x]==0 and self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0 and random() < self.p1:
+
+            self.Map_trees[y][x]=1
+
+        if self.Map_trees[y][x]==1 and self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0 and random() < self.p2:
+
+            self.Map_trees[y][x]=2
+
         if (self.Map_trees[y][x]==2):
             for x2 in range(x-1,x+2):
                 for y2 in range(y-1,y+2):
@@ -204,7 +208,7 @@ class World:
             
                 
 
-    def stepWorld(self):
+    def majWorld(self):
         """
         boucle de lecture infinie événementielles du jeux
 
@@ -225,16 +229,27 @@ class World:
             for x in range (0,len(self.Map_trees[0])):
                 #for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y), int(self.size_Y*self.scaleMultiplier)):
                 for y in range(0,len(self.Map_trees)):
+
                     self.screen.blit(self.background,(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
+
                     if (self.Map_trees[y][x]==1):
+
                         self.screen.blit(self.tree,(x*self.size_tile_X,y*self.size_tile_Y))
+
                     if (self.Map_trees[y][x]==2):
+
                         self.screen.blit(self.burn_tree,(x*self.size_tile_X,y*self.size_tile_Y))
+
                     if (self.Map_obtacles[y][x]==1):
+
                         self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
+
                     if (self.Map_mountains[y][x]==1):
+
                         self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
+
                     if (self.Grass[y][x]==1):
+
                         self.screen.blit(self.grass,(x*self.size_tile_X,y*self.size_tile_Y))
                     
 
@@ -252,6 +267,6 @@ class World:
 if __name__ == '__main__':
     world=World()
     try:
-        world.stepWorld()
+        world.majWorld()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy() de appl.
         world.destroy()
