@@ -2,7 +2,6 @@
 
 
 from random import *
-from cellule import *
 import pygame                   # PYGAME package
 from pygame.locals import *     # PYGAME constant & functions
 from sys import exit            # exit script 
@@ -67,21 +66,33 @@ class World:
 
                 self.Map_mountains[y+self.y_offset][x+self.x_offset]=1
 
-        #Trees random placement
+        #Trees, obstacles, grass random placement
 
         for x in range(0,len(self.Map_trees[0])):
 
             for y in range(0,len(self.Map_trees)):
 
-                cellule = Cellule(y,x)
-
-                self.Case.append(cellule)
+                self.Case.append((x, y))
 
                 if not self.Map_mountains[y][x]==1:
 
                     if random() < 0.2 :
 
                         self.Map_trees[y][x]=1
+
+                        continue
+
+                    if random() < 0.2 :
+
+                        self.Map_obtacles[y][x]=1
+
+                        continue
+
+                    if random() < self.p_grass:
+
+                        self.Grass[y][x]=1
+
+
 
         #self.Map_trees[self.size_factor_Y//2][self.size_factor_X//2]=2
 
@@ -96,42 +107,6 @@ class World:
         #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
         #     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]
 
-
-        # Obstacles random placement
-
-        for x in range(0,len(self.Map_obtacles[0])):
-
-            for y in range(0,len(self.Map_obtacles)):
-
-                if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1:
-
-                    if random() < 0.2 :
-
-                        self.Map_obtacles[y][x]=1
-
-                            
-        # Grass random placement
-
-        for x in range(0,len(self.Grass[0])):
-
-            for y in range(0,len(self.Grass)):
-
-                if not self.Map_trees[y][x]==1 and not self.Map_mountains[y][x]==1 and not self.Map_obtacles==1:
-
-                    if random() < self.p_grass:
-
-                        self.Grass[y][x]=1
-
-
-
-    
-    
-        #self.size_X, self.size_Y = 128,128
-
-
-        # self.scaleMultiplier_X = self.size_tile_X / self.size_X  
-
-        # self.scaleMultiplier_Y = self.size_tile_Y / self.size_Y
                                             
         self.background_image_filename = 'dirt.png'   # image backgound 
         self.tree_image_filename = 'treeSmall.png' 
@@ -168,20 +143,20 @@ class World:
 
     def forestFire(self):
 
-        if (len(self.Tmp))==0:
+        if len(self.Tmp)==0:
             self.Tmp = self.Case
 
         i = randint(0,len(self.Tmp)-1)
-        cell = self.Tmp[i]
-        #del self.Tmp[i]
-        x = cell.getY()
-        y = cell.getX()
 
-        if self.Map_trees[y][x]==0 and self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0 and random() < self.p1:
+        x, y = self.Tmp[i]
 
-            self.Map_trees[y][x]=1
+        if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
 
-        if self.Map_trees[y][x]==1 and self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0 and random() < self.p2:
+            if self.Map_trees[y][x]==0 and random() < self.p1:
+
+                self.Map_trees[y][x]=1
+
+        if self.Map_trees[y][x]==1 and random() < self.p2:
 
             self.Map_trees[y][x]=2
 
@@ -202,6 +177,9 @@ class World:
                         self.Map_trees[y3][x3] = 2
 
             self.Map_trees[y][x] = 3
+
+
+        #del self.Tmp[i]
         
 
         
