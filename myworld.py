@@ -64,7 +64,27 @@ class World:
 
             for y in range( len( self.M ) ):
 
-                self.Map_mountains[y+self.y_offset][x+self.x_offset]=1
+                x2 = x
+
+                y2 = y
+
+                if (x2 < 0):
+
+                    x2 += self.size_factor_X
+
+                if (x2 >= self.size_factor_X):
+
+                    x2 -= self.size_factor_X
+
+                if (y2 < 0):
+
+                    y2 += self.size_factor_Y
+
+                if (y2 >= self.size_factor_Y):
+
+                    y2 -= self.size_factor_Y
+
+                self.Map_mountains[y2+self.y_offset][x2+self.x_offset]=1
 
         #Trees, obstacles, grass random placement
 
@@ -72,13 +92,13 @@ class World:
 
             for y in range(0,len(self.Map_trees)):
 
-                self.Case.append((x, y))
-
                 if not self.Map_mountains[y][x]==1:
 
                     if random() < 0.2 :
 
                         self.Map_trees[y][x]=1
+
+                        self.Case.append((x, y))
 
                         continue
 
@@ -91,6 +111,10 @@ class World:
                     if random() < self.p_grass:
 
                         self.Grass[y][x]=1
+
+                        continue
+
+                    self.Case.append((x, y)) # si aucun objet, un arbre pourra potentiellement poussé
 
 
 
@@ -119,7 +143,7 @@ class World:
                                                      
         self.screen = pygame.display.set_mode((int(self.size_tile_X*self.size_factor_X), int(self.size_tile_Y*self.size_factor_Y)),DOUBLEBUF)
 
-        pygame.display.set_caption("FOREST FIRE")     
+        pygame.display.set_caption("WORLD TEST")     
                      
         self.background = pygame.image.load(self.background_image_filename).convert_alpha()   # tuile pour le background
         self.background = pygame.transform.scale(self.background, (int(self.size_tile_X), int(self.size_tile_Y)))
@@ -150,30 +174,44 @@ class World:
 
         x, y = self.Tmp[i]
 
-        if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
+        #if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
 
-            if self.Map_trees[y][x]==0 and random() < self.p1:
+        if self.Map_trees[y][x]==0 and random() < self.p1:
 
-                self.Map_trees[y][x]=1
+            self.Map_trees[y][x]=1
 
         if self.Map_trees[y][x]==1 and random() < self.p2:
 
             self.Map_trees[y][x]=2
 
         if (self.Map_trees[y][x]==2):
+
             for x2 in range(x-1,x+2):
+
                 for y2 in range(y-1,y+2):
+
                     x3 = x2
+
                     y3 = y2
+
                     if (x3 < 0):
+
                         x3 += self.size_factor_X
+
                     if (x3 >= self.size_factor_X):
+
                         x3 -= self.size_factor_X
+
                     if (y3 < 0):
+
                         y3 += self.size_factor_Y
+
                     if (y3 >= self.size_factor_Y):
+
                         y3 -= self.size_factor_Y
+
                     if (self.Map_trees[y3][x3] == 1):
+
                         self.Map_trees[y3][x3] = 2
 
             self.Map_trees[y][x] = 3
@@ -186,7 +224,7 @@ class World:
             
                 
 
-    def majWorld(self):
+    def updateWorld(self):
         """
         boucle de lecture infinie événementielles du jeux
 
@@ -245,6 +283,8 @@ class World:
 if __name__ == '__main__':
     world=World()
     try:
-        world.majWorld()
+        world.updateWorld()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy() de appl.
         world.destroy()
+
+        
