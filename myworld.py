@@ -35,56 +35,54 @@ class World:
 
         self.Map_mountains=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
 
-        self.p_grass = 0.1
+        self.p_grass = 0.09
 
         self.p1 = 0.003
 
         self.p2 = 0.001
 
 
-        #Type de montagnes
+        # Type de montagnes
 
-        self.Mountain1=[[1,1,1],
-                        [1,1,1],
-                        [1,1,1]]
+        for i in range(5):
 
-        self.Mountain2=[[1,1,1,1,1,1],
-                        [1,1,1,1,1,1]]
+            longueur, largeur = randint(3,7), randint(3,7)
 
-        self.MountainsType.append(self.Mountain1)
-        self.MountainsType.append(self.Mountain2)
+            self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
         # Mountains random placement
 
-        self.x_offset = randint(0,self.size_factor_X-1)
-        self.y_offset = randint(0,self.size_factor_Y-1)
-        self.M = self.MountainsType[randint(0,len(self.MountainsType)-1)]
+        nbMountains = randint(2,5)
 
-        for x in range( len( self.M[0] ) ):
+        for i in range(nbMountains):
 
-            for y in range( len( self.M ) ):
+            x_offset, y_offset = randint(0,self.size_factor_X-1), randint(0,self.size_factor_Y-1)
 
-                x2 = x
+            M = self.MountainsType[randint(0,len(self.MountainsType)-1)]
 
-                y2 = y
+            for x in range(len(M[0])):
 
-                if (x2 < 0):
+                for y in range(len(M)):
 
-                    x2 += self.size_factor_X
+                    x2, y2 = x + x_offset, y + y_offset
 
-                if (x2 >= self.size_factor_X):
+                    if (x2 < 0):
 
-                    x2 -= self.size_factor_X
+                        x2 += self.size_factor_X
 
-                if (y2 < 0):
+                    if (x2 >= self.size_factor_X):
 
-                    y2 += self.size_factor_Y
+                        x2 -= self.size_factor_X
 
-                if (y2 >= self.size_factor_Y):
+                    if (y2 < 0):
 
-                    y2 -= self.size_factor_Y
+                        y2 += self.size_factor_Y
 
-                self.Map_mountains[y2+self.y_offset][x2+self.x_offset]=1
+                    if (y2 >= self.size_factor_Y):
+
+                        y2 -= self.size_factor_Y
+
+                    self.Map_mountains[y2][x2]=1
 
         #Trees, obstacles, grass random placement
 
@@ -94,7 +92,7 @@ class World:
 
                 if not self.Map_mountains[y][x]==1:
 
-                    if random() < 0.2 :
+                    if random() < 0.7 :
 
                         self.Map_trees[y][x]=1
 
@@ -102,7 +100,7 @@ class World:
 
                         continue
 
-                    if random() < 0.2 :
+                    if random() < 0.05 :
 
                         self.Map_obtacles[y][x]=1
 
@@ -117,20 +115,7 @@ class World:
                     self.Case.append((x, y)) # si aucun objet, un arbre pourra potentiellement poussé
 
 
-
-        #self.Map_trees[self.size_factor_Y//2][self.size_factor_X//2]=2
-
-        # self.Map_trees = [[1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],
-        #     [1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,1]]
-
+        # image filename
                                             
         self.background_image_filename = 'dirt.png'   # image backgound 
         self.tree_image_filename = 'treeSmall.png' 
@@ -162,17 +147,17 @@ class World:
         self.grass = pygame.transform.scale(self.grass, (int(self.size_tile_X), int(self.size_tile_Y)))
 
 
-        self.Tmp = self.Case
+        self.Tmp = self.Case.copy()
 
 
     def forestFire(self):
 
         if len(self.Tmp)==0:
-            self.Tmp = self.Case
+            self.Tmp = self.Case.copy()
 
-        #i = randint(0,len(self.Tmp)-1)
+        i = randint(0,len(self.Tmp)-1)
 
-        x, y = self.Tmp[randint(0,len(self.Tmp)-1)]
+        x, y = self.Tmp[i]
 
         #if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
 
@@ -217,7 +202,7 @@ class World:
             self.Map_trees[y][x] = 3
 
 
-        #del self.Tmp[self.Tmp.index((x,y))]
+        del self.Tmp[i]
         
 
         
