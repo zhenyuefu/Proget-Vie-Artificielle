@@ -170,9 +170,9 @@ class World:
         if len(self.Tmp)==0:
             self.Tmp = self.Case
 
-        i = randint(0,len(self.Tmp)-1)
+        #i = randint(0,len(self.Tmp)-1)
 
-        x, y = self.Tmp[i]
+        x, y = self.Tmp[randint(0,len(self.Tmp)-1)]
 
         #if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
 
@@ -217,7 +217,7 @@ class World:
             self.Map_trees[y][x] = 3
 
 
-        #del self.Tmp[i]
+        #del self.Tmp[self.Tmp.index((x,y))]
         
 
         
