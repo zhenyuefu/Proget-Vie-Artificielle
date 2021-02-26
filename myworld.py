@@ -52,7 +52,7 @@ class World:
 
         # Mountains random placement
 
-        nbMountains = randint(2,5)
+        nbMountains = randint(2,7)
 
         for i in range(nbMountains):
 
@@ -90,7 +90,7 @@ class World:
 
             for y in range(0,len(self.Map_trees)):
 
-                if not self.Map_mountains[y][x]==1:
+                if self.Map_mountains[y][x]==0:
 
                     if random() < 0.4 :
 
@@ -146,28 +146,36 @@ class World:
         self.grass = pygame.image.load(self.grass_image_filename).convert_alpha()
         self.grass = pygame.transform.scale(self.grass, (int(self.size_tile_X), int(self.size_tile_Y)))
 
+        # liste temporaire qui va mettre à jour chaque cellule de Case
 
         self.Tmp = self.Case.copy()
 
 
     def forestFire(self):
 
+        # on recopie si vide
+
         if len(self.Tmp)==0:
+
             self.Tmp = self.Case.copy()
 
         i = randint(0,len(self.Tmp)-1)
 
         x, y = self.Tmp[i]
 
-        #if self.Map_obtacles[y][x]==0 and self.Map_mountains[y][x]==0:
+        # probabilité qu'un arbre repousse
 
         if self.Map_trees[y][x]==0 and random() < self.p1:
 
             self.Map_trees[y][x]=1
 
+        # probabilité qu'un arbre s'embrase 
+
         if self.Map_trees[y][x]==1 and random() < self.p2:
 
             self.Map_trees[y][x]=2
+
+        # le feu se propage d'abre en arbre 
 
         if self.Map_trees[y][x]==2:
 
@@ -224,7 +232,7 @@ class World:
                 if event.type == QUIT:  # evènement click sur fermeture de fenêtre
                     self.destroy()      # dans ce cas on appelle le destructeur de la classe           
 
-            #affichage répété de la tuile de background en parcourant la fenêtre par pas de la taille des tuiles: 
+            # update de l'environnement : 
             
             #for x in range(0, int(self.size_X*self.scaleMultiplier*self.size_factor_X), int(self.size_X*self.scaleMultiplier)):
             for x in range (0,len(self.Map_trees[0])):
