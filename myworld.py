@@ -66,19 +66,19 @@ class World:
 
                     x2, y2 = x + x_offset, y + y_offset
 
-                    if (x2 < 0):
+                    if x2 < 0:
 
                         x2 += self.size_factor_X
 
-                    if (x2 >= self.size_factor_X):
+                    if x2 >= self.size_factor_X:
 
                         x2 -= self.size_factor_X
 
-                    if (y2 < 0):
+                    if y2 < 0:
 
                         y2 += self.size_factor_Y
 
-                    if (y2 >= self.size_factor_Y):
+                    if y2 >= self.size_factor_Y:
 
                         y2 -= self.size_factor_Y
 
@@ -92,7 +92,7 @@ class World:
 
                 if not self.Map_mountains[y][x]==1:
 
-                    if random() < 0.7 :
+                    if random() < 0.4 :
 
                         self.Map_trees[y][x]=1
 
@@ -169,7 +169,7 @@ class World:
 
             self.Map_trees[y][x]=2
 
-        if (self.Map_trees[y][x]==2):
+        if self.Map_trees[y][x]==2:
 
             for x2 in range(x-1,x+2):
 
@@ -179,27 +179,27 @@ class World:
 
                     y3 = y2
 
-                    if (x3 < 0):
+                    if x3 < 0:
 
                         x3 += self.size_factor_X
 
-                    if (x3 >= self.size_factor_X):
+                    if x3 >= self.size_factor_X:
 
                         x3 -= self.size_factor_X
 
-                    if (y3 < 0):
+                    if y3 < 0:
 
                         y3 += self.size_factor_Y
 
-                    if (y3 >= self.size_factor_Y):
+                    if y3 >= self.size_factor_Y:
 
                         y3 -= self.size_factor_Y
 
-                    if (self.Map_trees[y3][x3] == 1):
+                    if self.Map_trees[y3][x3] == 1:
 
                         self.Map_trees[y3][x3] = 2
 
-            self.Map_trees[y][x] = 3
+            self.Map_trees[y][x] = 0
 
 
         del self.Tmp[i]
@@ -233,23 +233,31 @@ class World:
 
                     self.screen.blit(self.background,(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
 
-                    if (self.Map_trees[y][x]==1):
+                    if self.Map_trees[y][x]==1:
 
                         self.screen.blit(self.tree,(x*self.size_tile_X,y*self.size_tile_Y))
 
-                    if (self.Map_trees[y][x]==2):
+                        continue
+
+                    if self.Map_trees[y][x]==2:
 
                         self.screen.blit(self.burn_tree,(x*self.size_tile_X,y*self.size_tile_Y))
 
-                    if (self.Map_obtacles[y][x]==1):
+                        continue
+
+                    if self.Map_obtacles[y][x]==1:
 
                         self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
 
-                    if (self.Map_mountains[y][x]==1):
+                        continue
+
+                    if self.Map_mountains[y][x]==1:
 
                         self.screen.blit(self.sandbag,(x*self.size_tile_X,y*self.size_tile_Y))
 
-                    if (self.Grass[y][x]==1):
+                        continue
+
+                    if self.Grass[y][x]==1:
 
                         self.screen.blit(self.grass,(x*self.size_tile_X,y*self.size_tile_Y))
                     
