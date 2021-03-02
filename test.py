@@ -21,8 +21,8 @@ class World:
         self.size_tile_X, self.size_tile_Y = size_tile_X, size_tile_Y
 
         self.M=[[1,1,1,1,1,1,1,1,1,1,1],
-                [1,1,1,1,1,1,2,2,2,1,1],
-                [1,1,1,1,1,1,2,2,2,1,1],
+                [1,1,1,1,1,1,2,2,2,2,2],
+                [1,1,1,1,1,1,2,2,2,2,2],
                 [1,1,1,1,1,1,1,1,1,1,1],
                 [1,1,1,1,1,1,1,1,1,1,1],
                 [1,1,1,1,1,1,1,1,1,1,1]]
@@ -238,7 +238,7 @@ class World:
 
                         if self.Map_mountains[y_mx][x_mx]==i:
 
-                            if self.Map_mountains[y_mx][x]==i+1 and self.Map_mountains[y][x_mx]==i+1:
+                            if self.Map_mountains[y_mx][x]>i and self.Map_mountains[y][x_mx]>i:
 
                                 self.screen.blit(self.green_corner_SE,(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -248,7 +248,7 @@ class World:
 
                         if self.Map_mountains[y_mx][x_mn]==i:
 
-                            if self.Map_mountains[y_mx][x]==i+1 and self.Map_mountains[y][x_mn]==i+1:
+                            if self.Map_mountains[y_mx][x]>i and self.Map_mountains[y][x_mn]>i:
 
                                 self.screen.blit(self.green_corner_SW,(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -258,7 +258,7 @@ class World:
 
                         if self.Map_mountains[y_mn][x_mn]==i:
 
-                            if self.Map_mountains[y_mn][x]==i+1 and self.Map_mountains[y][x_mn]==i+1:
+                            if self.Map_mountains[y_mn][x]>i and self.Map_mountains[y][x_mn]>i:
 
                                 self.screen.blit(self.green_corner_NW,(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -268,7 +268,7 @@ class World:
 
                         if self.Map_mountains[y_mn][x_mx]==i:
 
-                            if self.Map_mountains[y_mn][x]==i+1 and self.Map_mountains[y][x_mx]==i+1:
+                            if self.Map_mountains[y_mn][x]>i and self.Map_mountains[y][x_mx]>i:
 
                                 self.screen.blit(self.green_corner_NE,(x*self.size_tile_X,y*self.size_tile_Y))
 
