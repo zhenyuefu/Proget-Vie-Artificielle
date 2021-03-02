@@ -178,6 +178,10 @@ class World:
 
                             if self.Map_mountains[y][x_mn]==i:
 
+                                if i>=1:
+
+                                    self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+
                                 self.screen.blit(self.green_SW,(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
@@ -185,6 +189,10 @@ class World:
                             # Est
 
                             if self.Map_mountains[y][x_mx]==i:
+
+                                if i>=1:
+
+                                    self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 self.screen.blit(self.green_SE,(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -206,6 +214,10 @@ class World:
 
                             if self.Map_mountains[y][x_mn]==i:
 
+                                if i>=1:
+
+                                    self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+
                                 self.screen.blit(self.green_NW,(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
@@ -213,6 +225,10 @@ class World:
                             # Est
 
                             if self.Map_mountains[y][x_mx]==i:
+
+                                if i>=1:
+
+                                    self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 self.screen.blit(self.green_NE,(x*self.size_tile_X,y*self.size_tile_Y))
 
