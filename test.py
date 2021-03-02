@@ -21,10 +21,10 @@ class World:
         self.size_tile_X, self.size_tile_Y = size_tile_X, size_tile_Y
 
         self.M=[[1,1,1,1,1,1,1,1,1,1,1],
-                [1,1,1,1,1,1,2,2,2,2,2],
-                [1,1,1,1,1,1,2,2,2,2,2],
-                [1,1,1,1,1,1,1,1,1,1,1],
-                [1,1,1,1,1,1,1,1,1,1,1],
+                [1,1,2,2,2,2,2,2,2,1,1],
+                [1,1,2,3,3,3,3,3,2,1,1],
+                [1,1,2,3,3,3,3,3,2,1,1],
+                [1,1,2,2,2,2,2,2,2,1,1],
                 [1,1,1,1,1,1,1,1,1,1,1]]
 
         self.Map_mountains=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
@@ -190,6 +190,10 @@ class World:
 
                                 continue
 
+                            if i>=1:
+
+                                self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+
                             self.screen.blit(self.green_S,(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
@@ -214,6 +218,10 @@ class World:
 
                                 continue
 
+                            if i>=1:
+
+                                self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+
                             self.screen.blit(self.green_N,(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
@@ -222,6 +230,10 @@ class World:
 
                         if self.Map_mountains[y][x_mx]==i:
 
+                            if i>=1:
+
+                                self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+
                             self.screen.blit(self.green_E,(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
@@ -229,6 +241,10 @@ class World:
                         # Ouest
 
                         if self.Map_mountains[y][x_mn]==i:
+
+                            if i>=1:
+
+                                self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
 
                             self.screen.blit(self.green_W,(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -273,6 +289,8 @@ class World:
                                 self.screen.blit(self.green_corner_NE,(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
+
+
 
                         self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
 
