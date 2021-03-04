@@ -11,7 +11,7 @@ class World:
     classe principale du jeux
     """
 
-    def __init__(self, size_factor_X=45, size_factor_Y=26, size_tile_X=25, size_tile_Y=25):
+    def __init__(self, size_factor_X=50, size_factor_Y=37, size_tile_X=32, size_tile_Y=32):
         """
         constructeur de la classe
         size_factor_X et size_factor_Y représentent la taille du plateau de jeux en nombre de tuiles 64*64 pixels
@@ -26,6 +26,12 @@ class World:
         # liste temporaire qui va mettre à jour chaque cellule de Case
 
         self.Tmp = []
+
+        # lists filename
+
+        self.Environment_images=[]
+
+        ################
 
         self.Case=[]
 
@@ -97,7 +103,7 @@ class World:
 
                 if self.Map_mountains[y][x]==0:
 
-                    if random() < 0.4 :
+                    if random() < 0.02 :
 
                         self.Map_trees[y][x]=1
 
@@ -105,7 +111,7 @@ class World:
 
                         continue
 
-                    if random() < 0.05 :
+                    if random() < 0.01 :
 
                         self.Map_obtacles[y][x]=1
 
@@ -120,95 +126,46 @@ class World:
                     self.Case.append((x, y)) # si aucun objet, un arbre pourra potentiellement poussé
 
 
-        # image filename
-                                            
-        self.background_image_filename = 'dirt.png'   # image backgound 
-        self.tree_image_filename = 'PNG/tree.png' 
-        self.burn_tree_image_filename = 'smokeOrange0.png' 
-        self.wooded_tree_image_filename = 'PNG/wooded_tree.png'
-        self.rock_image_filename = 'PNG/rock2.png'  
-        self.grass_image_filename = 'grass.png' 
-
-        self.green_SW_image_filename = 'PNG/green_SW.png'  
-        self.green_NW_image_filename = 'PNG/green_NW.png'  
-        self.green_SE_image_filename = 'PNG/green_SE.png' 
-        self.green_NE_image_filename = 'PNG/green_NE.png'
-        self.green_center_image_filename = 'PNG/green_inside.png'
-        self.green_S_image_filename = 'PNG/green_S.png'
-        self.green_N_image_filename = 'PNG/green_N.png'
-        self.green_E_image_filename = 'PNG/green_E.png'
-        self.green_W_image_filename = 'PNG/green_W.png'
-        self.green_corner_NE_image_filename = 'PNG/green_corner_NE.png'
-        self.green_corner_NW_image_filename = 'PNG/green_corner_NW.png'
-        self.green_corner_SE_image_filename = 'PNG/green_corner_SE.png'
-        self.green_corner_SW_image_filename = 'PNG/green_corner_SW.png'
-
-
-        
+        ###########################
 
         pygame.init()          
                                                      
         self.screen = pygame.display.set_mode((int(self.size_tile_X*self.size_factor_X), int(self.size_tile_Y*self.size_factor_Y)),DOUBLEBUF)
 
-        pygame.display.set_caption("WORLD TEST")     
-                     
-        self.background = pygame.image.load(self.background_image_filename).convert_alpha()   # tuile pour le background
-        self.background = pygame.transform.scale(self.background, (int(self.size_tile_X), int(self.size_tile_Y)))
+        pygame.display.set_caption("WORLD TEST")  
 
 
-        self.tree = pygame.image.load(self.tree_image_filename).convert_alpha()
-        self.tree = pygame.transform.scale(self.tree, (int(self.size_tile_X), int(self.size_tile_Y)))
+    def loadImage(self,filename):
 
-        self.burn_tree = pygame.image.load(self.burn_tree_image_filename).convert_alpha()
-        self.burn_tree = pygame.transform.scale(self.burn_tree, (int(self.size_tile_X), int(self.size_tile_Y)))
+        image = pygame.image.load(filename).convert_alpha()
 
-        self.wooded_tree = pygame.image.load(self.wooded_tree_image_filename).convert_alpha()
-        self.wooded_tree = pygame.transform.scale(self.wooded_tree, (int(self.size_tile_X), int(self.size_tile_Y)))
+        image = pygame.transform.scale(image, (int(self.size_tile_X), int(self.size_tile_Y)))
 
-        self.rock = pygame.image.load(self.rock_image_filename).convert_alpha()
-        self.rock = pygame.transform.scale(self.rock, (int(self.size_tile_X), int(self.size_tile_Y)))
+        return image   
 
-        self.grass = pygame.image.load(self.grass_image_filename).convert_alpha()
-        self.grass = pygame.transform.scale(self.grass, (int(self.size_tile_X), int(self.size_tile_Y)))
 
-        self.green_SW = pygame.image.load(self.green_SW_image_filename).convert_alpha()
-        self.green_SW = pygame.transform.scale(self.green_SW, (int(self.size_tile_X), int(self.size_tile_Y)))
+    def loadAllImage(self):
 
-        self.green_NW = pygame.image.load(self.green_NW_image_filename).convert_alpha()
-        self.green_NW = pygame.transform.scale(self.green_NW, (int(self.size_tile_X), int(self.size_tile_Y)))
+        # 0 : backgrounds            
+        self.Environment_images.append([self.loadImage('dirt.png')]) 
 
-        self.green_SE = pygame.image.load(self.green_SE_image_filename).convert_alpha()
-        self.green_SE = pygame.transform.scale(self.green_SE, (int(self.size_tile_X), int(self.size_tile_Y)))
+        # 1 : trees
+        self.Environment_images.append([self.loadImage('PNG/tree.png'),self.loadImage('smokeOrange0.png'),self.loadImage('PNG/wooded_tree.png')])
 
-        self.green_NE = pygame.image.load(self.green_NE_image_filename).convert_alpha()
-        self.green_NE = pygame.transform.scale(self.green_NE, (int(self.size_tile_X), int(self.size_tile_Y)))
+        # 2 : obstacles
+        self.Environment_images.append([self.loadImage('PNG/rock1.png'),self.loadImage('PNG/rock2.png')]) 
 
-        self.green_S = pygame.image.load(self.green_S_image_filename).convert_alpha()
-        self.green_S = pygame.transform.scale(self.green_S, (int(self.size_tile_X), int(self.size_tile_Y)))
+        # 3 : herbs
+        self.Environment_images.append([self.loadImage('grass.png')])
 
-        self.green_N = pygame.image.load(self.green_N_image_filename).convert_alpha()
-        self.green_N = pygame.transform.scale(self.green_N, (int(self.size_tile_X), int(self.size_tile_Y)))
+        # 4 : Mountains
+        self.Environment_images.append([self.loadImage('PNG/green_inside.png'),self.loadImage('PNG/green_SW.png'),self.loadImage('PNG/green_NW.png'),
+            self.loadImage('PNG/green_SE.png'),self.loadImage('PNG/green_NE.png'),self.loadImage('PNG/green_S.png'),self.loadImage('PNG/green_N.png'),
+            self.loadImage('PNG/green_E.png'),self.loadImage('PNG/green_W.png'),self.loadImage('PNG/green_corner_NE.png'),self.loadImage('PNG/green_corner_NW.png'),
+            self.loadImage('PNG/green_corner_SE.png'),self.loadImage('PNG/green_corner_SW.png')])
 
-        self.green_E = pygame.image.load(self.green_E_image_filename).convert_alpha()
-        self.green_E = pygame.transform.scale(self.green_E, (int(self.size_tile_X), int(self.size_tile_Y)))
 
-        self.green_W = pygame.image.load(self.green_W_image_filename).convert_alpha()
-        self.green_W = pygame.transform.scale(self.green_W, (int(self.size_tile_X), int(self.size_tile_Y)))
-
-        self.green_corner_SW = pygame.image.load(self.green_corner_SW_image_filename).convert_alpha()
-        self.green_corner_SW = pygame.transform.scale(self.green_corner_SW, (int(self.size_tile_X), int(self.size_tile_Y)))
-
-        self.green_corner_NW = pygame.image.load(self.green_corner_NW_image_filename).convert_alpha()
-        self.green_corner_NW = pygame.transform.scale(self.green_corner_NW, (int(self.size_tile_X), int(self.size_tile_Y)))
-
-        self.green_corner_SE = pygame.image.load(self.green_corner_SE_image_filename).convert_alpha()
-        self.green_corner_SE = pygame.transform.scale(self.green_corner_SE, (int(self.size_tile_X), int(self.size_tile_Y)))
-
-        self.green_corner_NE = pygame.image.load(self.green_corner_NE_image_filename).convert_alpha()
-        self.green_corner_NE = pygame.transform.scale(self.green_corner_NE, (int(self.size_tile_X), int(self.size_tile_Y)))
-
-        self.green_center = pygame.image.load(self.green_center_image_filename).convert_alpha()
-        self.green_center = pygame.transform.scale(self.green_center, (int(self.size_tile_X), int(self.size_tile_Y)))
+        
 
 
 
@@ -304,39 +261,39 @@ class World:
                 #for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y), int(self.size_Y*self.scaleMultiplier)):
                 for y in range(0,len(self.Map_trees)):
 
-                    self.screen.blit(self.background,(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
+                    self.screen.blit(self.Environment_images[0][0],(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
 
                     if self.Map_trees[y][x]==1:
 
-                        self.screen.blit(self.tree,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[1][0],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         continue
 
                     if self.Map_trees[y][x]==2:
 
-                        self.screen.blit(self.burn_tree,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[1][1],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         continue
 
                     if self.Map_trees[y][x]==3:
 
-                        self.screen.blit(self.wooded_tree,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[1][2],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         continue
 
                     if self.Map_obtacles[y][x]==1:
 
-                        self.screen.blit(self.rock,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[2][0],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         continue
 
-                    if self.Map_mountains[y][x]>=1:
+                    if self.Map_mountains[y][x]>0:
 
                         i = self.Map_mountains[y][x]-1
 
-                        if i>=1:
+                        if i>0:
 
-                            self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+                            self.screen.blit(self.Environment_images[4][0],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         x_mn, y_mn = x - 1, y - 1
                         x_mx, y_mx = x + 1, y + 1
@@ -365,7 +322,7 @@ class World:
 
                             if self.Map_mountains[y][x_mn]==i:
 
-                                self.screen.blit(self.green_SW,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][1],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
@@ -373,11 +330,11 @@ class World:
 
                             if self.Map_mountains[y][x_mx]==i:
 
-                                self.screen.blit(self.green_SE,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][3],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
-                            self.screen.blit(self.green_S,(x*self.size_tile_X,y*self.size_tile_Y))
+                            self.screen.blit(self.Environment_images[4][5],(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
 
@@ -389,7 +346,7 @@ class World:
 
                             if self.Map_mountains[y][x_mn]==i:
 
-                                self.screen.blit(self.green_NW,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][2],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
@@ -397,11 +354,11 @@ class World:
 
                             if self.Map_mountains[y][x_mx]==i:
 
-                                self.screen.blit(self.green_NE,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][4],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
-                            self.screen.blit(self.green_N,(x*self.size_tile_X,y*self.size_tile_Y))
+                            self.screen.blit(self.Environment_images[4][6],(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
 
@@ -409,7 +366,7 @@ class World:
 
                         if self.Map_mountains[y][x_mx]==i:
 
-                            self.screen.blit(self.green_E,(x*self.size_tile_X,y*self.size_tile_Y))
+                            self.screen.blit(self.Environment_images[4][7],(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
 
@@ -417,7 +374,7 @@ class World:
 
                         if self.Map_mountains[y][x_mn]==i:
 
-                            self.screen.blit(self.green_W,(x*self.size_tile_X,y*self.size_tile_Y))
+                            self.screen.blit(self.Environment_images[4][8],(x*self.size_tile_X,y*self.size_tile_Y))
 
                             continue
 
@@ -427,7 +384,7 @@ class World:
 
                             if self.Map_mountains[y_mx][x]>i and self.Map_mountains[y][x_mx]>i:
 
-                                self.screen.blit(self.green_corner_SE,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][11],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
@@ -437,7 +394,7 @@ class World:
 
                             if self.Map_mountains[y_mx][x]>i and self.Map_mountains[y][x_mn]>i:
 
-                                self.screen.blit(self.green_corner_SW,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][12],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
@@ -447,7 +404,7 @@ class World:
 
                             if self.Map_mountains[y_mn][x]>i and self.Map_mountains[y][x_mn]>i:
 
-                                self.screen.blit(self.green_corner_NW,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][10],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
@@ -457,19 +414,19 @@ class World:
 
                             if self.Map_mountains[y_mn][x]>i and self.Map_mountains[y][x_mx]>i:
 
-                                self.screen.blit(self.green_corner_NE,(x*self.size_tile_X,y*self.size_tile_Y))
+                                self.screen.blit(self.Environment_images[4][9],(x*self.size_tile_X,y*self.size_tile_Y))
 
                                 continue
 
 
 
-                        self.screen.blit(self.green_center,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[4][0],(x*self.size_tile_X,y*self.size_tile_Y))
 
                         continue
 
                     if self.Grass[y][x]==1:
 
-                        self.screen.blit(self.grass,(x*self.size_tile_X,y*self.size_tile_Y))
+                        self.screen.blit(self.Environment_images[3][0],(x*self.size_tile_X,y*self.size_tile_Y))
                     
 
             pygame.display.update()                  
@@ -485,6 +442,7 @@ class World:
             
 if __name__ == '__main__':
     world=World()
+    world.loadAllImage()
     try:
         world.updateWorld()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy() de appl.
