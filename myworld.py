@@ -93,7 +93,7 @@ class World:
 
                         y2 -= self.size_factor_Y
 
-                    self.Map_mountains[y2][x2]=1
+                    self.Map_mountains[y2][x2]=M[y][x]
 
         #Trees, obstacles, grass random placement
 
@@ -150,7 +150,7 @@ class World:
         self.Environment_images.append([self.loadImage('dirt.png')]) 
 
         # 1 : trees
-        self.Environment_images.append([self.loadImage('PNG/tree.png'),self.loadImage('smokeOrange0.png'),self.loadImage('PNG/wooded_tree.png')])
+        self.Environment_images.append([self.loadImage('PNG/tree.png'),self.loadImage('smokeOrange0.png'),self.loadImage('PNG/wooded_tree.png'),self.loadImage('PNG/big_tree.png')])
 
         # 2 : obstacles
         self.Environment_images.append([self.loadImage('PNG/rock1.png'),self.loadImage('PNG/rock2.png')]) 
@@ -247,7 +247,7 @@ class World:
 
         while True:
 
-            #self.forestFire()
+            self.forestFire()
 
             #lecture des événements Pygame 
             for event in pygame.event.get():  
