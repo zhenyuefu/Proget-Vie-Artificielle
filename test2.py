@@ -167,9 +167,9 @@ class World:
 
         for agent in range(20):
 
-            self.Prey.append(Agent(randint(0,self.size_factor_X),randint(0,self.size_factor_Y),False,self))
+            self.Prey.append(Agent(randint(0,self.size_factor_X-1),randint(0,self.size_factor_Y-1),False,self))
 
-            self.Predator.append(Agent(randint(0,self.size_factor_X),randint(0,self.size_factor_Y),True,self))
+            self.Predator.append(Agent(randint(0,self.size_factor_X-1),randint(0,self.size_factor_Y-1),True,self))
 
         pygame.init()          
                                                      
@@ -201,9 +201,7 @@ class World:
 
         for i in range(len(self.Predator)):
 
-            pred = self.Predator[i]
-
-            if not pred.alive :
+            if not self.Predator[i].alive :
 
                 del self.Predator[i]
 
@@ -211,21 +209,19 @@ class World:
 
             for j in range(len(self.Prey)):
 
-                prey = self.Prey[j]
-
-                if not prey.alive :
+                if not self.Prey[j].alive :
 
                     del self.Prey[j] 
 
                     continue
 
-                if self.Grass[prey.y][prey.x] == 1:
+                if self.Grass[self.Prey[j].y][self.Prey[j].x] == 1:
 
                     self.Prey[j].reset_mange()
 
-                    self.Grass[prey.y][prey.x] = 0
+                    self.Grass[self.Prey[j].y][self.Prey[j].x] = 0
 
-                if pred.y == prey.y and pred.x == prey.x :
+                if self.Predator[i].y == self.Prey[j].y and self.Predator[i].x == self.Prey[j].x :
 
                     del self.Prey[j]
                     
@@ -233,29 +229,29 @@ class World:
 
                     continue
 
-                if pred.x == prey.x:
+                if self.Predator[i].x == self.Prey[j].x:
 
-                    if pred.y == prey.y + 1:
+                    if self.Predator[i].y == self.Prey[j].y + 1:
 
                         self.Predator[i].setDirection(0)
                         self.Prey[j].setDirection(0)
                         continue
 
-                    if pred.y == prey.y - 1:
+                    if self.Predator[i].y == self.Prey[j].y - 1:
 
                         self.Predator[i].setDirection(2)
                         self.Prey[j].setDirection(2)
                         continue
 
-                if pred.y == prey.y:
+                if self.Predator[i].y == self.Prey[j].y:
 
-                    if pred.x == prey.x + 1:
+                    if self.Predator[i].x == self.Prey[j].x + 1:
 
                         self.Predator[i].setDirection(3)
                         self.Prey[j].setDirection(3)
                         continue
 
-                    if pred.x == prey.x - 1:
+                    if self.Predator[i].x == self.Prey[j].x - 1:
 
                         self.Predator[i].setDirection(1)
                         self.Prey[j].setDirection(1)
@@ -299,7 +295,7 @@ class World:
 
         """
 
-        while len(self.Predator) != 0 or len(self.Prey) != 0:
+        while True :
 
             self.stepWorld()
 
@@ -317,6 +313,10 @@ class World:
                 for y in range(self.size_factor_Y):
                     
                     self.screen.blit(self.loadImage('dirt.png'),(x*self.size_tile_X,y*self.size_tile_Y))
+
+                    # if self.Grass[y][x] == 1:
+
+                    #     self.screen.blit(self.loadImage('grass.png'),(x*self.size_tile_X,y*self.size_tile_Y))                        
             
             for prey in self.Prey :
 
