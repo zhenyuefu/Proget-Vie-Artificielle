@@ -6,6 +6,98 @@ import pygame                   # PYGAME package
 from pygame.locals import *     # PYGAME constant & functions
 from sys import exit            # exit script 
 
+class Agent(object):
+
+    def __init__(self, x, y, predator_or_prey, world):
+
+        self.x, self.y = x, y
+        self.world = world
+        self.predator_or_prey = predator_or_prey
+        self.orient = 0
+        self.reproduce = 0.03
+        self.delai_famine = 14
+        self.it_non_mange = 0
+        self.predator, self.prey = False, False
+        self.alive = True
+        self.dir = -1
+
+        if predator_or_prey :
+
+            self.predator = True
+
+        else:
+
+            self.prey = True
+
+
+    def setDirection(self,d):
+
+        if self.dir == -1 :
+
+            self.dir = d
+
+        if random() < 0.5 :
+
+            self.dir = d
+
+    def reset_mange(self):
+
+        self.it_non_mange = 0
+
+    def reproduce(self):
+        return
+
+    def step(self):
+
+        self.it_non_mange += 1
+
+        if self.it_non_mange > self.delai_famine :
+
+            self.alive = False
+
+        self.reproduce()
+
+        if random() < 0.5 :
+
+            self.orient = (self.orient - 1) % 4
+
+        else:
+
+            self.orient = (self.orient - 1 + 4) % 4
+
+        if dir != -1 :
+
+            self.orient = self.dir
+
+        self.dir = -1
+
+
+        if self.orient == 0 :
+
+            self.y = (self.y - 1 + world.size_factor_X) % world.size_factor_X
+
+            return
+        
+        if self.orient == 1 :
+
+            self.x = (self.x + 1 + world.size_factor_Y) % world.size_factor_Y
+
+            return
+
+        if self.orient == 2 :
+
+            self.y = (self.y + 1 + world.size_factor_X) % world.size_factor_X
+
+            return
+
+        if self.orient == 3 :
+
+            self.x = (self.x - 1 + world.size_factor_Y) % world.size_factor_Y
+
+            return
+
+
+
 class World:
     """
     classe principale du jeux
@@ -57,13 +149,13 @@ class World:
 
         for i in range(5):
 
-            longueur, largeur = randint(3,7), randint(3,7)
+            longueur, largeur = randint(10,11), randint(10,11)
 
             self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
         # Mountains random placement
 
-        nbMountains = randint(2,7)
+        nbMountains = randint(10,12)
 
         for i in range(nbMountains):
 
@@ -316,11 +408,11 @@ class World:
 
                         # Sud
 
-                        if self.Map_mountains[y_mx][x]==i: 
+                        if self.Map_mountains[y_mx][x]<=i: 
 
                             # Ouest
 
-                            if self.Map_mountains[y][x_mn]==i:
+                            if self.Map_mountains[y][x_mn]<=i:
 
                                 self.screen.blit(self.Environment_images[4][1],(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -328,7 +420,7 @@ class World:
 
                             # Est
 
-                            if self.Map_mountains[y][x_mx]==i:
+                            if self.Map_mountains[y][x_mx]<=i:
 
                                 self.screen.blit(self.Environment_images[4][3],(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -340,11 +432,11 @@ class World:
 
                         # Nord
 
-                        if self.Map_mountains[y_mn][x]==i: 
+                        if self.Map_mountains[y_mn][x]<=i: 
 
                             # Ouest
 
-                            if self.Map_mountains[y][x_mn]==i:
+                            if self.Map_mountains[y][x_mn]<=i:
 
                                 self.screen.blit(self.Environment_images[4][2],(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -352,7 +444,7 @@ class World:
 
                             # Est
 
-                            if self.Map_mountains[y][x_mx]==i:
+                            if self.Map_mountains[y][x_mx]<=i:
 
                                 self.screen.blit(self.Environment_images[4][4],(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -364,7 +456,7 @@ class World:
 
                         # Est 
 
-                        if self.Map_mountains[y][x_mx]==i:
+                        if self.Map_mountains[y][x_mx]<=i:
 
                             self.screen.blit(self.Environment_images[4][7],(x*self.size_tile_X,y*self.size_tile_Y))
 
@@ -372,7 +464,7 @@ class World:
 
                         # Ouest
 
-                        if self.Map_mountains[y][x_mn]==i:
+                        if self.Map_mountains[y][x_mn]<=i:
 
                             self.screen.blit(self.Environment_images[4][8],(x*self.size_tile_X,y*self.size_tile_Y))
 
