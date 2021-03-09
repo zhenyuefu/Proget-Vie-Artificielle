@@ -74,25 +74,25 @@ class Agent(object):
 
         if self.orient == 0 :
 
-            self.y = (self.y - 1 + world.size_factor_X) % world.size_factor_X
+            self.y = (self.y - 1 + world.size_factor_Y) % world.size_factor_Y
 
             return
         
         if self.orient == 1 :
 
-            self.x = (self.x + 1 + world.size_factor_Y) % world.size_factor_Y
+            self.x = (self.x + 1 + world.size_factor_X) % world.size_factor_X
 
             return
 
         if self.orient == 2 :
 
-            self.y = (self.y + 1 + world.size_factor_X) % world.size_factor_X
+            self.y = (self.y + 1 + world.size_factor_Y) % world.size_factor_Y
 
             return
 
         if self.orient == 3 :
 
-            self.x = (self.x - 1 + world.size_factor_Y) % world.size_factor_Y
+            self.x = (self.x - 1 + world.size_factor_X) % world.size_factor_X
 
             return
 
@@ -272,13 +272,91 @@ class World:
 
     def stepAgent(self):
 
-        for i in range(len(self.Prey)-1):
+        for i in range(len(self.Prey)):
 
             self.Prey[i].step()
 
-        for j in range(len(self.Predator)-1):
+        for j in range(len(self.Predator)):
 
             self.Predator[j].step()
+
+
+    def stepWorld(self):
+
+        for i in range(len(self.Predator)):
+
+            pred = self.Predator[i]
+
+            if not pred.alive :
+
+                del pred
+
+                continue
+
+            for j in range(len(self.Prey)):
+
+                prey = self.Prey[j]
+
+                if not prey.alive :
+
+                    del prey 
+
+                    continue
+
+                if self.Grass[prey.y][prey.x] == 1:
+
+                    prey.reset_mange()
+
+                    self.Grass[prey.y][prey.x] = 0
+
+                if pred.y == prey.y and pred.x == prey.x :
+
+                    del prey
+                    
+                    pred.reset_mange()
+
+                    continue
+
+                if pred.x == prey.x:
+
+                    if pred.y == prey.y + 1:
+
+                        pred.setDirection(0)
+                        prey.setDirection(0)
+                        continue
+
+                    if pred.y == prey.y - 1:
+
+                        pred.setDirection(2)
+                        prey.setDirection(2)
+                        continue
+
+                if pred.y == prey.y:
+
+                    if pred.x == prey.x + 1:
+
+                        pred.setDirection(3)
+                        prey.setDirection(3)
+                        continue
+
+                    if pred.x == prey.x - 1:
+
+                        pred.setDirection(1)
+                        prey.setDirection(1)
+                       
+
+    def repousse_grass(self):
+
+        for x in range(len(self.Grass[0])):
+
+            for y in range(len(self.Grass)):
+
+                if self.Grass[y][x] == 0 :
+
+                    if random() <= self.p_grass :
+
+                        self.Grass[y][x] = 1
+
 
 
 
