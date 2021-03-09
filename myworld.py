@@ -125,6 +125,10 @@ class World:
 
         ################
 
+        self.Prey=[]
+
+        self.Predator=[]
+
         self.Case=[]
 
         self.MountainsType=[]
@@ -216,6 +220,15 @@ class World:
                         continue
 
                     self.Case.append((x, y)) # si aucun objet, un arbre pourra potentiellement poussé
+
+        # Initialisation proies - predateurs
+
+        for agent in range(20):
+
+            Prey.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
+
+            Predator.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
+
 
 
         ###########################
