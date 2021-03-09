@@ -14,8 +14,6 @@ class Agent(object):
         self.world = world
         self.predator_or_prey = predator_or_prey
         self.orient = 0
-        self.reproduce = 0.03
-        self.delai_famine = 14
         self.it_non_mange = 0
         self.predator, self.prey = False, False
         self.alive = True
@@ -25,9 +23,17 @@ class Agent(object):
 
             self.predator = True
 
-        else:
+            self.p_reproduce = 0.03
+
+            self.delai_famine = 14
+
+        else :
 
             self.prey = True
+
+            self.p_reproduce = 0.07
+
+            self.delai_famine = 16
 
 
     def setDirection(self,d):
@@ -40,12 +46,19 @@ class Agent(object):
 
             self.dir = d
 
+
     def reset_mange(self):
 
         self.it_non_mange = 0
+        
 
-    # def reproduce(self):
-    #     return
+    def reproduce(self):
+
+        if random() < self.p_reproduce :
+
+            world.reproduce(Agent(self.x,self.y,self.predator_or_prey,self.world))
+
+
 
     def step(self):
 
@@ -55,7 +68,7 @@ class Agent(object):
 
             self.alive = False
 
-        #self.reproduce()
+        self.reproduce()
 
         if random() < 0.5 :
 
@@ -76,11 +89,27 @@ class Agent(object):
 
             self.y = (self.y - 1 + world.size_factor_Y) % world.size_factor_Y
 
+            if self.y < 0 :
+
+                self.y += world.size_factor_Y
+
+            if self.y >= world.size_factor_Y :
+
+                self.y -= world.size_factor_Y
+
             return
         
         if self.orient == 1 :
 
             self.x = (self.x + 1 + world.size_factor_X) % world.size_factor_X
+
+            if self.x < 0 :
+
+                self.x += world.size_factor_X
+
+            if self.x >= world.size_factor_X :
+
+                self.x -= world.size_factor_X
 
             return
 
@@ -88,13 +117,27 @@ class Agent(object):
 
             self.y = (self.y + 1 + world.size_factor_Y) % world.size_factor_Y
 
+            if self.y < 0 :
+
+                self.y += world.size_factor_Y
+
+            if self.y >= world.size_factor_Y :
+
+                self.y -= world.size_factor_Y
+
             return
 
         if self.orient == 3 :
 
             self.x = (self.x - 1 + world.size_factor_X) % world.size_factor_X
 
-            return
+            if self.x < 0 :
+
+                self.x += world.size_factor_X
+
+            if self.x >= world.size_factor_X :
+
+                self.x -= world.size_factor_X
 
 
 
@@ -289,7 +332,7 @@ class World:
 
             if not pred.alive :
 
-                del pred
+                del self.Predator[i]
 
                 continue
 
@@ -299,21 +342,21 @@ class World:
 
                 if not prey.alive :
 
-                    del prey 
+                    del self.Prey[j] 
 
                     continue
 
                 if self.Grass[prey.y][prey.x] == 1:
 
-                    prey.reset_mange()
+                    self.Prey[j].reset_mange()
 
                     self.Grass[prey.y][prey.x] = 0
 
                 if pred.y == prey.y and pred.x == prey.x :
 
-                    del prey
+                    del self.Prey[j]
                     
-                    pred.reset_mange()
+                    self.Predator[i].reset_mange()
 
                     continue
 
@@ -321,28 +364,28 @@ class World:
 
                     if pred.y == prey.y + 1:
 
-                        pred.setDirection(0)
-                        prey.setDirection(0)
+                        self.Predator[i].setDirection(0)
+                        self.Prey[j].setDirection(0)
                         continue
 
                     if pred.y == prey.y - 1:
 
-                        pred.setDirection(2)
-                        prey.setDirection(2)
+                        self.Predator[i].setDirection(2)
+                        self.Prey[j].setDirection(2)
                         continue
 
                 if pred.y == prey.y:
 
                     if pred.x == prey.x + 1:
 
-                        pred.setDirection(3)
-                        prey.setDirection(3)
+                        self.Predator[i].setDirection(3)
+                        self.Prey[j].setDirection(3)
                         continue
 
                     if pred.x == prey.x - 1:
 
-                        pred.setDirection(1)
-                        prey.setDirection(1)
+                        self.Predator[i].setDirection(1)
+                        self.Prey[j].setDirection(1)
                        
 
     def repousse_grass(self):
@@ -351,11 +394,20 @@ class World:
 
             for y in range(len(self.Grass)):
 
-                if self.Grass[y][x] == 0 :
+                if self.Grass[y][x] == 0 and random() <= self.p_grass:
+                    
+                    self.Grass[y][x] = 1
 
-                    if random() <= self.p_grass :
+    
+    def reproduce(self, agent):
 
-                        self.Grass[y][x] = 1
+        if agent.predator :
+
+            self.Predator.append(agent)
+
+        else :
+
+            self.Prey.append(agent)
 
 
 
