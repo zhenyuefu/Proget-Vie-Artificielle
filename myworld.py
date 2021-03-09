@@ -125,10 +125,6 @@ class World:
 
         ################
 
-        self.Prey=[]
-
-        self.Predator=[]
-
         self.Case=[]
 
         self.MountainsType=[]
@@ -223,11 +219,15 @@ class World:
 
         # Initialisation proies - predateurs
 
+        self.Prey=[]
+
+        self.Predator=[]
+
         for agent in range(20):
 
-            Prey.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
+            self.Prey.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
 
-            Predator.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
+            self.Predator.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),True,self))
 
 
 
@@ -270,7 +270,15 @@ class World:
             self.loadImage('PNG/green_corner_SE.png'),self.loadImage('PNG/green_corner_SW.png')])
 
 
-        
+    def stepAgent(self):
+
+        for i in range(len(self.Prey)-1):
+
+            self.Prey[i].step()
+
+        for j in range(len(self.Predator)-1):
+
+            self.Predator[j].step()
 
 
 
