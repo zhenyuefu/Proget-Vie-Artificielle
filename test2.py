@@ -155,6 +155,8 @@ class World:
 
         self.Grass=[x[:] for x in [[0] * self.size_factor_X] * self.size_factor_Y]
 
+        self.initGrass()
+
         self.p_grass = 0.09
 
         # Initialisation proies - predateurs
@@ -259,6 +261,14 @@ class World:
                         self.Prey[j].setDirection(1)
 
         self.repousse_grass()
+
+    def initGrass(self):
+
+        for x in range(len(self.Grass[0])):
+
+            for y in range(len(self.Grass)):
+
+                self.Grass[y][x]=(0.5 >= random())
                        
 
     def repousse_grass(self):
@@ -302,9 +312,9 @@ class World:
 
             # update de l'environnement : 
 
-            for x in range(self.size_factor_Y):
+            for x in range(self.size_factor_X):
 
-                for y in range(self.size_factor_X):
+                for y in range(self.size_factor_Y):
                     
                     self.screen.blit(self.loadImage('dirt.png'),(x*self.size_tile_X,y*self.size_tile_Y))
             
