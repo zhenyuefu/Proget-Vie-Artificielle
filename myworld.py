@@ -44,8 +44,8 @@ class Agent(object):
 
         self.it_non_mange = 0
 
-    def reproduce(self):
-        return
+    # def reproduce(self):
+    #     return
 
     def step(self):
 
@@ -55,7 +55,7 @@ class Agent(object):
 
             self.alive = False
 
-        self.reproduce()
+        #self.reproduce()
 
         if random() < 0.5 :
 
