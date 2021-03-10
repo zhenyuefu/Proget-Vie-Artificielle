@@ -38,7 +38,7 @@ class World:
         self.sheep_images = []
         self.load_all_image()
         self.agent = BasicAgent.BasicAgent(self, self.sheep_images[0][0], (50, 50))
-        self.agent2 = BasicAgent.BasicAgent(self, self.sheep_images[0][0],(100,100))
+        self.agent2 = BasicAgent.BasicAgent(self, self.sheep_images[0][0], (100, 100))
         self.agent2.direction = 1
         self.agent2.set_frame(self.sheep_images)
         self.agent.set_frame(self.sheep_images)
@@ -141,10 +141,11 @@ class World:
 
         # lecture des événements Pygame
         for event in pygame.event.get():
-            if event.type == QUIT:  # evènement click sur fermeture de fenêtre
+            if event.type == QUIT:  # évènement click sur fermeture de fenêtre
                 self.destroy()  # dans ce cas on appelle le destructeur de la classe
         for x in range(0, self.size_factor_X):
-            # for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y), int(self.size_Y*self.scaleMultiplier)):
+            # for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y),
+            # int(self.size_Y*self.scaleMultiplier)):
             for y in range(0, self.size_factor_Y):
                 self.screen.blit(
                     self.Environment_images[0][0],
@@ -170,6 +171,6 @@ if __name__ == "__main__":
     while True:
         try:
             world.update_world()
-        except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy() de appl.
+        except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
         clock.tick(10)
