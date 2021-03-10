@@ -4,26 +4,55 @@ from pygame.locals import *  # PYGAME constant & functions
 from sys import exit  # exit script
 
 class BasicAgent(pygame.sprite.Sprite):
-    def __init__(self,img,init_pos):
+
+    def __init__(self,img,init_pos,world):
+
         pygame.sprite.Sprite.__init__(self)
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.midbottom = init_pos
-        self.speed = 5
+        self.world = world
+        self.speed_x = -5
+        self.speed_y = 0
         self.frame = []
         self.current_frame = 0
     
     def set_frame(self,frame):
+
         self.frame = frame
     
     def move(self):
+
         self.current_frame+=1
+
         if self.current_frame > 2:
             self.current_frame = 0
+
         self.image = self.frame[self.current_frame]
-        self.rect.y += self.speed
-        if self.rect.y > 17*30:
+        self.rect.x += self.speed_x
+        self.rect.y += self.speed_y
+
+        if self.rect.y > world.size_factor_Y * world.size_tile_Y:
+
             self.rect.bottom = 0
+
+        if self.rect.y < -(world.size_tile_Y):
+
+            self.rect.top = (world.size_factor_Y * world.size_tile_Y) 
+
+            #self.rect.bottom = (world.size_factor_Y * world.size_tile_Y) + world.size_tile_Y
+
+        if self.rect.x > world.size_factor_X * world.size_tile_X:
+
+            self.rect.left = -(world.size_factor_X)
+
+        if self.rect.x < -(world.size_factor_X) :
+
+            self.rect.right = (world.size_factor_X * world.size_tile_X) + world.size_tile_X
+
+            #self.rect.left = (world.size_factor_X * world.size_tile_X)
+        
+        
 
 class World:
     """
@@ -57,7 +86,7 @@ class World:
         self.Environment_images = []
         self.Agent_images = []
         self.loadAllImage()
-        self.agent = BasicAgent(self.Agent_images[0][0],(50,50))
+        self.agent = BasicAgent(self.Agent_images[0][0],(randint(0,self.size_factor_X*size_tile_X),randint(0,self.size_tile_Y * self.size_factor_Y)),self)
         self.agent.set_frame([self.Agent_images[0][0],self.Agent_images[0][1],self.Agent_images[0][2]])
         self.agent_group = pygame.sprite.Group()
         self.agent_group.add(self.agent)
@@ -163,7 +192,7 @@ class World:
 if __name__ == "__main__":
     world = World()
     clock = pygame.time.Clock()
-    a1 = BasicAgent(world.Agent_images[0][0],(1,1))
+    #a1 = BasicAgent(world.Agent_images[0][0],(1,1))
     while True:
         try:
             world.updateWorld()
