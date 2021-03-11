@@ -2,10 +2,11 @@ from sys import exit  # exit script
 
 import pygame  # PYGAME package
 from pygame.locals import *  # PYGAME constant & functions
+import random
+import Agent
 
-import BasicAgent
 
-class World:  
+class World:
     """
     classe principale du jeux
     """
@@ -35,16 +36,16 @@ class World:
 
         self.Environment_images = []
         self.sheep_images = []
+        self.wolf_images = []
         self.load_all_image()
-        self.agent = BasicAgent.BasicAgent(self, self.sheep_images[0][0], (50, 50))
-        self.agent2 = BasicAgent.BasicAgent(self, self.sheep_images[0][0], (100, 100))
-        self.agent2.direction = 1
-        self.agent2.set_frame(self.sheep_images)
-        self.agent.set_frame(self.sheep_images)
-        self.agent_group = pygame.sprite.Group()
-        self.agent_group.add(self.agent)
-        self.agent_group.add(self.agent2)
 
+        self.agent_group = pygame.sprite.Group()
+        for i in range(10):
+            self.agent_group.add(Agent.Sheep(self, (
+            random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
+        for i in range(10):
+            self.agent_group.add(Agent.Wolf(self, (
+                random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
     def load_image(self, filename):
 
         image = pygame.image.load(filename).convert_alpha()
@@ -101,34 +102,55 @@ class World:
         # sheep_images[1] -> right
         # sheep_images[2] -> down
         # sheep_images[3] -> left
-        self.sheep_images.append(
+        self.sheep_images = [
             [
                 self.load_image("PNG/Agent/sheep/sheep_back_1.png"),
                 self.load_image("PNG/Agent/sheep/sheep_back_2.png"),
                 self.load_image("PNG/Agent/sheep/sheep_back_3.png"),
-            ]
-        )
-        self.sheep_images.append(
+            ],
             [
                 self.load_image("PNG/Agent/sheep/sheep_right_1.png"),
                 self.load_image("PNG/Agent/sheep/sheep_right_2.png"),
                 self.load_image("PNG/Agent/sheep/sheep_right_3.png"),
-            ]
-        )
-        self.sheep_images.append(
+            ],
             [
                 self.load_image("PNG/Agent/sheep/sheep_front_1.png"),
                 self.load_image("PNG/Agent/sheep/sheep_front_2.png"),
                 self.load_image("PNG/Agent/sheep/sheep_front_3.png"),
-            ]
-        )
-        self.sheep_images.append(
+            ],
             [
                 self.load_image("PNG/Agent/sheep/sheep_left_1.png"),
                 self.load_image("PNG/Agent/sheep/sheep_left_2.png"),
                 self.load_image("PNG/Agent/Sheep/sheep_left_3.png"),
-            ]
-        )
+            ],
+        ]
+
+        # wolf_images[0] -> up
+        # wolf_images[1] -> right
+        # wolf_images[2] -> down
+        # wolf_images[3] -> left
+        self.wolf_images = [
+            [
+                self.load_image("PNG/Agent/wolf/wolf_back_1.png"),
+                self.load_image("PNG/Agent/wolf/wolf_back_2.png"),
+                self.load_image("PNG/Agent/wolf/wolf_back_3.png"),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_right_1.png"),
+                self.load_image("PNG/Agent/wolf/wolf_right_2.png"),
+                self.load_image("PNG/Agent/wolf/wolf_right_3.png"),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_front_1.png"),
+                self.load_image("PNG/Agent/wolf/wolf_front_2.png"),
+                self.load_image("PNG/Agent/wolf/wolf_front_3.png"),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_left_1.png"),
+                self.load_image("PNG/Agent/wolf/wolf_left_2.png"),
+                self.load_image("PNG/Agent/wolf/wolf_left_3.png"),
+            ],
+        ]
 
     def update_world(self):
         """
@@ -172,4 +194,4 @@ if __name__ == "__main__":
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
-        clock.tick(10)
+        clock.tick(30)
