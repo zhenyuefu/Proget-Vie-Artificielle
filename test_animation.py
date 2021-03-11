@@ -2,17 +2,17 @@ from sys import exit  # exit script
 
 import pygame  # PYGAME package
 from pygame.locals import *  # PYGAME constant & functions
-
+import random
 import Agent
 
 
-class World:  
+class World:
     """
     classe principale du jeux
     """
 
     def __init__(
-        self, size_factor_X=35, size_factor_Y=17, size_tile_X=30, size_tile_Y=30
+            self, size_factor_X=35, size_factor_Y=17, size_tile_X=30, size_tile_Y=30
     ):
         """
         constructeur de la classe
@@ -38,16 +38,14 @@ class World:
         self.sheep_images = []
         self.wolf_images = []
         self.load_all_image()
-        self.agent = Agent.Sheep(self, self.sheep_images[0][0], (50, 50))
-        self.agent2 = Agent.Sheep(self, self.sheep_images[0][0], (100, 50))
-        self.agent2.direction = 1
-        self.agent3 = Agent.Wolf(self, self.wolf_images[0][0],(100,100))
-        self.agent3.direction = 0
-        self.agent_group = pygame.sprite.Group()
-        self.agent_group.add(self.agent)
-        self.agent_group.add(self.agent2)
-        self.agent_group.add(self.agent3)
 
+        self.agent_group = pygame.sprite.Group()
+        for i in range(10):
+            self.agent_group.add(Agent.Sheep(self, (
+            random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
+        for i in range(10):
+            self.agent_group.add(Agent.Wolf(self, (
+                random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
     def load_image(self, filename):
 
         image = pygame.image.load(filename).convert_alpha()

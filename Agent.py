@@ -1,3 +1,5 @@
+import random
+
 import pygame  # PYGAME package
 
 
@@ -17,19 +19,37 @@ class BasicAgent(pygame.sprite.Sprite):
         self.y = self.rect.y // self.world.size_tile_Y
         self.direction = 3
         self.alive = True
-        self.iter = 0
+        self.frame_change_counter = 0
+        self.direction_change_counter = 0
+        self.input_direction = -1
         self.it_non_mange = 0
 
     def set_frame(self, frame):
         self.frame = frame
 
+    def reset_mange(self):
+        self.it_non_mange = 0
+
+    def set_direction(self, direction):
+        self.input_direction = direction
+
     def move(self):
-        self.iter += 1
-        if self.iter > 3:
+        self.frame_change_counter += 1
+        if self.frame_change_counter > 3:
             self.current_frame += 1
             if self.current_frame > 2:
                 self.current_frame = 0
-            self.iter = 0
+            self.frame_change_counter = 0
+        self.direction_change_counter += 1
+        if self.direction_change_counter > random.randint(20,100):
+            self.direction_change_counter = 0
+            if random.random() > 0.5:
+                self.direction = (self.direction + 1) % 4
+            else:
+                self.direction = (self.direction - 1 + 4) % 4
+            if self.input_direction != -1:
+                self.direction = self.input_direction
+            self.input_direction = -1
         self.image = self.frame[self.direction][self.current_frame]
         self.x = self.rect.x // self.world.size_tile_X
         self.y = self.rect.y // self.world.size_tile_Y
@@ -68,8 +88,8 @@ class Sheep(BasicAgent):
     p_reproduce = 0.00
     delai_de_famine = 10
 
-    def __init__(self, world, img, init_pos):
-        super().__init__(world, img, init_pos)
+    def __init__(self, world, init_pos):
+        super().__init__(world, world.sheep_images[0][0], init_pos)
         self.frame = world.sheep_images
 
 
@@ -77,6 +97,6 @@ class Wolf(BasicAgent):
     p_reproduce = 0.00
     delai_de_famine = 10
 
-    def __init__(self, world, img, init_pos):
-        super().__init__(world, img, init_pos)
+    def __init__(self, world, init_pos):
+        super().__init__(world, world.wolf_images[0][0], init_pos)
         self.frame = world.wolf_images
