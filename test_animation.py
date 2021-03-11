@@ -39,12 +39,13 @@ class World:
         self.wolf_images = []
         self.load_all_image()
 
-        self.agent_group = pygame.sprite.Group()
+        self.wolf_group = pygame.sprite.Group()
+        self.sheep_group = pygame.sprite.Group()
         for i in range(10):
-            self.agent_group.add(Agent.Sheep(self, (
+            self.sheep_group.add(Agent.Sheep(self, (
                 random.randint(0, size_factor_X) * size_tile_X, random.randint(0, size_factor_Y) * size_tile_Y)))
         for i in range(10):
-            self.agent_group.add(Agent.Wolf(self, (
+            self.wolf_group.add(Agent.Wolf(self, (
                 random.randint(0, size_factor_X) * size_tile_X, random.randint(0, size_factor_Y) * size_tile_Y)))
 
     def load_image(self, filename):
@@ -174,8 +175,10 @@ class World:
                     (x * self.size_tile_X, y * self.size_tile_Y),
                 )  # tuile "background" en position (x,y)
 
-        self.agent_group.update()
-        self.agent_group.draw(self.screen)
+        self.wolf_group.update()
+        self.sheep_group.update()
+        self.wolf_group.draw(self.screen)
+        self.sheep_group.draw(self.screen)
         pygame.display.update()
 
     def destroy(self):
