@@ -13,7 +13,7 @@ class World:
     """
 
     def __init__(
-            self, size_factor_X=35, size_factor_Y=17, size_tile_X=30, size_tile_Y=30
+            self, size_factor_X=50, size_factor_Y=31, size_tile_X=35, size_tile_Y=35
     ):
         """
         constructeur de la classe
@@ -173,7 +173,7 @@ class World:
 
         i = randint(0,len(self.Tmp)-1)
 
-        x, y, _, _, _, _ = self.Tmp[i]
+        x, y, state, alive, stateF, inFire = self.Tmp[i]
 
         # probabilité qu'un arbre s'embrase 
 
@@ -213,7 +213,7 @@ class World:
 
                         self.Map_trees[y3][x3] = 2
 
-            self.Map_trees[y][x] = 3
+            #self.Map_trees[y][x] = 3
 
 
         del self.Tmp[i]
@@ -283,9 +283,8 @@ class World:
 if __name__ == "__main__":
     world = World()
     clock = pygame.time.Clock()
-    while True:
-        try:
-            world.update_world()
-        except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
-            world.destroy()
-        clock.tick(20000)
+    try:
+        world.update_world()
+    except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
+        world.destroy()
+    clock.tick(20000)
