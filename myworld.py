@@ -6,139 +6,6 @@ import pygame                   # PYGAME package
 from pygame.locals import *     # PYGAME constant & functions
 from sys import exit            # exit script 
 
-class Agent(object):
-
-    def __init__(self, x, y, predator_or_prey, world):
-
-        self.x, self.y = x, y
-        self.world = world
-        self.predator_or_prey = predator_or_prey
-        self.orient = 0
-        self.it_non_mange = 0
-        self.predator, self.prey = False, False
-        self.alive = True
-        self.dir = -1
-
-        if predator_or_prey :
-
-            self.predator = True
-
-            self.p_reproduce = 0.03
-
-            self.delai_famine = 14
-
-        else :
-
-            self.prey = True
-
-            self.p_reproduce = 0.07
-
-            self.delai_famine = 16
-
-
-    def setDirection(self,d):
-
-        if self.dir == -1 :
-
-            self.dir = d
-
-        if random() < 0.5 :
-
-            self.dir = d
-
-
-    def reset_mange(self):
-
-        self.it_non_mange = 0
-        
-
-    def reproduce(self):
-
-        if random() < self.p_reproduce :
-
-            world.reproduce(Agent(self.x,self.y,self.predator_or_prey,self.world))
-
-
-
-    def step(self):
-
-        self.it_non_mange += 1
-
-        if self.it_non_mange > self.delai_famine :
-
-            self.alive = False
-
-        self.reproduce()
-
-        if random() < 0.5 :
-
-            self.orient = (self.orient - 1) % 4
-
-        else:
-
-            self.orient = (self.orient - 1 + 4) % 4
-
-        if dir != -1 :
-
-            self.orient = self.dir
-
-        self.dir = -1
-
-
-        if self.orient == 0 :
-
-            self.y = (self.y - 1 + world.size_factor_Y) % world.size_factor_Y
-
-            if self.y < 0 :
-
-                self.y += world.size_factor_Y
-
-            if self.y >= world.size_factor_Y :
-
-                self.y -= world.size_factor_Y
-
-            return
-        
-        if self.orient == 1 :
-
-            self.x = (self.x + 1 + world.size_factor_X) % world.size_factor_X
-
-            if self.x < 0 :
-
-                self.x += world.size_factor_X
-
-            if self.x >= world.size_factor_X :
-
-                self.x -= world.size_factor_X
-
-            return
-
-        if self.orient == 2 :
-
-            self.y = (self.y + 1 + world.size_factor_Y) % world.size_factor_Y
-
-            if self.y < 0 :
-
-                self.y += world.size_factor_Y
-
-            if self.y >= world.size_factor_Y :
-
-                self.y -= world.size_factor_Y
-
-            return
-
-        if self.orient == 3 :
-
-            self.x = (self.x - 1 + world.size_factor_X) % world.size_factor_X
-
-            if self.x < 0 :
-
-                self.x += world.size_factor_X
-
-            if self.x >= world.size_factor_X :
-
-                self.x -= world.size_factor_X
-
 
 
 class World:
@@ -260,20 +127,6 @@ class World:
 
                     self.Case.append((x, y)) # si aucun objet, un arbre pourra potentiellement poussé
 
-        # Initialisation proies - predateurs
-
-        self.Prey=[]
-
-        self.Predator=[]
-
-        for agent in range(20):
-
-            self.Prey.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),False,self))
-
-            self.Predator.append(Agent(randint(0,self.size_factor_Y),randint(0,self.size_factor_X),True,self))
-
-
-
         ###########################
 
         pygame.init()          
@@ -313,101 +166,101 @@ class World:
             self.loadImage('PNG/green_corner_SE.png'),self.loadImage('PNG/green_corner_SW.png')])
 
 
-    def stepAgent(self):
+    # def stepAgent(self):
 
-        for i in range(len(self.Prey)):
+    #     for i in range(len(self.Prey)):
 
-            self.Prey[i].step()
+    #         self.Prey[i].step()
 
-        for j in range(len(self.Predator)):
+    #     for j in range(len(self.Predator)):
 
-            self.Predator[j].step()
+    #         self.Predator[j].step()
 
 
-    def stepWorld(self):
+    # def stepWorld(self):
 
-        for i in range(len(self.Predator)):
+    #     for i in range(len(self.Predator)):
 
-            pred = self.Predator[i]
+    #         pred = self.Predator[i]
 
-            if not pred.alive :
+    #         if not pred.alive :
 
-                del self.Predator[i]
+    #             del self.Predator[i]
 
-                continue
+    #             continue
 
-            for j in range(len(self.Prey)):
+    #         for j in range(len(self.Prey)):
 
-                prey = self.Prey[j]
+    #             prey = self.Prey[j]
 
-                if not prey.alive :
+    #             if not prey.alive :
 
-                    del self.Prey[j] 
+    #                 del self.Prey[j] 
 
-                    continue
+    #                 continue
 
-                if self.Grass[prey.y][prey.x] == 1:
+    #             if self.Grass[prey.y][prey.x] == 1:
 
-                    self.Prey[j].reset_mange()
+    #                 self.Prey[j].reset_mange()
 
-                    self.Grass[prey.y][prey.x] = 0
+    #                 self.Grass[prey.y][prey.x] = 0
 
-                if pred.y == prey.y and pred.x == prey.x :
+    #             if pred.y == prey.y and pred.x == prey.x :
 
-                    del self.Prey[j]
+    #                 del self.Prey[j]
                     
-                    self.Predator[i].reset_mange()
+    #                 self.Predator[i].reset_mange()
 
-                    continue
+    #                 continue
 
-                if pred.x == prey.x:
+    #             if pred.x == prey.x:
 
-                    if pred.y == prey.y + 1:
+    #                 if pred.y == prey.y + 1:
 
-                        self.Predator[i].setDirection(0)
-                        self.Prey[j].setDirection(0)
-                        continue
+    #                     self.Predator[i].setDirection(0)
+    #                     self.Prey[j].setDirection(0)
+    #                     continue
 
-                    if pred.y == prey.y - 1:
+    #                 if pred.y == prey.y - 1:
 
-                        self.Predator[i].setDirection(2)
-                        self.Prey[j].setDirection(2)
-                        continue
+    #                     self.Predator[i].setDirection(2)
+    #                     self.Prey[j].setDirection(2)
+    #                     continue
 
-                if pred.y == prey.y:
+    #             if pred.y == prey.y:
 
-                    if pred.x == prey.x + 1:
+    #                 if pred.x == prey.x + 1:
 
-                        self.Predator[i].setDirection(3)
-                        self.Prey[j].setDirection(3)
-                        continue
+    #                     self.Predator[i].setDirection(3)
+    #                     self.Prey[j].setDirection(3)
+    #                     continue
 
-                    if pred.x == prey.x - 1:
+    #                 if pred.x == prey.x - 1:
 
-                        self.Predator[i].setDirection(1)
-                        self.Prey[j].setDirection(1)
+    #                     self.Predator[i].setDirection(1)
+    #                     self.Prey[j].setDirection(1)
                        
 
-    def repousse_grass(self):
+    # def repousse_grass(self):
 
-        for x in range(len(self.Grass[0])):
+    #     for x in range(len(self.Grass[0])):
 
-            for y in range(len(self.Grass)):
+    #         for y in range(len(self.Grass)):
 
-                if self.Grass[y][x] == 0 and random() <= self.p_grass:
+    #             if self.Grass[y][x] == 0 and random() <= self.p_grass:
                     
-                    self.Grass[y][x] = 1
+    #                 self.Grass[y][x] = 1
 
     
-    def reproduce(self, agent):
+    # def reproduce(self, agent):
 
-        if agent.predator :
+    #     if agent.predator :
 
-            self.Predator.append(agent)
+    #         self.Predator.append(agent)
 
-        else :
+    #     else :
 
-            self.Prey.append(agent)
+    #         self.Prey.append(agent)
 
 
 
