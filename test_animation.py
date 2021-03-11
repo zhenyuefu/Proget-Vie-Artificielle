@@ -42,10 +42,11 @@ class World:
         self.agent_group = pygame.sprite.Group()
         for i in range(10):
             self.agent_group.add(Agent.Sheep(self, (
-            random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
+                random.randint(0, size_factor_X) * size_tile_X, random.randint(0, size_factor_Y) * size_tile_Y)))
         for i in range(10):
             self.agent_group.add(Agent.Wolf(self, (
-                random.randint(0, size_tile_X) * size_factor_X, random.randint(0, size_tile_Y) * size_factor_Y)))
+                random.randint(0, size_factor_X) * size_tile_X, random.randint(0, size_factor_Y) * size_tile_Y)))
+
     def load_image(self, filename):
 
         image = pygame.image.load(filename).convert_alpha()
