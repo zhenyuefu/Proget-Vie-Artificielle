@@ -1,7 +1,7 @@
 import pygame  # PYGAME package
 
 
-class BasicAgent(pygame.sprite.Sprite):
+class BasicAgent(pygame.sprite.Sprite): 
     def __init__(self, world, img, init_pos):
         pygame.sprite.Sprite.__init__(self)
         self.world = world

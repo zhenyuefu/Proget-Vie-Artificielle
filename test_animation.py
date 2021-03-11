@@ -5,7 +5,7 @@ from pygame.locals import *  # PYGAME constant & functions
 
 import BasicAgent
 
-class World:
+class World:  
     """
     classe principale du jeux
     """
