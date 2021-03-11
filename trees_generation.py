@@ -34,15 +34,23 @@ class World:
 
             for y in range(0,len(self.Map_trees)):
 
-                if random() < 0.5 :
+                if x == self.size_factor_X//2 and y == self.size_factor_Y//2 :
+
+                    self.Map_trees[y][x] = 2
+
+                    self.Case.append((x, y, 16, True, 0, True))
+
+                    continue             
+
+                if random() < 0.2 :
                     
                     self.Map_trees[y][x]=1
                     
-                    self.Case.append((x, y, 0, True))
+                    self.Case.append((x, y, 0, True, 0, False))
 
                     continue
 
-                self.Case.append((x, y, 0, False))
+                #self.Case.append((x, y, 0, False))
 
         pygame.init()
 
@@ -56,6 +64,10 @@ class World:
         pygame.display.set_caption("WORLD TEST")
 
         self.Environment_images = []
+
+        self.Fire_images = []
+
+        self.p2 = 0.001
 
         self.load_all_image()
         
@@ -98,18 +110,130 @@ class World:
                 self.load_image("PNG/split/tree17.png"),
             ]
         )
-    
+
+        # 2 : fire
+
+        self.Fire_images.append(
+            [
+                self.load_image("PNG/split/fire1.png"),
+                self.load_image("PNG/split/fire2.png"),
+                self.load_image("PNG/split/fire3.png"),
+                self.load_image("PNG/split/fire4.png"),
+                self.load_image("PNG/split/fire5.png"),
+                self.load_image("PNG/split/fire6.png"),
+                self.load_image("PNG/split/fire7.png"),
+                self.load_image("PNG/split/fire8.png"),
+            ]
+        
+        )
+
+    def tree_in_fire(self):
+
+        i = randint(0,len(self.Case)-1)
+        
+        x, y, state, alive, stateF, inFire = self.Case[i]
+        
+        if inFire:
+            
+            if stateF == 7 :
+                
+                inFire = False
+                alive = False
+                
+            if stateF < 7 :
+                
+                stateF += 1
+                 
+        self.Case[i] = x, y, state, alive, stateF, inFire
+
+
+
     def trees_gen(self):
 
         i = randint(0,len(self.Case)-1)
-
-        x, y, state, alive = self.Case[i]
+        
+        x, y, state, alive, stateF, inFire = self.Case[i]
 
         if state < 16 and alive:
+            
+            if random() < 0.3:
+                
+                state += 1
+                
+        self.Case[i] = x, y, state, alive, stateF, inFire
 
-            state += 1
 
-            self.Case[i] = x, y, state, alive
+    def forestFire(self):
+
+        # on recopie si vide
+
+        if len(self.Tmp)==0:
+
+            self.Tmp = self.Case.copy()
+
+        i = randint(0,len(self.Tmp)-1)
+
+        x, y, _, _, _, _ = self.Tmp[i]
+
+        # probabilité qu'un arbre s'embrase 
+
+        if self.Map_trees[y][x]==1 and random() < self.p2:
+
+            self.Map_trees[y][x]=2
+
+        # le feu se propage d'abre en arbre 
+
+        if self.Map_trees[y][x]==2:
+
+            for x2 in range(x-1,x+2):
+
+                for y2 in range(y-1,y+2):
+
+                    x3 = x2
+
+                    y3 = y2
+
+                    if x3 < 0:
+
+                        x3 += self.size_factor_X
+
+                    if x3 >= self.size_factor_X:
+
+                        x3 -= self.size_factor_X
+
+                    if y3 < 0:
+
+                        y3 += self.size_factor_Y
+
+                    if y3 >= self.size_factor_Y:
+
+                        y3 -= self.size_factor_Y
+
+                    if self.Map_trees[y3][x3] == 1:
+
+                        self.Map_trees[y3][x3] = 2
+
+            self.Map_trees[y][x] = 3
+
+
+        del self.Tmp[i]
+
+
+
+    def update_trees(self):
+        
+        for tree in self.Case:
+            
+            x, y, state, alive, stateF, inFire = tree
+            
+            if alive:
+                
+                self.screen.blit(self.Environment_images[1][state],(x * self.size_tile_X, y * self.size_tile_Y))
+                
+            if inFire:
+                
+                self.screen.blit(self.Fire_images[0][stateF],(x * self.size_tile_X, y * self.size_tile_Y))
+        
 
 
     def update_world(self):
@@ -122,6 +246,10 @@ class World:
 
         while True:
 
+            #self.forestFire()
+
+            self.tree_in_fire()
+
             self.trees_gen()
 
             #lecture des événements Pygame 
@@ -131,21 +259,14 @@ class World:
 
             # update de l'environnement : 
             
-            #for x in range(0, int(self.size_X*self.scaleMultiplier*self.size_factor_X), int(self.size_X*self.scaleMultiplier)):
             for x in range (self.size_factor_X):
-                #for y in range(0, int(self.size_Y*self.scaleMultiplier*self.size_factor_Y), int(self.size_Y*self.scaleMultiplier)):
+                
                 for y in range(self.size_factor_Y):
 
                     self.screen.blit(self.Environment_images[0][0],(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
                     
                     
-            for tree in self.Case:
-                
-                x, y, state, alive = tree
-                    
-                if alive:
-                    
-                    self.screen.blit(self.Environment_images[1][state],(x * self.size_tile_X, y * self.size_tile_Y))
+            self.update_trees()
 
             
                         
@@ -167,4 +288,4 @@ if __name__ == "__main__":
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
-        clock.tick(10000)
+        clock.tick(20000)
