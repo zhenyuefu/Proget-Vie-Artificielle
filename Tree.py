@@ -22,21 +22,23 @@ class Tree(pygame.sprite.Sprite):
 
         self.state = 0
 
-        self.delai = 0
+        self.time = 0
+
+        self.time_state = 0
 
 
-    def reset_delai(self):
+    def reset_time(self):
 
-        self.delai = 0
+        self.time = 0
 
 
     def tree_gen(self):
 
-        self.delai += 1
+        self.time += 1
 
-        if self.delai == 50:
+        if self.time >= self.time_state:
 
-            self.reset_delai()
+            self.reset_time()
             
             if self.state < 16 and self.alive:
                 

@@ -37,6 +37,10 @@ class World:
 
         self.Environment_images = []
 
+        self.Trees = []
+
+        self.Tmp = []
+
         self.load_all_image()
 
         self.tree_group = pygame.sprite.Group()
@@ -46,6 +50,8 @@ class World:
             for y in range(self.size_factor_Y):
                     
                     self.Map_trees[y][x] = Tree(self,self.Environment_images[1][0],x,y)
+
+                    self.Trees.append((x, y))
                     
                     self.tree_group.add(self.Map_trees[y][x])
 
@@ -112,7 +118,17 @@ class World:
 
                     self.screen.blit(self.Environment_images[0][0],(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
 
-            self.Map_trees[self.size_factor_Y//2][self.size_factor_X//2].update_tree()
+            if not self.Tmp:
+
+                self.Tmp = self.Trees.copy()
+
+            i = random.randint(0,len(self.Tmp)-1)
+            
+            x, y = self.Tmp[i]
+
+            self.Map_trees[y][x].update_tree()
+
+            del self.Tmp[i]
 
             self.tree_group.update()
             
