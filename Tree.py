@@ -24,7 +24,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.time = 0
 
-        self.time_state = 0
+        self.time_state = 5
 
 
     def reset_time(self):
@@ -40,7 +40,7 @@ class Tree(pygame.sprite.Sprite):
 
             self.reset_time()
             
-            if self.state < 16 and self.alive:
+            if self.state < 16 and self.alive and random.random() < 0.5:
                 
                 self.state += 1
 

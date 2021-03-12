@@ -48,6 +48,8 @@ class World:
         for x in range(self.size_factor_X):
 
             for y in range(self.size_factor_Y):
+
+                if random.random() < 0.1:
                     
                     self.Map_trees[y][x] = Tree(self,self.Environment_images[1][0],x,y)
 
