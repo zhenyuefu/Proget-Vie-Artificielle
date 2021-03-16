@@ -18,7 +18,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.rect.topleft = (self.x * self.world.size_tile_X, self.y * self.world.size_tile_Y)
+        self.rect.topleft = (self.x * self.world.size_tile_X * 2, self.y * self.world.size_tile_Y * 2)
 
         self.alive = True
 

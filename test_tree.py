@@ -16,16 +16,15 @@ class World:
     ):
         """
         constructeur de la classe
-        size_factor_X et size_factor_Y représentent la taille du plateau de jeux en nombre de tuiles 64*64 pixels
         """
 
         self.size_factor_X, self.size_factor_Y = size_factor_X, size_factor_Y
 
         self.size_tile_X, self.size_tile_Y = size_tile_X, size_tile_Y
 
-        self.Map_trees = [x[:] for x in [[None] * self.size_factor_X] * self.size_factor_Y]
+        self.Map_trees = [x[:] for x in [[None] * (self.size_factor_X // 2)] * (self.size_factor_Y // 2)]
 
-        self.Map_grass = [x[:] for x in [[None] * self.size_factor_X * 2] * self.size_factor_Y * 2]
+        self.Map_grass = [x[:] for x in [[None] * self.size_factor_X] * self.size_factor_Y]
 
         pygame.init()
 
@@ -52,11 +51,11 @@ class World:
 
         self.grass_group = pygame.sprite.Group()
 
-        for x in range(self.size_factor_X):
+        for x in range(len(self.Map_trees[0])):
 
-            for y in range(self.size_factor_Y):
+            for y in range(len(self.Map_trees)):
 
-                if random.random() < 0.01:
+                if random.random() < 0.09:
                     
                     self.Map_trees[y][x] = Tree(self,x,y)
 
@@ -97,23 +96,23 @@ class World:
 
         self.Environment_images.append(
             [
-                self.load_image("PNG/split/tree1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree3.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree4.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree5.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree6.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree7.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree8.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree9.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree10.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree11.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree12.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree13.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree14.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree15.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree16.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/tree17.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/split/tree1.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree2.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree3.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree4.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree5.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree6.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree7.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree8.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree9.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree10.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree11.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree12.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree13.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree14.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree15.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree16.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree17.png", self.size_tile_X*2, self.size_tile_Y*2),
             ]
         )
 
@@ -135,8 +134,8 @@ class World:
         self.Environment_images.append(
             
             [
-                self.load_image("PNG/split/grass.png", self.size_tile_X // 2, self.size_tile_Y // 2),
-                self.load_image("PNG/split/grass_repousse.png", self.size_tile_X // 2, self.size_tile_Y // 2),
+                self.load_image("PNG/split/grass.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/split/grass_repousse.png", self.size_tile_X, self.size_tile_Y),
             ]
 
         )
@@ -164,19 +163,19 @@ class World:
 
                     if x3 < 0:
 
-                        x3 += self.size_factor_X
+                        x3 += self.size_factor_X//2
 
-                    if x3 >= self.size_factor_X:
+                    if x3 >= self.size_factor_X//2:
 
-                        x3 -= self.size_factor_X
+                        x3 -= self.size_factor_X//2
 
                     if y3 < 0:
 
-                        y3 += self.size_factor_Y
+                        y3 += self.size_factor_Y//2
 
-                    if y3 >= self.size_factor_Y:
+                    if y3 >= self.size_factor_Y//2:
 
-                        y3 -= self.size_factor_Y
+                        y3 -= self.size_factor_Y//2
 
                     if self.Map_trees[y3][x3] != None and self.Map_trees[y3][x3].alive:
 
