@@ -111,6 +111,62 @@ class World:
             ]
         
         )
+
+    def forestFire(self):
+
+        if not self.Tmp:
+            
+            self.Tmp = self.Trees.copy()
+
+
+        i = random.randint(0,len(self.Tmp)-1)
+            
+        x, y = self.Tmp[i]
+
+        self.Map_trees[y][x].update_tree()
+
+        if self.Map_trees[y][x].inFire:
+
+            for x2 in range(x-1,x+2):
+
+                for y2 in range(y-1,y+2):
+
+                    x3 = x2
+
+                    y3 = y2
+
+                    if x3 < 0:
+
+                        x3 += self.size_factor_X
+
+                    if x3 >= self.size_factor_X:
+
+                        x3 -= self.size_factor_X
+
+                    if y3 < 0:
+
+                        y3 += self.size_factor_Y
+
+                    if y3 >= self.size_factor_Y:
+
+                        y3 -= self.size_factor_Y
+
+                    if self.Map_trees[y3][x3] != None and self.Map_trees[y3][x3].alive:
+
+                        self.Map_trees[y3][x3].inFire
+
+
+        self.tree_group.update()
+            
+        self.tree_group.draw(self.screen)
+
+        del self.Tmp[i]
+
+        
+
+
+
+
         
 
     def update_world(self):
@@ -136,21 +192,11 @@ class World:
 
                     self.screen.blit(self.Environment_images[0][0],(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
 
-            if not self.Tmp:
+            self.forestFire()
 
-                self.Tmp = self.Trees.copy()
-
-            i = random.randint(0,len(self.Tmp)-1)
+            # self.tree_group.update()
             
-            x, y = self.Tmp[i]
-
-            self.Map_trees[y][x].update_tree()
-
-            del self.Tmp[i]
-
-            self.tree_group.update()
-            
-            self.tree_group.draw(self.screen)
+            # self.tree_group.draw(self.screen)
             
             pygame.display.update()
 
@@ -169,5 +215,5 @@ if __name__ == "__main__":
         world.update_world()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
         world.destroy()
-    clock.tick(20000)
+    clock.tick(200)
 
