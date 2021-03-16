@@ -1,6 +1,6 @@
 import random
 
-import pygame  # PYGAME package
+import pygame  # PYGAME package 
 
 
 class BasicAgent(pygame.sprite.Sprite):

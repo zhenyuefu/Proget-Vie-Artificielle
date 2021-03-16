@@ -37,6 +37,8 @@ class World:
 
         self.Environment_images = []
 
+        self.Fire_images = []
+
         self.Trees = []
 
         self.Tmp = []
@@ -51,7 +53,7 @@ class World:
 
                 if random.random() < 0.1:
                     
-                    self.Map_trees[y][x] = Tree(self,self.Environment_images[1][0],x,y)
+                    self.Map_trees[y][x] = Tree(self,x,y)
 
                     self.Trees.append((x, y))
                     
@@ -96,6 +98,20 @@ class World:
                 self.load_image("PNG/split/tree17.png"),
             ]
         )
+
+        # 2 : fire
+
+        self.Fire_images.append(
+            [
+                self.load_image("PNG/split/fire4.png"),
+                self.load_image("PNG/split/fire5.png"),
+                self.load_image("PNG/split/fire6.png"),
+                self.load_image("PNG/split/fire7.png"),
+                self.load_image("PNG/split/fire8.png"),
+            ]
+        
+        )
+        
 
     def update_world(self):
         """

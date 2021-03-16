@@ -67,7 +67,6 @@ class World:
         self.Environment_images.append(
             [
                 self.load_image("PNG/tree.png"),
-                self.load_image("smokeOrange0.png"),
                 self.load_image("PNG/wooded_tree.png"),
                 self.load_image("PNG/big_tree.png"),
             ]
