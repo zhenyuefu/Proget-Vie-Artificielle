@@ -51,7 +51,7 @@ class World:
 
             for y in range(self.size_factor_Y):
 
-                if random.random() < 0.1:
+                if random.random() < 1:
                     
                     self.Map_trees[y][x] = Tree(self,x,y)
 
@@ -155,6 +155,11 @@ class World:
 
                         self.Map_trees[y3][x3].inFire
 
+        for tree in self.tree_group:
+
+            if tree.inFire:
+                
+                tree.update_tree()
 
         self.tree_group.update()
             
@@ -215,5 +220,5 @@ if __name__ == "__main__":
         world.update_world()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
         world.destroy()
-    clock.tick(200)
+    clock.tick(20000)
 
