@@ -18,7 +18,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.rect = self.image.get_rect()
 
-        self.rect.topleft = (self.x * self.world.size_tile_X * 2, self.y * self.world.size_tile_Y * 2)
+        self.rect.topleft = (self.x * self.world.size_tree_X, self.y * self.world.size_tree_Y)
 
         self.alive = True
 
@@ -34,6 +34,7 @@ class Tree(pygame.sprite.Sprite):
     def reset_time(self):
 
         self.time = 0
+
 
     def tree_in_fire(self):
 
@@ -51,6 +52,8 @@ class Tree(pygame.sprite.Sprite):
 
             self.state = -1
 
+            self.image = self.world.Environment_images[0][0]
+
         if self.inFire and self.alive:
 
             self.stateF += 1
@@ -65,8 +68,6 @@ class Tree(pygame.sprite.Sprite):
         if not self.alive:
 
             self.alive = random.random() < 0.01
-
-            self.image = self.world.Environment_images[0][0]
 
         else:
             

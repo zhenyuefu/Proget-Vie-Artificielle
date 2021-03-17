@@ -12,26 +12,28 @@ class World:
     """
 
     def __init__(
-            self, size_factor_X=50, size_factor_Y=31, size_tile_X=40, size_tile_Y=40
+            self, screenWidth=1200, screenHeight=800
     ):
         """
         constructeur de la classe
         """
 
-        self.size_factor_X, self.size_factor_Y = size_factor_X, size_factor_Y
+        self.screenWidth, self.screenHeight = screenWidth, screenHeight
 
-        self.size_tile_X, self.size_tile_Y = size_tile_X, size_tile_Y
+        self.size_tree_X, self.size_tree_Y = 40, 40
 
-        self.Map_trees = [x[:] for x in [[None] * (self.size_factor_X // 2)] * (self.size_factor_Y // 2)]
+        self.size_grass_X, self.size_grass_Y = 20, 20
 
-        self.Map_grass = [x[:] for x in [[None] * self.size_factor_X] * self.size_factor_Y]
+        self.Map_trees = [x[:] for x in [[None] * (self.screenWidth // self.size_tree_X)] * (self.screenHeight // self.size_tree_Y)]
+
+        self.Map_grass = [x[:] for x in [[None] * (self.screenWidth // self.size_grass_X)] * (self.screenHeight // self.size_grass_Y)]
 
         pygame.init()
 
         self.screen = pygame.display.set_mode(
             (
-                int(self.size_tile_X * self.size_factor_X),
-                int(self.size_tile_Y * self.size_factor_Y),
+                int(self.screenWidth),
+                int(self.screenHeight),
             ),
             DOUBLEBUF,
         )
@@ -64,15 +66,15 @@ class World:
                     self.tree_group.add(self.Map_trees[y][x])
 
 
-        for x in range(len(self.Map_grass[0])):
+        # for x in range(len(self.Map_grass[0])):
 
-            for y in range(len(self.Map_grass)):
+        #     for y in range(len(self.Map_grass)):
 
-                 if random.random() < 0.1:
+        #          if random.random() < 0.1:
 
-                     self.Map_grass[y][x] = Grass(self,x,y)
+        #              self.Map_grass[y][x] = Grass(self,x,y)
 
-                     self.grass_group.add(self.Map_grass[y][x])
+        #              self.grass_group.add(self.Map_grass[y][x])
 
 
 
@@ -90,29 +92,29 @@ class World:
 
         # 0 : backgrounds
 
-        self.Environment_images.append([self.load_image("dirt.png", self.size_tile_X, self.size_tile_Y)])
+        self.Environment_images.append([self.load_image("dirt.png", 32, 32)])
 
         # 1 : trees
 
         self.Environment_images.append(
             [
-                self.load_image("PNG/split/tree1.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree2.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree3.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree4.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree5.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree6.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree7.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree8.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree9.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree10.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree11.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree12.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree13.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree14.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree15.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree16.png", self.size_tile_X*2, self.size_tile_Y*2),
-                self.load_image("PNG/split/tree17.png", self.size_tile_X*2, self.size_tile_Y*2),
+                self.load_image("PNG/split/tree1.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree2.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree3.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree4.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree5.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree6.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree7.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree8.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree9.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree10.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree11.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree12.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree13.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree14.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree15.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree16.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/tree17.png", self.size_tree_X, self.size_tree_Y),
             ]
         )
 
@@ -120,11 +122,11 @@ class World:
 
         self.Fire_images.append(
             [
-                self.load_image("PNG/split/fire4.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/fire5.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/fire6.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/fire7.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/fire8.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/split/fire4.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/fire5.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/fire6.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/fire7.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/fire8.png", self.size_tree_X, self.size_tree_Y),
             ]
         
         )
@@ -134,8 +136,8 @@ class World:
         self.Environment_images.append(
             
             [
-                self.load_image("PNG/split/grass.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/split/grass_repousse.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/split/grass.png", self.size_grass_X, self.size_grass_Y),
+                self.load_image("PNG/split/grass_repousse.png", self.size_grass_X, self.size_grass_Y),
             ]
 
         )
@@ -163,19 +165,19 @@ class World:
 
                     if x3 < 0:
 
-                        x3 += self.size_factor_X//2
+                        x3 += len(self.Map_trees[0])
 
-                    if x3 >= self.size_factor_X//2:
+                    if x3 >= len(self.Map_trees[0]):
 
-                        x3 -= self.size_factor_X//2
+                        x3 -= len(self.Map_trees[0])
 
                     if y3 < 0:
 
-                        y3 += self.size_factor_Y//2
+                        y3 += len(self.Map_trees)
 
-                    if y3 >= self.size_factor_Y//2:
+                    if y3 >= len(self.Map_trees):
 
-                        y3 -= self.size_factor_Y//2
+                        y3 -= len(self.Map_trees)
 
                     if self.Map_trees[y3][x3] != None and self.Map_trees[y3][x3].alive:
 
@@ -216,11 +218,11 @@ class World:
 
             # update de l'environnement : 
             
-            for x in range (self.size_factor_X):
+            for x in range (self.screenWidth // 32 + 1):
                 
-                for y in range(self.size_factor_Y):
+                for y in range(self.screenHeight // 32 + 1):
 
-                    self.screen.blit(self.Environment_images[0][0],(x*self.size_tile_X,y*self.size_tile_Y))  # tuile "background" en position (x,y)
+                    self.screen.blit(self.Environment_images[0][0],(x*32,y*32))  # tuile "background" en position (x,y)
 
             self.forestFire()
 
