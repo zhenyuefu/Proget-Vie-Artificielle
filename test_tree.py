@@ -66,15 +66,15 @@ class World:
                     self.tree_group.add(self.Map_trees[y][x])
 
 
-        # for x in range(len(self.Map_grass[0])):
+        for x in range(len(self.Map_grass[0])):
 
-        #     for y in range(len(self.Map_grass)):
+            for y in range(len(self.Map_grass)):
 
-        #          if random.random() < 0.1:
+                 if random.random() < 0.1:
 
-        #              self.Map_grass[y][x] = Grass(self,x,y)
+                     self.Map_grass[y][x] = Grass(self,x,y)
 
-        #              self.grass_group.add(self.Map_grass[y][x])
+                     self.grass_group.add(self.Map_grass[y][x])
 
 
 
