@@ -10,7 +10,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.world = world
 
-        self.state = 0
+        self.state = 16
 
         self.image = self.world.Environment_images[1][self.state]
         
@@ -42,7 +42,7 @@ class Tree(pygame.sprite.Sprite):
 
             self.inFire = random.random() < 0.001
 
-        if self.stateF == 4:
+        if self.stateF == len(self.world.Fire_images[0]) - 1:
 
             self.alive = False
 
@@ -79,7 +79,7 @@ class Tree(pygame.sprite.Sprite):
                     
                     self.reset_time()
                     
-                    if self.state < 16 and random.random() < 0.5:
+                    if self.state < len(self.world.Environment_images[1]) - 1 and random.random() < 0.5:
                         
                         self.state += 1
                         
