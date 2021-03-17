@@ -57,7 +57,7 @@ class World:
 
             for y in range(len(self.Map_trees)):
 
-                if random.random() < 0.09:
+                if random.random() < 0.1:
                     
                     self.Map_trees[y][x] = Tree(self,x,y)
 
@@ -66,15 +66,15 @@ class World:
                     self.tree_group.add(self.Map_trees[y][x])
 
 
-        for x in range(len(self.Map_grass[0])):
+        # for x in range(len(self.Map_grass[0])):
 
-            for y in range(len(self.Map_grass)):
+        #     for y in range(len(self.Map_grass)):
 
-                 if random.random() < 0.1:
+        #          if random.random() < 0.1:
 
-                     self.Map_grass[y][x] = Grass(self,x,y)
+        #              self.Map_grass[y][x] = Grass(self,x,y)
 
-                     self.grass_group.add(self.Map_grass[y][x])
+        #              self.grass_group.add(self.Map_grass[y][x])
 
 
 
@@ -122,11 +122,17 @@ class World:
 
         self.Fire_images.append(
             [
+                # self.load_image("PNG/split/fire1.png", 10, 10),
+                # self.load_image("PNG/split/fire2.png", 10, 10),
+                # self.load_image("PNG/split/fire3.png", 10, 10),
                 self.load_image("PNG/split/fire4.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire5.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire6.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire7.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire8.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/cendre1.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/cendre2.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/cendre3.png", self.size_tree_X, self.size_tree_Y),
             ]
         
         )
@@ -152,6 +158,8 @@ class World:
         i = random.randint(0,len(self.Tmp)-1)
             
         x, y = self.Tmp[i]
+
+        self.Map_trees[y][x].update_tree()
 
         if self.Map_trees[y][x].inFire:
 
@@ -181,12 +189,8 @@ class World:
 
                     if self.Map_trees[y3][x3] != None and self.Map_trees[y3][x3].alive:
 
-                        self.Map_trees[y3][x3].inFire
+                        self.Map_trees[y3][x3].inFire = True
 
-                        self.Map_trees[y3][x3].update_tree()
-
-        
-        self.Map_trees[y][x].update_tree()
 
         self.tree_group.update()
             
@@ -195,11 +199,7 @@ class World:
         del self.Tmp[i]
 
         
-
-
-
-
-        
+   
 
     def update_world(self):
         """
