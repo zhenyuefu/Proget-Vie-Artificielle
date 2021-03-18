@@ -76,6 +76,7 @@ class World:
 
                      self.grass_group.add(self.Map_grass[y][x])
 
+
         for tree in self.tree_group:
 
             for grass in self.grass_group:
@@ -156,7 +157,7 @@ class World:
 
         )
 
-    def forestFire(self):
+    def update_tree(self):
 
         if not self.Tmp:
             
@@ -167,37 +168,18 @@ class World:
             
         x, y = self.Tmp[i]
 
-        self.Map_trees[y][x].update_tree()
+        if self.Map_trees[y][x] == None:
+            
+            if random.random() < 0.01 :
+                
+                self.Map_trees[y][x] = Tree(self,x,y)
+                
+                self.tree_group.add(self.Map_trees[y][x])
 
-        if self.Map_trees[y][x].inFire:
 
-            for x2 in range(x-1,x+2):
-
-                for y2 in range(y-1,y+2):
-
-                    x3 = x2
-
-                    y3 = y2
-
-                    if x3 < 0:
-
-                        x3 += len(self.Map_trees[0])
-
-                    if x3 >= len(self.Map_trees[0]):
-
-                        x3 -= len(self.Map_trees[0])
-
-                    if y3 < 0:
-
-                        y3 += len(self.Map_trees)
-
-                    if y3 >= len(self.Map_trees):
-
-                        y3 -= len(self.Map_trees)
-
-                    if self.Map_trees[y3][x3] != None and self.Map_trees[y3][x3].alive:
-
-                        self.Map_trees[y3][x3].inFire = True
+        else:
+            
+            self.Map_trees[y][x].update_tree()
 
 
         self.tree_group.update()
@@ -230,7 +212,7 @@ class World:
 
                     self.screen.blit(self.Environment_images[0][0],(x*32,y*32))  
 
-            self.forestFire()
+            self.update_tree()
 
             self.grass_group.update()
 
@@ -253,5 +235,5 @@ if __name__ == "__main__":
         world.update_world()
     except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
         world.destroy()
-    clock.tick(20000)
+    clock.tick(20)
 
