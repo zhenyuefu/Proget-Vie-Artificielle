@@ -51,7 +51,7 @@ class World:
 
         self.p1 = 0.003
 
-        self.p2 = 0.001
+        self.p2 = 0.1
 
 
         # Type de montagnes
@@ -105,7 +105,7 @@ class World:
 
                 if self.Map_mountains[y][x]==0:
 
-                    if random() < 0.02 :
+                    if random() < 0.09 :
 
                         self.Map_trees[y][x]=1
 
@@ -151,7 +151,7 @@ class World:
         self.Environment_images.append([self.loadImage('dirt.png')]) 
 
         # 1 : trees
-        self.Environment_images.append([self.loadImage('PNG/tree.png'),self.loadImage('smokeOrange0.png'),self.loadImage('PNG/wooded_tree.png'),self.loadImage('PNG/big_tree.png')])
+        self.Environment_images.append([self.loadImage('PNG/tree.png'),self.loadImage('PNG/split/fire4.png'),self.loadImage('PNG/wooded_tree.png'),self.loadImage('PNG/big_tree.png')])
 
         # 2 : obstacles
         self.Environment_images.append([self.loadImage('PNG/rock1.png'),self.loadImage('PNG/rock2.png')]) 

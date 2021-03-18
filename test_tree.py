@@ -66,15 +66,23 @@ class World:
                     self.tree_group.add(self.Map_trees[y][x])
 
 
-        # for x in range(len(self.Map_grass[0])):
+        for x in range(len(self.Map_grass[0])):
 
-        #     for y in range(len(self.Map_grass)):
+            for y in range(len(self.Map_grass)):
 
-        #          if random.random() < 0.1:
+                 if random.random() < 0.1:
 
-        #              self.Map_grass[y][x] = Grass(self,x,y)
+                     self.Map_grass[y][x] = Grass(self,x,y)
 
-        #              self.grass_group.add(self.Map_grass[y][x])
+                     self.grass_group.add(self.Map_grass[y][x])
+
+        for tree in self.tree_group:
+
+            for grass in self.grass_group:
+
+                if tree.rect.colliderect(grass.rect):
+
+                    grass.kill()
 
 
 
@@ -213,16 +221,14 @@ class World:
 
             #lecture des événements Pygame 
             for event in pygame.event.get():  
-                if event.type == QUIT:  # evènement click sur fermeture de fenêtre
-                    self.destroy()      # dans ce cas on appelle le destructeur de la classe           
-
-            # update de l'environnement : 
+                if event.type == QUIT:  
+                    self.destroy()                
             
             for x in range (self.screenWidth // 32 + 1):
                 
                 for y in range(self.screenHeight // 32 + 1):
 
-                    self.screen.blit(self.Environment_images[0][0],(x*32,y*32))  # tuile "background" en position (x,y)
+                    self.screen.blit(self.Environment_images[0][0],(x*32,y*32))  
 
             self.forestFire()
 
@@ -238,7 +244,7 @@ class World:
         """
         print('Exit')
         pygame.quit() # ferme la fenêtre principale
-        exit()        # termine tous les process en cours
+        exit()       
 
 if __name__ == "__main__":
     world = World()
