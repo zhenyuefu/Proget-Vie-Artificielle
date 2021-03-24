@@ -67,75 +67,91 @@ class World:
 
         self.block_group = pygame.sprite.Group()
 
+        self.all_object_group = pygame.sprite.Group()
 
-        # Type de montagnes
+        self.object_placment()
 
+
+    # Type de montagnes
+
+    def create_mountain(self):
+            
         for i in range(3):
-
-            longueur, largeur = random.randint(10,11), random.randint(10,11)
-
+                
+            longueur, largeur = random.randint(5,8), random.randint(5,8)
+                
             self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
 
-        # Mountains random placement
+    # Mountains random placement
 
+    def object_placment(self):
+
+        self.create_mountain()
+            
         nbMountains = random.randint(2,4)
-
+            
         for i in range(nbMountains):
-
+                
             x_offset, y_offset = random.randint(0,len(self.Map_mountains[0])-1), random.randint(0,len(self.Map_mountains)-1)
-
+                
             M = self.MountainsType[random.randint(0,len(self.MountainsType)-1)]
-
+                
             for x in range(len(M[0])):
-
+                    
                 for y in range(len(M)):
-
+                        
                     x2, y2 = x + x_offset, y + y_offset
-
+                        
                     if x2 < 0:
-
+                            
                         x2 += len(self.Map_mountains[0])
-
+                            
                     if x2 >= len(self.Map_mountains[0]):
-
+                            
                         x2 -= len(self.Map_mountains[0])
-
+                            
                     if y2 < 0:
-
+                            
                         y2 += len(self.Map_mountains)
-
+                            
                     if y2 >= len(self.Map_mountains):
-
+                            
                         y2 -= len(self.Map_mountains)
-
+                            
                     self.Map_mountains[y2][x2]=M[y][x]
-
+                        
                     self.block_group.add(Block(self,x2,y2))
 
+                    self.all_object_group.add(Block(self,x2,y2))
 
+                        
         # Tree and obstacle random placment
 
         for x in range(len(self.Map_trees[0])):
-
+                
             for y in range(len(self.Map_trees)):
-
+                    
                 if self.Map_mountains[y][x]==0:
-                    
+                        
                     if random.random() < 0.1:
-                        
+                            
                         self.Map_trees[y][x] = Tree(self,x,y)
-                        
+                            
                         self.Trees.append((x, y))
-                        
+                            
                         self.tree_group.add(self.Map_trees[y][x])
-                        
+
+                        self.all_object_group.add(Tree(self,x,y))
+                            
                         continue
-                    
-                    if random.random() < 0.01:
                         
+                    if random.random() < 0.01:
+                            
                         self.obstacle_group.add(Obstacle(self,x,y))
 
+                        self.all_object_group.add(Obstacle(self,x,y))
+                            
                         continue
 
                     #self.Trees.append((x, y))
@@ -144,7 +160,7 @@ class World:
         # set frame block
 
         for block in self.block_group:
-
+                
             block.update_block()
 
 
@@ -155,27 +171,25 @@ class World:
 
             for y in range(len(self.Map_grass)):
 
-                 if random.random() < 0.1:
+                if random.random() < 0.1:
 
-                     self.Map_grass[y][x] = Grass(self,x,y)
+                    self.Map_grass[y][x] = Grass(self,x,y)
 
-                     self.grass_group.add(self.Map_grass[y][x])
+                    self.grass_group.add(self.Map_grass[y][x])
 
             
 
         # Collision between grass and tree / obstacle
 
-        for tree in self.tree_group:
-            
-            for obstacle in self.obstacle_group:
+        for object in self.all_object_group:
+
+            for grass in self.grass_group:
                 
-                for grass in self.grass_group:
+                if object.rect.colliderect(grass.rect):
                     
-                    if tree.rect.colliderect(grass.rect) or obstacle.rect.colliderect(grass.rect):
-                        
-                        grass.kill()
+                    grass.kill()
 
-
+                    
 
     def load_image(self, filename, tile_size_X, tile_size_Y):
 
@@ -294,11 +308,17 @@ class World:
 
         if self.Map_trees[y][x] == None:
             
-            if random.random() < 0.0001 :
+            if random.random() < 0.001 :
                 
                 self.Map_trees[y][x] = Tree(self,x,y)
                 
                 self.tree_group.add(self.Map_trees[y][x])
+
+                # for grass in self.grass_group:
+
+                #     if self.Map_trees[y][x].rect.colliderect(grass.rect):
+
+                #         grass.kill()
 
                 self.Map_trees[y][x].update_tree()
 
@@ -307,19 +327,6 @@ class World:
             
             self.Map_trees[y][x].update_tree()
 
-
-
-        # Collision between grass and tree / obstacle
-
-        # for tree in self.tree_group:
-            
-        #     for obstacle in self.obstacle_group:
-                
-        #         for grass in self.grass_group:
-                    
-        #             if tree.rect.colliderect(grass.rect) or obstacle.rect.colliderect(grass.rect): -----> Ralenti le programme
-                        
-        #                 grass.kill()
 
         # BLOCK
 

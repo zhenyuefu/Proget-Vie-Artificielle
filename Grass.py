@@ -17,3 +17,7 @@ class Grass(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
         self.rect.topleft = (self.x * self.world.size_grass_X, self.y * self.world.size_grass_Y)
+
+
+    #def grass_gen(self):
+
