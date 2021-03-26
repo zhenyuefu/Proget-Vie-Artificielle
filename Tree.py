@@ -27,9 +27,9 @@ class Tree(pygame.sprite.Sprite):
 
         self.step_state = 0
 
-        self.time_state = 5
+        self.time_state = 0 # nb d'itérations avant de passer à le prochain state
 
-        self.loop = 0
+        self.loop = 0 # itérateur boucle de feu
 
 
     def reset_step_state(self):
@@ -99,7 +99,7 @@ class Tree(pygame.sprite.Sprite):
 
     def tree_gen(self):
         
-        if not self.inFire:
+        if not self.inFire and self.state < len(self.world.Environment_images[1]) - 1:
             
             self.step_state += 1
             
@@ -107,11 +107,9 @@ class Tree(pygame.sprite.Sprite):
                 
                 self.reset_step_state()
                 
-                if self.state < len(self.world.Environment_images[1]) - 1: #and random.random() < 0.5:
-                    
-                    self.state += 1
-                    
-                    self.image = self.world.Environment_images[1][self.state]
+                self.state += 1
+                
+                self.image = self.world.Environment_images[1][self.state]
             
             
         
