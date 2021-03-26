@@ -2,6 +2,7 @@ import random
 
 import pygame  # PYGAME package
 
+
 class Tree(pygame.sprite.Sprite):
 
     def __init__(self,world,x,y):
@@ -24,16 +25,16 @@ class Tree(pygame.sprite.Sprite):
 
         self.stateF = -1
 
-        self.time = 0
+        self.step_state = 0
 
         self.time_state = 5
 
         self.loop = 0
 
 
-    def reset_time(self):
+    def reset_step_state(self):
 
-        self.time = 0
+        self.step_state = 0
         
 
     def in_Fire(self):
@@ -100,11 +101,11 @@ class Tree(pygame.sprite.Sprite):
         
         if not self.inFire:
             
-            self.time += 1
+            self.step_state += 1
             
-            if self.time >= self.time_state:
+            if self.step_state >= self.time_state:
                 
-                self.reset_time()
+                self.reset_step_state()
                 
                 if self.state < len(self.world.Environment_images[1]) - 1: #and random.random() < 0.5:
                     

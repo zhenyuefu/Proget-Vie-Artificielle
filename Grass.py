@@ -2,6 +2,7 @@ import random
 
 import pygame  # PYGAME package
 
+
 class Grass(pygame.sprite.Sprite):
 
     def __init__(self,world,x,y):
@@ -12,12 +13,40 @@ class Grass(pygame.sprite.Sprite):
 
         self.x, self.y = x, y
 
-        self.image = self.world.Environment_images[2][0]
+        self.state = 0
+
+        self.image = self.world.Environment_images[2][self.state]
 
         self.rect = self.image.get_rect()
 
         self.rect.topleft = (self.x * self.world.size_grass_X, self.y * self.world.size_grass_Y)
 
+        self.step_state = 0
 
-    #def grass_gen(self):
+        self.time_state = 5
+
+    
+    def reset_step_state(self):
+
+        self.step_state = 0
+
+
+    def grass_gen(self):
+
+        self.step_state += 1
+
+        if self.step_state >= self.time_state:
+            
+            self.reset_step_state()
+            
+            if self.state < len(self.world.Environment_images[2]) - 1:
+                
+                self.state += 1
+                
+                self.image = self.world.Environment_images[2][self.state]
+
+
+    def update_grass(self):
+
+        self.grass_gen()
 

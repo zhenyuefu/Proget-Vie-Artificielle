@@ -24,6 +24,8 @@ class World:
 
         self.size_tree_X, self.size_tree_Y = 36, 32
 
+        self.size_bg_X, self.size_bg_Y = self.size_tree_X, self.size_tree_Y
+
         self.size_grass_X, self.size_grass_Y = self.size_tree_X // 2, self.size_tree_Y // 2
 
         self.size_obstacle_X, self.size_obstacle_Y = self.size_tree_X, self.size_tree_Y
@@ -47,7 +49,11 @@ class World:
         )
         pygame.display.set_caption("WORLD TEST")
 
+        self.saison = 1
+
         self.Environment_images = []
+
+        self.Block_images = []
 
         self.MountainsType=[]
 
@@ -55,7 +61,11 @@ class World:
 
         self.Trees = []
 
-        self.Tmp = []
+        self.Grass = []
+
+        self.Tmp1 = []
+
+        self.Tmp2 = []
 
         self.load_all_image()
 
@@ -175,6 +185,8 @@ class World:
 
                     self.Map_grass[y][x] = Grass(self,x,y)
 
+                    self.Grass.append((x,y))
+
                     self.grass_group.add(self.Map_grass[y][x])
 
             
@@ -205,7 +217,20 @@ class World:
 
         # 0 : backgrounds
 
-        self.Environment_images.append([self.load_image("dirt.png", 32, 32)])
+        self.Environment_images.append(
+            [
+                self.load_image("PNG/background/bg1.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg2.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg3.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg4.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg5.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg6.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg7.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg8.png", self.size_bg_X, self.size_bg_Y),
+                
+            ]
+            
+        )
 
         # 1 : trees
 
@@ -235,9 +260,6 @@ class World:
 
         self.Fire_images.append(
             [
-                # self.load_image("PNG/split/fire1.png", 10, 10),
-                # self.load_image("PNG/split/fire2.png", 10, 10),
-                # self.load_image("PNG/split/fire3.png", 10, 10),
                 self.load_image("PNG/split/fire4.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire5.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire6.png", self.size_tree_X, self.size_tree_Y),
@@ -255,10 +277,11 @@ class World:
         self.Environment_images.append(
             
             [
-                self.load_image("PNG/split/grass.png", self.size_grass_X, self.size_grass_Y),
                 self.load_image("PNG/split/grass_repousse.png", self.size_grass_X, self.size_grass_Y),
+                self.load_image("PNG/split/grass.png", self.size_grass_X, self.size_grass_Y),
+                
             ]
-
+            
         )
 
         # 4 : obstacle
@@ -273,21 +296,39 @@ class World:
 
         # 5 : Block
 
-        self.Environment_images.append(
+        self.Block_images.append(
             [
-                self.load_image("PNG/green_inside.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_SW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_S.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_N.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_E.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_W.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_corner_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_corner_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_corner_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/green_corner_SW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_inside.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_SW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_NW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_SE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_NE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_S.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_N.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_E.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_W.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_corner_NE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_corner_NW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_corner_SE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/green_corner_SW.png", self.size_block_X, self.size_block_Y),
+            ],
+        )
+
+        self.Block_images.append(
+            [
+                self.load_image("PNG/Block/ice_inside.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_SW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_NW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_SE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_NE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_S.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_N.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_E.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_W.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_NE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_NW.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_SE.png", self.size_block_X, self.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_SW.png", self.size_block_X, self.size_block_Y),
             ]
         )
 
@@ -297,14 +338,14 @@ class World:
 
         # TREE
 
-        if not self.Tmp:
+        if not self.Tmp1:
             
-            self.Tmp = self.Trees.copy()
+            self.Tmp1 = self.Trees.copy()
 
 
-        i = random.randint(0,len(self.Tmp)-1)
+        i = random.randint(0,len(self.Tmp1)-1)
             
-        x, y = self.Tmp[i]
+        x, y = self.Tmp1[i]
 
         if self.Map_trees[y][x] == None:
             
@@ -313,12 +354,6 @@ class World:
                 self.Map_trees[y][x] = Tree(self,x,y)
                 
                 self.tree_group.add(self.Map_trees[y][x])
-
-                # for grass in self.grass_group:
-
-                #     if self.Map_trees[y][x].rect.colliderect(grass.rect):
-
-                #         grass.kill()
 
                 self.Map_trees[y][x].update_tree()
 
@@ -330,7 +365,7 @@ class World:
 
         # BLOCK
 
-        self.block_group.update()
+        #self.block_group.update()
         
         self.block_group.draw(self.screen)
 
@@ -340,13 +375,25 @@ class World:
             
         self.tree_group.draw(self.screen)
 
-        del self.Tmp[i]
+        del self.Tmp1[i]
 
         # GRASS
+
+        if not self.Tmp2:
+            
+            self.Tmp2 = self.Grass.copy()
+
+        i = random.randint(0,len(self.Tmp2)-1)
+            
+        x, y = self.Tmp2[i]
+
+        self.Map_grass[y][x].update_grass()
 
         self.grass_group.update()
 
         self.grass_group.draw(self.screen)
+
+        del self.Tmp2[i]
 
         # OBSTACLE
         
@@ -365,24 +412,20 @@ class World:
 
         """
 
-        
-
-        while True:
-
-            #lecture des événements Pygame 
-            for event in pygame.event.get():  
-                if event.type == QUIT:  
-                    self.destroy()                
+        #lecture des événements Pygame 
+        for event in pygame.event.get():  
+            if event.type == QUIT:  
+                self.destroy()                
             
-            for x in range (self.screenWidth // 32 + 1):
+        for x in range (self.screenWidth // self.size_bg_X + 1):
                 
-                for y in range(self.screenHeight // 32 + 1):
+            for y in range(self.screenHeight // self.size_bg_Y + 1):
 
-                    self.screen.blit(self.Environment_images[0][0],(x*32,y*32))  
+                self.screen.blit(self.Environment_images[0][7],(x*self.size_bg_X,y*self.size_bg_Y))  
 
-            self.update_object()
+        self.update_object()
             
-            pygame.display.update()
+        pygame.display.update()
 
 
 
@@ -397,9 +440,10 @@ class World:
 if __name__ == "__main__":
     world = World()
     clock = pygame.time.Clock()
-    try:
-        world.update_world()
-    except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
-        world.destroy()
-    clock.tick(20)
+    while True:
+        try:
+            world.update_world()
+        except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
+            world.destroy()
+        clock.tick(0)
 
