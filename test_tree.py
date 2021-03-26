@@ -144,7 +144,7 @@ class World:
                     
                 if self.Map_mountains[y][x]==0:
                         
-                    if random.random() < 0.1:
+                    if random.random() < 0.05:
                             
                         self.Map_trees[y][x] = Tree(self,x,y)
                             
@@ -215,21 +215,21 @@ class World:
 
     def load_all_image(self):
 
-        # 0 : backgrounds
+        # 0 : backgrounds [0][]
 
         self.Environment_images.append(
             [
+                self.load_image("PNG/background/bg1.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg2.png", self.size_bg_X, self.size_bg_Y),
+                self.load_image("PNG/background/bg3.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg4.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg5.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg6.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg7.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg8.png", self.size_bg_X, self.size_bg_Y),
                 
             ]
             
         )
 
-        # 1 : trees
+        # 1 : trees [1][]
 
         self.Environment_images.append(
             [
@@ -253,7 +253,7 @@ class World:
             ]
         )
 
-        # 2 : fire
+        # 2 : fire =============== [0][]
 
         self.Fire_images.append(
             [
@@ -269,7 +269,7 @@ class World:
         
         )
 
-        # 3 : grass
+        # 3 : grass =============== [2][]
 
         self.Environment_images.append(
             
@@ -281,7 +281,7 @@ class World:
             
         )
 
-        # 4 : obstacle
+        # 4 : obstacle =============== [3][]
 
         self.Environment_images.append(
             
@@ -291,7 +291,7 @@ class World:
 
         )
 
-        # 5 : Block
+        # 5 : Block =============== [0][]
 
         self.Block_images.append(
             [
@@ -310,6 +310,8 @@ class World:
                 self.load_image("PNG/Block/green_corner_SW.png", self.size_block_X, self.size_block_Y),
             ],
         )
+
+        # Block =============== [1][]    
 
         self.Block_images.append(
             [
@@ -418,7 +420,7 @@ class World:
                 
             for y in range(self.screenHeight // self.size_bg_Y + 1):
 
-                self.screen.blit(self.Environment_images[0][7],(x*self.size_bg_X,y*self.size_bg_Y))  
+                self.screen.blit(self.Environment_images[0][2],(x*self.size_bg_X,y*self.size_bg_Y))  
 
         self.update_object()
             
