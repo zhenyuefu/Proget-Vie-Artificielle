@@ -49,7 +49,7 @@ class World:
         )
         pygame.display.set_caption("WORLD TEST")
 
-        self.saison = 1
+        self.saison = 0
 
         self.Environment_images = []
 
@@ -334,6 +334,12 @@ class World:
 
 
     def update_object(self):
+        
+        # BLOCK
+
+        #self.block_group.update()
+        
+        self.block_group.draw(self.screen)
 
         # TREE
 
@@ -361,14 +367,6 @@ class World:
             
             self.Map_trees[y][x].update_tree()
 
-
-        # BLOCK
-
-        #self.block_group.update()
-        
-        self.block_group.draw(self.screen)
-
-        # TREE
 
         self.tree_group.update()
             
@@ -420,7 +418,7 @@ class World:
                 
             for y in range(self.screenHeight // self.size_bg_Y + 1):
 
-                self.screen.blit(self.Environment_images[0][2],(x*self.size_bg_X,y*self.size_bg_Y))  
+                self.screen.blit(self.Environment_images[0][1],(x*self.size_bg_X,y*self.size_bg_Y))  
 
         self.update_object()
             
@@ -438,11 +436,12 @@ class World:
 
 if __name__ == "__main__":
     world = World()
-    clock = pygame.time.Clock()
+    #clock = pygame.time.Clock()
     while True:
         try:
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
-        clock.tick(0)
+        pygame.time.delay(10)
+        #clock.tick(0)
 
