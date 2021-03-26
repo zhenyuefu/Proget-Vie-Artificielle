@@ -130,6 +130,17 @@ class Weather:
 
             return
 
+
+    def get_temperature(self):
+
+        return self.temperature
+
+
+    def get_season(self):
+
+        return self.season
+        
+
     def update_weather(self):
 
         self.update_season()
