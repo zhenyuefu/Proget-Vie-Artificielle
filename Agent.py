@@ -7,8 +7,8 @@ class BasicAgent(pygame.sprite.Sprite):
     def __init__(self, world, img, init_pos):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
-        self.world_size_x = self.world.size_factor_X * self.world.size_tile_X
-        self.world_size_y = self.world.size_factor_Y * self.world.size_tile_Y
+        self.world_size_x = self.world.screenWidth
+        self.world_size_y = self.world.screenHeight
         self.image = img
         self.rect = self.image.get_rect()
         self.rect.topleft = init_pos
@@ -39,8 +39,18 @@ class BasicAgent(pygame.sprite.Sprite):
         self.x = self.rect.x // self.world.size_tile_X
         self.y = self.rect.y // self.world.size_tile_Y
 
+    def turn(self):
+        self.direction += 2
+        if self.direction>3:
+            self.direction-=4
+        if self.direction<0:
+            self.direction+=4
+
     def move(self):
         self.frame_change_counter += 1
+        obstacle_list = pygame.sprite.spritecollide(self, self.world.all_object_group, False)
+        if obstacle_list:
+            self.turn()
         if self.frame_change_counter > 3:
             self.current_frame += 1
             if self.current_frame > 2:
@@ -126,6 +136,10 @@ class Sheep(BasicAgent):
                 self.set_direction(3)
             else:
                 self.set_direction(1)
+        for grass in self.world.grass_group:
+            if pygame.sprite.collide_rect(self, grass):
+                grass.kill()
+                self.reset_mange()
 
 
 class Wolf(BasicAgent):

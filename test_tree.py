@@ -3,10 +3,13 @@ from sys import exit  # exit script
 import pygame  # PYGAME package
 from pygame.locals import *  # PYGAME constant & functions
 import random
+
+import Agent
 from Tree import *
 from Grass import *
 from Obstacle import *
 from Block import *
+
 
 class World:
     """
@@ -22,9 +25,12 @@ class World:
 
         self.screenWidth, self.screenHeight = screenWidth, screenHeight
 
+        self.size_tile_X, self.size_tile_Y = 32,32
+
         self.size_tree_X, self.size_tree_Y = 36, 32
 
         self.size_bg_X, self.size_bg_Y = self.size_tree_X, self.size_tree_Y
+
 
         self.size_grass_X, self.size_grass_Y = self.size_tree_X // 2, self.size_tree_Y // 2
 
@@ -32,11 +38,14 @@ class World:
 
         self.size_block_X, self.size_block_Y = self.size_tree_X, self.size_tree_Y
 
-        self.Map_trees = [x[:] for x in [[None] * (self.screenWidth // self.size_tree_X)] * (self.screenHeight // self.size_tree_Y)]
+        self.Map_trees = [x[:] for x in
+                          [[None] * (self.screenWidth // self.size_tree_X)] * (self.screenHeight // self.size_tree_Y)]
 
-        self.Map_grass = [x[:] for x in [[None] * (self.screenWidth // self.size_grass_X)] * (self.screenHeight // self.size_grass_Y)]
+        self.Map_grass = [x[:] for x in
+                          [[None] * (self.screenWidth // self.size_grass_X)] * (self.screenHeight // self.size_grass_Y)]
 
-        self.Map_mountains=[x[:] for x in [[0] * (self.screenWidth // self.size_block_X)] * (self.screenHeight // self.size_block_Y)]
+        self.Map_mountains = [x[:] for x in [[0] * (self.screenWidth // self.size_block_X)] * (
+                self.screenHeight // self.size_block_Y)]
 
         pygame.init()
 
@@ -53,9 +62,12 @@ class World:
 
         self.Environment_images = []
 
+        self.sheep_images = []
+        self.wolf_images = []
+
         self.Block_images = []
 
-        self.MountainsType=[]
+        self.MountainsType = []
 
         self.Fire_images = []
 
@@ -77,131 +89,142 @@ class World:
 
         self.block_group = pygame.sprite.Group()
 
+        self.wolf_group = pygame.sprite.Group()
+        self.sheep_group = pygame.sprite.Group()
+
         self.all_object_group = pygame.sprite.Group()
 
         self.object_placment()
 
-
     # Type de montagnes
 
     def create_mountain(self):
-            
-        for i in range(3):
-                
-            longueur, largeur = random.randint(5,8), random.randint(5,8)
-                
-            self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
+        for i in range(3):
+            longueur, largeur = random.randint(5, 8), random.randint(5, 8)
+
+            self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
     # Mountains random placement
 
     def object_placment(self):
 
         self.create_mountain()
-            
-        nbMountains = random.randint(2,4)
-            
+
+        nbMountains = random.randint(2, 4)
+
         for i in range(nbMountains):
-                
-            x_offset, y_offset = random.randint(0,len(self.Map_mountains[0])-1), random.randint(0,len(self.Map_mountains)-1)
-                
-            M = self.MountainsType[random.randint(0,len(self.MountainsType)-1)]
-                
+
+            x_offset, y_offset = random.randint(0, len(self.Map_mountains[0]) - 1), random.randint(0, len(
+                self.Map_mountains) - 1)
+
+            M = self.MountainsType[random.randint(0, len(self.MountainsType) - 1)]
+
             for x in range(len(M[0])):
-                    
+
                 for y in range(len(M)):
-                        
+
                     x2, y2 = x + x_offset, y + y_offset
-                        
+
                     if x2 < 0:
-                            
                         x2 += len(self.Map_mountains[0])
-                            
+
                     if x2 >= len(self.Map_mountains[0]):
-                            
                         x2 -= len(self.Map_mountains[0])
-                            
+
                     if y2 < 0:
-                            
                         y2 += len(self.Map_mountains)
-                            
+
                     if y2 >= len(self.Map_mountains):
-                            
                         y2 -= len(self.Map_mountains)
-                            
-                    self.Map_mountains[y2][x2]=M[y][x]
-                        
-                    self.block_group.add(Block(self,x2,y2))
 
-                    self.all_object_group.add(Block(self,x2,y2))
+                    self.Map_mountains[y2][x2] = M[y][x]
 
-                        
+                    block = Block(self, x2,y2)
+
+                    self.block_group.add(block)
+
+                    self.all_object_group.add(block)
+
         # Tree and obstacle random placment
 
         for x in range(len(self.Map_trees[0])):
-                
+
             for y in range(len(self.Map_trees)):
-                    
-                if self.Map_mountains[y][x]==0:
-                        
+
+                if self.Map_mountains[y][x] == 0:
+
                     if random.random() < 0.05:
-                            
-                        self.Map_trees[y][x] = Tree(self,x,y)
-                            
+                        self.Map_trees[y][x] = Tree(self, x, y)
+
                         self.Trees.append((x, y))
-                            
+
                         self.tree_group.add(self.Map_trees[y][x])
 
-                        self.all_object_group.add(Tree(self,x,y))
-                            
+                        self.all_object_group.add(self.Map_trees[y][x])
+
                         continue
-                        
+
                     if random.random() < 0.01:
-                            
-                        self.obstacle_group.add(Obstacle(self,x,y))
 
-                        self.all_object_group.add(Obstacle(self,x,y))
-                            
+                        obstacle = Obstacle(self,x,y)
+
+                        self.obstacle_group.add(obstacle)
+
+                        self.all_object_group.add(obstacle)
+
                         continue
 
-                    #self.Trees.append((x, y))
-
+                    # self.Trees.append((x, y))
 
         # set frame block
 
         for block in self.block_group:
-                
             block.update_block()
 
-
         # Grass random placment
-
 
         for x in range(len(self.Map_grass[0])):
 
             for y in range(len(self.Map_grass)):
 
                 if random.random() < 0.1:
+                    self.Map_grass[y][x] = Grass(self, x, y)
 
-                    self.Map_grass[y][x] = Grass(self,x,y)
-
-                    self.Grass.append((x,y))
+                    self.Grass.append((x, y))
 
                     self.grass_group.add(self.Map_grass[y][x])
-
-            
 
         # Collision between grass and tree / obstacle
 
         for object in self.all_object_group:
 
             for grass in self.grass_group:
-                
+
                 if object.rect.colliderect(grass.rect):
-                    
                     grass.kill()
 
-                    
+        # Générer des agents
+        for i in range(10):
+            sheep = Agent.Sheep(self, (
+                random.randint(0, self.screenWidth // self.size_tile_X) * self.size_tile_X,
+                random.randint(0, self.screenHeight // self.size_tile_Y) * self.size_tile_Y))
+            collide = pygame.sprite.spritecollideany(sheep,self.all_object_group)
+            if collide:
+                sheep.kill()
+                i-=1
+                continue
+            self.sheep_group.add(sheep)
+        for i in range(10):
+            wolf = Agent.Wolf(self, (
+                random.randint(0, self.screenWidth // self.size_tile_X) * self.size_tile_X,
+                random.randint(0, self.screenHeight // self.size_tile_Y) * self.size_tile_Y))
+            collide = pygame.sprite.spritecollideany(wolf, self.all_object_group)
+            if collide:
+                wolf.kill()
+                i -= 1
+                continue
+            self.wolf_group.add(wolf)
 
     def load_image(self, filename, tile_size_X, tile_size_Y):
 
@@ -224,9 +247,9 @@ class World:
                 self.load_image("PNG/background/bg3.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg4.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg5.png", self.size_bg_X, self.size_bg_Y),
-                
+
             ]
-            
+
         )
 
         # 1 : trees [1][]
@@ -266,25 +289,25 @@ class World:
                 self.load_image("PNG/split/cendre2.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/cendre3.png", self.size_tree_X, self.size_tree_Y),
             ]
-        
+
         )
 
         # 3 : grass =============== [2][]
 
         self.Environment_images.append(
-            
+
             [
                 self.load_image("PNG/split/grass_repousse.png", self.size_grass_X, self.size_grass_Y),
                 self.load_image("PNG/split/grass.png", self.size_grass_X, self.size_grass_Y),
-                
+
             ]
-            
+
         )
 
         # 4 : obstacle =============== [3][]
 
         self.Environment_images.append(
-            
+
             [
                 self.load_image("PNG/split/rock.png", self.size_obstacle_X, self.size_obstacle_Y),
             ]
@@ -331,7 +354,59 @@ class World:
             ]
         )
 
+        # sheep_images[0] -> up
+        # sheep_images[1] -> right
+        # sheep_images[2] -> down
+        # sheep_images[3] -> left
+        self.sheep_images = [
+            [
+                self.load_image("PNG/Agent/sheep/sheep_back_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_back_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_back_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/sheep/sheep_right_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_right_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_right_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/sheep/sheep_front_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_front_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_front_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/sheep/sheep_left_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/sheep/sheep_left_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/Sheep/sheep_left_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+        ]
 
+        # wolf_images[0] -> up
+        # wolf_images[1] -> right
+        # wolf_images[2] -> down
+        # wolf_images[3] -> left
+        self.wolf_images = [
+            [
+                self.load_image("PNG/Agent/wolf/wolf_back_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_back_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_back_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_right_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_right_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_right_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_front_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_front_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_front_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+            [
+                self.load_image("PNG/Agent/wolf/wolf_left_1.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_left_2.png", self.size_tile_X, self.size_tile_Y),
+                self.load_image("PNG/Agent/wolf/wolf_left_3.png", self.size_tile_X, self.size_tile_Y),
+            ],
+        ]
 
     def update_object(self):
         
@@ -344,32 +419,36 @@ class World:
         # TREE
 
         if not self.Tmp1:
-            
             self.Tmp1 = self.Trees.copy()
 
+        i = random.randint(0, len(self.Tmp1) - 1)
 
-        i = random.randint(0,len(self.Tmp1)-1)
-            
         x, y = self.Tmp1[i]
 
         if self.Map_trees[y][x] == None:
-            
-            if random.random() < 0.001 :
-                
-                self.Map_trees[y][x] = Tree(self,x,y)
-                
+
+            if random.random() < 0.001:
+                self.Map_trees[y][x] = Tree(self, x, y)
+
                 self.tree_group.add(self.Map_trees[y][x])
 
                 self.Map_trees[y][x].update_tree()
 
 
         else:
-            
+
             self.Map_trees[y][x].update_tree()
 
+        # BLOCK
+
+        # self.block_group.update()
+
+        self.block_group.draw(self.screen)
+
+        # TREE
 
         self.tree_group.update()
-            
+
         self.tree_group.draw(self.screen)
 
         del self.Tmp1[i]
@@ -377,11 +456,10 @@ class World:
         # GRASS
 
         if not self.Tmp2:
-            
             self.Tmp2 = self.Grass.copy()
 
-        i = random.randint(0,len(self.Tmp2)-1)
-            
+        i = random.randint(0, len(self.Tmp2) - 1)
+
         x, y = self.Tmp2[i]
 
         self.Map_grass[y][x].update_grass()
@@ -392,16 +470,17 @@ class World:
 
         del self.Tmp2[i]
 
+        # agents
+        self.wolf_group.update()
+        self.sheep_group.update()
+        self.wolf_group.draw(self.screen)
+        self.sheep_group.draw(self.screen)
+
         # OBSTACLE
-        
+
         self.obstacle_group.update()
-        
+
         self.obstacle_group.draw(self.screen)
-
-        
-
-        
-   
 
     def update_world(self):
         """
@@ -409,30 +488,32 @@ class World:
 
         """
 
-        #lecture des événements Pygame 
-        for event in pygame.event.get():  
-            if event.type == QUIT:  
-                self.destroy()                
-            
-        for x in range (self.screenWidth // self.size_bg_X + 1):
-                
-            for y in range(self.screenHeight // self.size_bg_Y + 1):
+        # lecture des événements Pygame
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                self.destroy()
 
+<<<<<<< HEAD
                 self.screen.blit(self.Environment_images[0][1],(x*self.size_bg_X,y*self.size_bg_Y))  
+=======
+        for x in range(self.screenWidth // self.size_bg_X + 1):
+>>>>>>> 816fa0dbe858fd3fb995ca84f2cc1de476aa5c60
+
+            for y in range(self.screenHeight // self.size_bg_Y + 1):
+                self.screen.blit(self.Environment_images[0][2], (x * self.size_bg_X, y * self.size_bg_Y))
 
         self.update_object()
-            
+
         pygame.display.update()
-
-
 
     def destroy(self):
         """
         destructeur de la classe
         """
         print('Exit')
-        pygame.quit() # ferme la fenêtre principale
-        exit()       
+        pygame.quit()  # ferme la fenêtre principale
+        exit()
+
 
 if __name__ == "__main__":
     world = World()
@@ -442,6 +523,10 @@ if __name__ == "__main__":
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
+<<<<<<< HEAD
         pygame.time.delay(10)
         #clock.tick(0)
 
+=======
+        clock.tick(30)
+>>>>>>> 816fa0dbe858fd3fb995ca84f2cc1de476aa5c60
