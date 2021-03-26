@@ -219,9 +219,6 @@ class World:
 
         self.Environment_images.append(
             [
-                self.load_image("PNG/background/bg1.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg2.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg3.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg4.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg5.png", self.size_bg_X, self.size_bg_Y),
                 self.load_image("PNG/background/bg6.png", self.size_bg_X, self.size_bg_Y),
