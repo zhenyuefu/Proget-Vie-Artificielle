@@ -23,7 +23,7 @@ class Grass(pygame.sprite.Sprite):
 
         self.step_state = 0
 
-        self.time_state = 5
+        self.time_state = 0
 
     
     def reset_step_state(self):
@@ -33,13 +33,13 @@ class Grass(pygame.sprite.Sprite):
 
     def grass_gen(self):
 
-        self.step_state += 1
-
-        if self.step_state >= self.time_state:
+        if self.state < len(self.world.Environment_images[2]) - 1:
             
-            self.reset_step_state()
+            self.step_state += 1
             
-            if self.state < len(self.world.Environment_images[2]) - 1:
+            if self.step_state >= self.time_state:
+                
+                self.reset_step_state()
                 
                 self.state += 1
                 
