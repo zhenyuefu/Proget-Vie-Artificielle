@@ -139,6 +139,7 @@ class Sheep(BasicAgent):
         for grass in self.world.grass_group:
             if pygame.sprite.collide_rect(self, grass):
                 grass.kill()
+                self.world.Map_grass[grass.y][grass.x] = None
                 self.reset_mange()
 
 
