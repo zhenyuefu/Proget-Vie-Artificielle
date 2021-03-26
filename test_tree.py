@@ -514,13 +514,10 @@ class World:
 
 if __name__ == "__main__":
     world = World()
-    #clock = pygame.time.Clock()
+    clock = pygame.time.Clock()
     while True:
         try:
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
-        pygame.time.delay(10)
-        #clock.tick(0)
-
         clock.tick(30)
