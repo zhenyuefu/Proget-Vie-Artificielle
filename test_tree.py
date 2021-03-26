@@ -155,6 +155,7 @@ class World:
                 if self.Map_mountains[y][x] == 0:
 
                     if random.random() < 0.05:
+
                         self.Map_trees[y][x] = Tree(self, x, y)
 
                         self.Trees.append((x, y))
@@ -175,7 +176,7 @@ class World:
 
                         continue
 
-                    # self.Trees.append((x, y))
+                    #self.Trees.append((x, y))
 
         # set frame block
 
@@ -188,21 +189,17 @@ class World:
 
             for y in range(len(self.Map_grass)):
 
-                if random.random() < 0.1:
-                    self.Map_grass[y][x] = Grass(self, x, y)
+                grass = Grass(self, x, y)
 
-                    self.Grass.append((x, y))
-
-                    self.grass_group.add(self.Map_grass[y][x])
-
-        # Collision between grass and tree / obstacle
-
-        for object in self.all_object_group:
-
-            for grass in self.grass_group:
-
-                if object.rect.colliderect(grass.rect):
-                    grass.kill()
+                if not pygame.sprite.spritecollideany(grass,self.all_object_group):
+                    
+                    if random.random() < 0.1:
+                        
+                        self.Map_grass[y][x] = grass
+                        
+                        self.Grass.append((x, y))
+                        
+                        self.grass_group.add(self.Map_grass[y][x])
 
         # Générer des agents
         for i in range(10):
@@ -215,7 +212,7 @@ class World:
                 i-=1
                 continue
             self.sheep_group.add(sheep)
-        for i in range(10):
+        for i in range(5):
             wolf = Agent.Wolf(self, (
                 random.randint(0, self.screenWidth // self.size_tile_X) * self.size_tile_X,
                 random.randint(0, self.screenHeight // self.size_tile_Y) * self.size_tile_Y))
@@ -285,9 +282,10 @@ class World:
                 self.load_image("PNG/split/fire6.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire7.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/fire8.png", self.size_tree_X, self.size_tree_Y),
+                self.load_image("PNG/split/cendre3.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/cendre1.png", self.size_tree_X, self.size_tree_Y),
                 self.load_image("PNG/split/cendre2.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/cendre3.png", self.size_tree_X, self.size_tree_Y),
+                
             ]
 
         )
@@ -316,7 +314,7 @@ class World:
 
         # 5 : Block =============== [0][]
 
-        self.Block_images.append(
+        self.Block_images = [
             [
                 self.load_image("PNG/Block/green_inside.png", self.size_block_X, self.size_block_Y),
                 self.load_image("PNG/Block/green_SW.png", self.size_block_X, self.size_block_Y),
@@ -332,11 +330,6 @@ class World:
                 self.load_image("PNG/Block/green_corner_SE.png", self.size_block_X, self.size_block_Y),
                 self.load_image("PNG/Block/green_corner_SW.png", self.size_block_X, self.size_block_Y),
             ],
-        )
-
-        # Block =============== [1][]    
-
-        self.Block_images.append(
             [
                 self.load_image("PNG/Block/ice_inside.png", self.size_block_X, self.size_block_Y),
                 self.load_image("PNG/Block/ice_SW.png", self.size_block_X, self.size_block_Y),
@@ -352,7 +345,7 @@ class World:
                 self.load_image("PNG/Block/ice_corner_SE.png", self.size_block_X, self.size_block_Y),
                 self.load_image("PNG/Block/ice_corner_SW.png", self.size_block_X, self.size_block_Y),
             ]
-        )
+        ]
 
         # sheep_images[0] -> up
         # sheep_images[1] -> right
@@ -411,14 +404,13 @@ class World:
     def update_object(self):
         
         # BLOCK
-
-        #self.block_group.update()
         
         self.block_group.draw(self.screen)
 
         # TREE
 
         if not self.Tmp1:
+
             self.Tmp1 = self.Trees.copy()
 
         i = random.randint(0, len(self.Tmp1) - 1)
@@ -428,24 +420,17 @@ class World:
         if self.Map_trees[y][x] == None:
 
             if random.random() < 0.001:
-                self.Map_trees[y][x] = Tree(self, x, y)
+
+                tree = Tree(self, x, y)
+
+                self.Map_trees[y][x] = tree
 
                 self.tree_group.add(self.Map_trees[y][x])
 
                 self.Map_trees[y][x].update_tree()
-
-
         else:
 
             self.Map_trees[y][x].update_tree()
-
-        # BLOCK
-
-        # self.block_group.update()
-
-        self.block_group.draw(self.screen)
-
-        # TREE
 
         self.tree_group.update()
 
@@ -456,13 +441,28 @@ class World:
         # GRASS
 
         if not self.Tmp2:
+
             self.Tmp2 = self.Grass.copy()
 
         i = random.randint(0, len(self.Tmp2) - 1)
 
         x, y = self.Tmp2[i]
 
-        self.Map_grass[y][x].update_grass()
+        if self.Map_grass[y][x] == None:
+
+            if random.random() < 0.001:
+
+                grass = Grass(self, x, y)
+
+                self.Map_grass[y][x] = grass
+
+                self.grass_group.add(self.Map_grass[y][x])
+
+                self.Map_grass[y][x].update_grass()
+
+        else:
+            
+            self.Map_grass[y][x].update_grass()
 
         self.grass_group.update()
 
@@ -478,7 +478,7 @@ class World:
 
         # OBSTACLE
 
-        self.obstacle_group.update()
+        #self.obstacle_group.update()
 
         self.obstacle_group.draw(self.screen)
 
@@ -492,11 +492,11 @@ class World:
         for event in pygame.event.get():
             if event.type == QUIT:
                 self.destroy()
-
-                self.screen.blit(self.Environment_images[0][1],(x*self.size_bg_X,y*self.size_bg_Y))  
+ 
         for x in range(self.screenWidth // self.size_bg_X + 1):
 
             for y in range(self.screenHeight // self.size_bg_Y + 1):
+                
                 self.screen.blit(self.Environment_images[0][2], (x * self.size_bg_X, y * self.size_bg_Y))
 
         self.update_object()
