@@ -493,11 +493,8 @@ class World:
             if event.type == QUIT:
                 self.destroy()
 
-<<<<<<< HEAD
                 self.screen.blit(self.Environment_images[0][1],(x*self.size_bg_X,y*self.size_bg_Y))  
-=======
         for x in range(self.screenWidth // self.size_bg_X + 1):
->>>>>>> 816fa0dbe858fd3fb995ca84f2cc1de476aa5c60
 
             for y in range(self.screenHeight // self.size_bg_Y + 1):
                 self.screen.blit(self.Environment_images[0][2], (x * self.size_bg_X, y * self.size_bg_Y))
@@ -523,10 +520,7 @@ if __name__ == "__main__":
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
             world.destroy()
-<<<<<<< HEAD
         pygame.time.delay(10)
         #clock.tick(0)
 
-=======
         clock.tick(30)
->>>>>>> 816fa0dbe858fd3fb995ca84f2cc1de476aa5c60
