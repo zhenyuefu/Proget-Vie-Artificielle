@@ -239,6 +239,10 @@ class World:
     def update_object(self):
         
         # BLOCK
+
+        for block in self.block_group:
+
+            block.update_block()
         
         self.block_group.draw(self.screen)
 
