@@ -10,6 +10,7 @@ from Grass import *
 from Obstacle import *
 from Block import *
 from Image import *
+from Weather import *
 
 
 class World:
@@ -59,7 +60,7 @@ class World:
         )
         pygame.display.set_caption("WORLD TEST")
 
-        self.saison = 0
+        self.weather = Weather()
 
         self.Environment_images = []
 
@@ -94,6 +95,7 @@ class World:
         self.block_group = pygame.sprite.Group()
 
         self.wolf_group = pygame.sprite.Group()
+
         self.sheep_group = pygame.sprite.Group()
 
         self.all_object_group = pygame.sprite.Group()
@@ -105,6 +107,7 @@ class World:
     def create_mountain(self):
 
         for i in range(3):
+
             longueur, largeur = random.randint(5, 8), random.randint(5, 8)
 
             self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
@@ -119,8 +122,7 @@ class World:
 
         for i in range(nbMountains):
 
-            x_offset, y_offset = random.randint(0, len(self.Map_mountains[0]) - 1), random.randint(0, len(
-                self.Map_mountains) - 1)
+            x_offset, y_offset = random.randint(0, len(self.Map_mountains[0]) - 1), random.randint(0, len(self.Map_mountains) - 1)
 
             M = self.MountainsType[random.randint(0, len(self.MountainsType) - 1)]
 
@@ -131,15 +133,19 @@ class World:
                     x2, y2 = x + x_offset, y + y_offset
 
                     if x2 < 0:
+
                         x2 += len(self.Map_mountains[0])
 
                     if x2 >= len(self.Map_mountains[0]):
+
                         x2 -= len(self.Map_mountains[0])
 
                     if y2 < 0:
+
                         y2 += len(self.Map_mountains)
 
                     if y2 >= len(self.Map_mountains):
+
                         y2 -= len(self.Map_mountains)
 
                     self.Map_mountains[y2][x2] = M[y][x]
@@ -185,6 +191,7 @@ class World:
         # set frame block
 
         for block in self.block_group:
+
             block.update_block()
 
         # Grass random placment
@@ -247,7 +254,7 @@ class World:
 
         if self.Map_trees[y][x] == None:
 
-            if random.random() < 0.001:
+            if random.random() < 0.001: #probabilté qu'un arbre repousse (change par rapport à la saison et température)
 
                 tree = Tree(self, x, y)
 
@@ -278,7 +285,7 @@ class World:
 
         if self.Map_grass[y][x] == None:
 
-            if random.random() < 0.001:
+            if random.random() < 0.001: #probabilté que de l'herbe repousse (change par rapport à la saison et température)
 
                 grass = Grass(self, x, y)
 
@@ -310,9 +317,14 @@ class World:
 
         self.obstacle_group.draw(self.screen)
 
+        # Weather
+
+        self.weather.update_weather()
+
+
     def update_world(self):
         """
-        boucle de lecture infinie événementielles du jeux
+        lecture événementielles du jeux
 
         """
 
@@ -325,7 +337,7 @@ class World:
 
             for y in range(self.screenHeight // self.size_bg_Y + 1):
                 
-                self.screen.blit(self.Environment_images[0][2], (x * self.size_bg_X, y * self.size_bg_Y))
+                self.screen.blit(self.Environment_images[0][self.weather.get_season()], (x * self.size_bg_X, y * self.size_bg_Y))
 
         self.update_object()
 

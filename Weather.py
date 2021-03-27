@@ -10,6 +10,7 @@ class Time:
 
         self.time = 0
 
+
     def update_hour(self):
 
         self.time += 1
@@ -20,14 +21,11 @@ class Time:
 
             self.hour += 1
             
-            if self.hour > 23:
+        if self.hour > 23:
+            
+            self.hour = 0
                 
-                self.hour = 0
-                
-            print(self.hour)
-
-
-
+            
     def get_hour(self):
 
         return self.hour
@@ -51,6 +49,7 @@ class Weather:
     def reset_season(self):
 
         self.season = 0
+        
 
     def reset_time(self):
         
@@ -143,9 +142,10 @@ class Weather:
 
     def update_weather(self):
 
+        self.heure.update_hour()
         self.update_season()
         self.update_temperature()
-        self.heure.update_hour()
+        
 
 
 
