@@ -9,6 +9,7 @@ from Tree import *
 from Grass import *
 from Obstacle import *
 from Block import *
+from Image import *
 
 
 class World:
@@ -63,6 +64,7 @@ class World:
         self.Environment_images = []
 
         self.sheep_images = []
+
         self.wolf_images = []
 
         self.Block_images = []
@@ -79,7 +81,9 @@ class World:
 
         self.Tmp2 = []
 
-        self.load_all_image()
+        self.image = Image(self)
+
+        self.image.load_all_image()
 
         self.tree_group = pygame.sprite.Group()
 
@@ -223,183 +227,7 @@ class World:
                 continue
             self.wolf_group.add(wolf)
 
-    def load_image(self, filename, tile_size_X, tile_size_Y):
-
-        image = pygame.image.load(filename).convert_alpha()
-
-        image = pygame.transform.scale(
-            image, (int(tile_size_X), int(tile_size_Y))
-        )
-
-        return image
-
-    def load_all_image(self):
-
-        # 0 : backgrounds [0][]
-
-        self.Environment_images.append(
-            [
-                self.load_image("PNG/background/bg1.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg2.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg3.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg4.png", self.size_bg_X, self.size_bg_Y),
-                self.load_image("PNG/background/bg5.png", self.size_bg_X, self.size_bg_Y),
-
-            ]
-
-        )
-
-        # 1 : trees [1][]
-
-        self.Environment_images.append(
-            [
-                self.load_image("PNG/split/tree1.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree2.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree3.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree4.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree5.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree6.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree7.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree8.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree9.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree10.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree11.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree12.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree13.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree14.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree15.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree16.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/tree17.png", self.size_tree_X, self.size_tree_Y),
-            ]
-        )
-
-        # 2 : fire =============== [0][]
-
-        self.Fire_images.append(
-            [
-                self.load_image("PNG/split/fire4.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/fire5.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/fire6.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/fire7.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/fire8.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/cendre3.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/cendre1.png", self.size_tree_X, self.size_tree_Y),
-                self.load_image("PNG/split/cendre2.png", self.size_tree_X, self.size_tree_Y),
-                
-            ]
-
-        )
-
-        # 3 : grass =============== [2][]
-
-        self.Environment_images.append(
-
-            [
-                self.load_image("PNG/split/grass_repousse.png", self.size_grass_X, self.size_grass_Y),
-                self.load_image("PNG/split/grass.png", self.size_grass_X, self.size_grass_Y),
-
-            ]
-
-        )
-
-        # 4 : obstacle =============== [3][]
-
-        self.Environment_images.append(
-
-            [
-                self.load_image("PNG/split/rock.png", self.size_obstacle_X, self.size_obstacle_Y),
-            ]
-
-        )
-
-        # 5 : Block =============== [0][]
-
-        self.Block_images = [
-            [
-                self.load_image("PNG/Block/green_inside.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_SW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_S.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_N.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_E.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_W.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_corner_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_corner_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_corner_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/green_corner_SW.png", self.size_block_X, self.size_block_Y),
-            ],
-            [
-                self.load_image("PNG/Block/ice_inside.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_SW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_S.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_N.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_E.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_W.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_NE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_NW.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_SE.png", self.size_block_X, self.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_SW.png", self.size_block_X, self.size_block_Y),
-            ]
-        ]
-
-        # sheep_images[0] -> up
-        # sheep_images[1] -> right
-        # sheep_images[2] -> down
-        # sheep_images[3] -> left
-        self.sheep_images = [
-            [
-                self.load_image("PNG/Agent/sheep/sheep_back_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_back_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_back_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/sheep/sheep_right_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_right_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_right_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/sheep/sheep_front_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_front_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_front_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/sheep/sheep_left_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/sheep/sheep_left_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/Sheep/sheep_left_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-        ]
-
-        # wolf_images[0] -> up
-        # wolf_images[1] -> right
-        # wolf_images[2] -> down
-        # wolf_images[3] -> left
-        self.wolf_images = [
-            [
-                self.load_image("PNG/Agent/wolf/wolf_back_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_back_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_back_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/wolf/wolf_right_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_right_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_right_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/wolf/wolf_front_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_front_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_front_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-            [
-                self.load_image("PNG/Agent/wolf/wolf_left_1.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_left_2.png", self.size_tile_X, self.size_tile_Y),
-                self.load_image("PNG/Agent/wolf/wolf_left_3.png", self.size_tile_X, self.size_tile_Y),
-            ],
-        ]
+    
 
     def update_object(self):
         
