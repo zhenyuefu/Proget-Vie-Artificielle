@@ -53,14 +53,14 @@ class Weather:
 
     def reset_time(self):
         
-        self.time = 0
+        self.delay = 0
 
 
     def update_season(self):
 
-        self.time += 1
+        self.delay += 1
 
-        if self.time >= 50:
+        if self.delay>= 600:
 
            self.reset_time()
            
