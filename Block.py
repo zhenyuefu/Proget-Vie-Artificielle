@@ -31,7 +31,7 @@ class Block(pygame.sprite.Sprite):
         
         if i>0:
             
-            self.image = self.world.Block_images[4][0]
+            self.image = self.world.Block_images[self.world.weather.get_season()][0]
             
         x_mn, y_mn = self.x - 1, self.y - 1
         
@@ -61,7 +61,7 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[self.y][x_mn]<=i:
                 
-                self.image = self.world.Block_images[self.world.saison][1]
+                self.image = self.world.Block_images[self.world.weather.get_season()][1]
                 
                 return
             
@@ -69,11 +69,11 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[self.y][x_mx]<=i:
                 
-                self.image = self.world.Block_images[self.world.saison][3]
+                self.image = self.world.Block_images[self.world.weather.get_season()][3]
                 
                 return
             
-            self.image = self.world.Block_images[self.world.saison][5]
+            self.image = self.world.Block_images[self.world.weather.get_season()][5]
 
             return
         
@@ -85,7 +85,7 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[self.y][x_mn]<=i:
                 
-                self.image = self.world.Block_images[self.world.saison][2]
+                self.image = self.world.Block_images[self.world.weather.get_season()][2]
                 
                 return
             
@@ -93,11 +93,11 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[self.y][x_mx]<=i:
                 
-                self.image = self.world.Block_images[self.world.saison][4]
+                self.image = self.world.Block_images[self.world.weather.get_season()][4]
                 
                 return
             
-            self.image = self.world.Block_images[self.world.saison][6]
+            self.image = self.world.Block_images[self.world.weather.get_season()][6]
             
             return
         
@@ -105,7 +105,7 @@ class Block(pygame.sprite.Sprite):
 
         if self.world.Map_mountains[self.y][x_mx]<=i:
             
-            self.image = self.world.Block_images[self.world.saison][7]
+            self.image = self.world.Block_images[self.world.weather.get_season()][7]
             
             return
         
@@ -113,7 +113,7 @@ class Block(pygame.sprite.Sprite):
 
         if self.world.Map_mountains[self.y][x_mn]<=i:
             
-            self.image = self.world.Block_images[self.world.saison][8]
+            self.image = self.world.Block_images[self.world.weather.get_season()][8]
             
             return
         
@@ -123,7 +123,7 @@ class Block(pygame.sprite.Sprite):
             
             if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
                 
-                self.image = self.world.Block_images[self.world.saison][11]
+                self.image = self.world.Block_images[self.world.weather.get_season()][11]
                 
                 return
             
@@ -133,7 +133,7 @@ class Block(pygame.sprite.Sprite):
             
             if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
                 
-                self.image = self.world.Block_images[self.world.saison][12]
+                self.image = self.world.Block_images[self.world.weather.get_season()][12]
                 
                 return
 
@@ -143,7 +143,7 @@ class Block(pygame.sprite.Sprite):
             
             if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
                 
-                self.image = self.world.Block_images[self.world.saison][10]
+                self.image = self.world.Block_images[self.world.weather.get_season()][10]
                 
                 return
 
@@ -153,11 +153,11 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
 
-                self.image = self.world.Block_images[self.world.saison][9]
+                self.image = self.world.Block_images[self.world.weather.get_season()][9]
 
                 return
             
-        self.image = self.world.Block_images[self.world.saison][0]
+        self.image = self.world.Block_images[self.world.weather.get_season()][0]
 
         return
 
