@@ -6,7 +6,7 @@ class Time:
 
     def __init__(self):
 
-        self.hour = -1
+        self.hour = 0
 
         self.time = 0
 
