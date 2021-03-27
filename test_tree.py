@@ -106,7 +106,7 @@ class World:
 
     def create_mountain(self):
 
-        for i in range(3):
+        for _ in range(3):
 
             longueur, largeur = random.randint(5, 8), random.randint(5, 8)
 
@@ -260,11 +260,11 @@ class World:
 
             if random.random() < 0.001: #probabilté qu'un arbre repousse (change par rapport à la saison et température)
 
-                tree = Tree(self, x, y)
-
-                self.Map_trees[y][x] = tree
+                self.Map_trees[y][x] = Tree(self, x, y)
 
                 self.tree_group.add(self.Map_trees[y][x])
+
+                self.all_object_group.add(self.Map_trees[y][x])
 
                 self.Map_trees[y][x].update_tree()
         else:
@@ -291,9 +291,7 @@ class World:
 
             if random.random() < 0.001: #probabilté que de l'herbe repousse (change par rapport à la saison et température)
 
-                grass = Grass(self, x, y)
-
-                self.Map_grass[y][x] = grass
+                self.Map_grass[y][x] = Grass(self, x, y)
 
                 self.grass_group.add(self.Map_grass[y][x])
 
