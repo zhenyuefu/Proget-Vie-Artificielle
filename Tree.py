@@ -2,6 +2,27 @@ import random
 
 import pygame  # PYGAME package
 
+class Fire(pygame.sprite.Sprite):
+
+    def __init__(self,tree,x,y,img):
+
+        pygame.sprite.Sprite.__init__(self)
+
+        self.tree = tree
+
+        self.x, self.y = x, y
+
+        self.image = img
+
+        self.rect = self.image.get_rect()
+
+        self.rect.topleft = (self.x * self.tree.world.size_tree_X, self.y * self.tree.world.size_tree_Y)
+
+
+    def set_frame(self,img):
+
+        self.image = img
+
 
 class Tree(pygame.sprite.Sprite):
 
@@ -23,6 +44,8 @@ class Tree(pygame.sprite.Sprite):
 
         self.inFire = False
 
+        self.fire = None
+
         self.stateF = -1
 
         self.step_state = 0
@@ -40,17 +63,23 @@ class Tree(pygame.sprite.Sprite):
     def in_Fire(self):
 
         self.inFire = True
+        
+        self.fire = Fire(self,self.x,self.y,self.world.Fire_images[0][0])
+
+        self.world.fire_group.add(self.fire)
 
 
     def tree_in_fire(self):
 
         if not self.inFire:
 
-            self.inFire = random.random() < 0.001
+            if random.random() < 0.005:
+
+                self.in_Fire()
             
         if self.stateF == len(self.world.Fire_images[0]) - 1:
 
-            self.kill()
+            self.fire.kill()
 
             self.world.Map_trees[self.y][self.x] = None
 
@@ -80,21 +109,27 @@ class Tree(pygame.sprite.Sprite):
 
                         y3 -= len(self.world.Map_trees)
 
-                    if self.world.Map_trees[y3][x3] != None:
+                    if self.world.Map_trees[y3][x3] != None and not self.world.Map_trees[y3][x3].inFire:
 
                         self.world.Map_trees[y3][x3].in_Fire()
 
 
-            if self.stateF == 4 and self.loop < 4:
+            if self.stateF == 4:
+                
+                if self.loop < 4:
+                    
+                    self.stateF = -1
+                    
+                    self.loop += 1
 
-                self.stateF = -1
-
-                self.loop += 1
+                else:
+                    
+                    self.kill()
 
 
             self.stateF += 1
 
-            self.image = self.world.Fire_images[0][self.stateF]
+            self.fire.set_frame(self.world.Fire_images[0][self.stateF])
 
 
     def tree_gen(self):
@@ -116,5 +151,6 @@ class Tree(pygame.sprite.Sprite):
 
     def update_tree(self):
 
-        self.tree_gen()
         self.tree_in_fire()
+        self.tree_gen()
+        
