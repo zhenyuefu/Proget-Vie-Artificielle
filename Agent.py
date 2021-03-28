@@ -166,6 +166,7 @@ class Wolf(BasicAgent):
             if pygame.sprite.collide_rect(self, sheep):
                 sheep.kill()
                 self.reset_mange()
+                
             distance = pos.distance_to(pygame.math.Vector2(sheep.x, sheep.y))
             if min > distance:
                 min = distance

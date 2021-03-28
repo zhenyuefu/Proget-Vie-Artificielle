@@ -1,4 +1,4 @@
-import random
+
 
 import pygame  # PYGAME package
 
