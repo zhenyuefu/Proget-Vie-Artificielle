@@ -70,9 +70,13 @@ class World:
 
         self.Block_images = []
 
-        self.MountainsType = []
-
         self.Fire_images = []
+
+        self.image = Image(self)
+
+        self.image.load_all_image()
+
+        self.MountainsType = []
 
         self.Trees = []
 
@@ -82,11 +86,9 @@ class World:
 
         self.Tmp2 = []
 
-        self.image = Image(self)
-
-        self.image.load_all_image()
-
         self.tree_group = pygame.sprite.Group()
+
+        self.fire_group = pygame.sprite.Group()
 
         self.grass_group = pygame.sprite.Group()
 
@@ -102,6 +104,8 @@ class World:
 
         self.object_placment()
 
+
+
     # Type de montagnes
 
     def create_mountain(self):
@@ -112,6 +116,15 @@ class World:
 
             self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
+        self.MountainsType.append([[1,1,1,1,1,1,1,1,1],
+                [1,2,2,2,2,2,2,2,1],
+                [1,2,2,2,2,2,2,2,1],
+                [1,2,2,2,2,2,2,2,1],
+                [1,1,1,1,1,1,1,1,1]
+
+        ])
+
+
     # Mountains random placement
 
     def object_placment(self):
@@ -120,7 +133,7 @@ class World:
 
         nbMountains = random.randint(2, 4)
 
-        for i in range(nbMountains):
+        for _ in range(nbMountains):
 
             x_offset, y_offset = random.randint(0, len(self.Map_mountains[0]) - 1), random.randint(0, len(self.Map_mountains) - 1)
 
@@ -277,6 +290,12 @@ class World:
 
         del self.Tmp1[i]
 
+        # FIRE
+
+        self.fire_group.update()
+
+        self.fire_group.draw(self.screen)
+
         # GRASS
 
         if not self.Tmp2:
@@ -314,8 +333,6 @@ class World:
         self.sheep_group.draw(self.screen)
 
         # OBSTACLE
-
-        #self.obstacle_group.update()
 
         self.obstacle_group.draw(self.screen)
 
