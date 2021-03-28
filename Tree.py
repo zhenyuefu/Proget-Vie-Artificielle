@@ -73,7 +73,7 @@ class Tree(pygame.sprite.Sprite):
 
         if not self.inFire:
 
-            if random.random() < 0.005:
+            if random.random() < 0.004:
 
                 self.in_Fire()
             
