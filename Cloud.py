@@ -18,6 +18,8 @@ class Cloud(pygame.sprite.Sprite):
 
         self.speed = random.uniform(float(1),float(1.5))
 
+        self.loop = 0
+
     def move(self):
 
         if self.rect.x > self.world.screenWidth:
@@ -36,5 +38,11 @@ class Cloud(pygame.sprite.Sprite):
 
             self.rect.bottom = -(self.world.size_cloud_Y)
 
-        self.rect.x += self.speed
-        #self.rect.y += self.speed
+        if self.loop == 4:
+            
+            self.rect.x += self.speed
+
+            self.loop = 0
+
+        self.loop += 1
+     
