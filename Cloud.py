@@ -22,6 +22,17 @@ class Cloud(pygame.sprite.Sprite):
 
         self.loop = 0
 
+    def update(self):
+        
+        if self.loop == self.wind:
+            
+            self.move()
+
+            self.loop = 0
+            
+        self.loop += 1
+
+
     def move(self):
 
         if self.rect.x > self.world.screenWidth:
@@ -39,12 +50,10 @@ class Cloud(pygame.sprite.Sprite):
         if self.rect.y > self.world.screenHeight:
 
             self.rect.bottom = -(self.world.size_cloud_Y)
-
-        if self.loop == self.wind:
             
-            self.rect.x += self.speed
+        self.rect.x += self.speed
 
-            self.loop = 0
+            
 
-        self.loop += 1
-     
+        
+
