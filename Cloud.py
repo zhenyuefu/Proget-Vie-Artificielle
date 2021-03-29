@@ -18,7 +18,7 @@ class Cloud(pygame.sprite.Sprite):
 
         self.speed = 1
 
-        self.wind = 1
+        self.wind = 5
 
         self.loop = 0
 
@@ -29,6 +29,8 @@ class Cloud(pygame.sprite.Sprite):
             self.move()
 
             self.loop = 0
+
+            return
             
         self.loop += 1
 
