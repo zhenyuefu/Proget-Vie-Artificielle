@@ -20,7 +20,7 @@ class World:
     """
 
     def __init__(
-            self, screenWidth=1488, screenHeight=1100
+            self, screenWidth=1476, screenHeight=1088
     ):
         """
         constructeur de la classe
@@ -382,7 +382,7 @@ class World:
 
         for cloud in self.cloud_group:
 
-            cloud.move()
+            cloud.update()
 
         self.cloud_group.update()
 
