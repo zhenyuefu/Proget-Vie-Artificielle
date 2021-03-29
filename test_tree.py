@@ -11,6 +11,7 @@ from Obstacle import *
 from Block import *
 from Image import *
 from Weather import *
+from Cloud import *
 
 
 class World:
@@ -33,6 +34,7 @@ class World:
 
         self.size_bg_X, self.size_bg_Y = self.size_tree_X, self.size_tree_Y
 
+        self.size_cloud_X, self.size_cloud_Y = 128, 128
 
         self.size_grass_X, self.size_grass_Y = self.size_tree_X // 2, self.size_tree_Y // 2
 
@@ -100,9 +102,13 @@ class World:
 
         self.sheep_group = pygame.sprite.Group()
 
+        self.cloud_group = pygame.sprite.Group()
+
         self.all_object_group = pygame.sprite.Group()
 
         self.object_placment()
+
+        
 
 
 
@@ -116,11 +122,12 @@ class World:
 
             self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
 
-        self.MountainsType.append([[1,1,1,1,1,1,1,1,1],
-                [1,2,2,2,2,2,2,2,1],
-                [1,2,2,2,2,2,2,2,1],
-                [1,2,2,2,2,2,2,2,1],
-                [1,1,1,1,1,1,1,1,1]
+        self.MountainsType.append([[1,1,1,1,1,1,1,1,1,1,1,1,1,1],
+                                    [1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+                                    [1,2,3,3,3,3,3,3,3,3,3,3,2,1],
+                                    [1,2,3,3,3,3,3,3,3,3,3,3,2,1],
+                                    [1,2,2,2,2,2,2,2,2,2,2,2,2,1],
+                                    [1,1,1,1,1,1,1,1,1,1,1,1,1,1]
 
         ])
 
@@ -161,13 +168,15 @@ class World:
 
                         y2 -= len(self.Map_mountains)
 
-                    self.Map_mountains[y2][x2] = M[y][x]
-
-                    block = Block(self, x2,y2)
-
-                    self.block_group.add(block)
-
-                    self.all_object_group.add(block)
+                    if not self.Map_mountains[y2][x2]:
+                        
+                        self.Map_mountains[y2][x2] = M[y][x]
+                        
+                        block = Block(self, x2,y2)
+                        
+                        self.block_group.add(block)
+                        
+                        self.all_object_group.add(block)
 
         # Tree and obstacle random placment
 
@@ -175,7 +184,27 @@ class World:
 
             for y in range(len(self.Map_trees)):
 
-                if self.Map_mountains[y][x] == 0:
+                x_mn, y_mn = x - 1, y - 1
+                
+                x_mx, y_mx = x + 1, y + 1
+                
+                if x_mn < 0:
+                    
+                    x_mn += len(self.Map_mountains[0])
+                    
+                if x_mx >= len(self.Map_mountains[0]):
+                    
+                    x_mx -= len(self.Map_mountains[0])
+                    
+                if y_mn < 0:
+                    
+                    y_mn += len(self.Map_mountains)
+                    
+                if y_mx >= len(self.Map_mountains):
+                    
+                    y_mx -= len(self.Map_mountains)
+
+                if not self.Map_mountains[y][x] or (self.Map_mountains[y_mx][x] > 0 and self.Map_mountains[y_mn][x] > 0 and self.Map_mountains[y][x_mx] > 0 and self.Map_mountains[y][x_mn] > 0):
 
                     if random.random() < 0.05:
 
@@ -247,15 +276,24 @@ class World:
                 continue
             self.wolf_group.add(wolf)
 
+        
+        #générer nuages
+
+        for _ in range(8):
+            cloud = Cloud(self)
+            self.cloud_group.add(cloud)
+
     
 
     def update_object(self):
+
+        
         
         # BLOCK
 
         for block in self.block_group:
 
-            block.update_block()
+            block.set_frame()
         
         self.block_group.draw(self.screen)
 
@@ -308,7 +346,7 @@ class World:
 
         if self.Map_grass[y][x] == None:
 
-            if random.random() < 0.001: #probabilté que de l'herbe repousse (change par rapport à la saison et température)
+            if random.random() < 0.004: #probabilté que de l'herbe repousse (change par rapport à la saison et température)
 
                 self.Map_grass[y][x] = Grass(self, x, y)
 
@@ -339,6 +377,16 @@ class World:
         # Weather
 
         self.weather.update_weather()
+
+        # CLOUD
+
+        for cloud in self.cloud_group:
+
+            cloud.move()
+
+        self.cloud_group.update()
+
+        self.cloud_group.draw(self.screen)
 
 
     def update_world(self):
