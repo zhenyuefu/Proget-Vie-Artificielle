@@ -20,7 +20,7 @@ class World:
     """
 
     def __init__(
-            self, screenWidth=1188, screenHeight=800
+            self, screenWidth=1488, screenHeight=1100
     ):
         """
         constructeur de la classe
@@ -206,7 +206,7 @@ class World:
 
                 if not self.Map_mountains[y][x] or (self.Map_mountains[y_mx][x] > 0 and self.Map_mountains[y_mn][x] > 0 and self.Map_mountains[y][x_mx] > 0 and self.Map_mountains[y][x_mn] > 0):
 
-                    if random.random() < 0.05:
+                    if random.random() < 0.01:
 
                         self.Map_trees[y][x] = Tree(self, x, y)
 
@@ -279,7 +279,7 @@ class World:
         
         #générer nuages
 
-        for _ in range(8):
+        for _ in range(15):
             cloud = Cloud(self)
             self.cloud_group.add(cloud)
 
