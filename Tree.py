@@ -30,7 +30,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.step_state = 0
 
-        self.time_state = 0 # nb d'itérations avant de passer à le prochain state
+        self.time_state = 3 # nb d'itérations avant de passer à le prochain state
 
         self.loop = 0 # itérateur boucle de feu
 

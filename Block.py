@@ -13,25 +13,29 @@ class Block(pygame.sprite.Sprite):
 
         self.x, self.y = x, y
 
-        self.image = self.world.Environment_images[0][0]
+        self.id = 0
+
+        self.image = self.world.Environment_images[0][self.id]
 
         self.rect = self.image.get_rect()
 
         self.rect.topleft = (self.x * self.world.size_block_X, self.y * self.world.size_block_Y)
 
-    
-    def update_block(self):
-
-        self.set_frame()
-
 
     def set_frame(self):
 
+        self.image = self.world.Block_images[self.world.weather.get_season()][self.id]
+
+    
+    def update_block(self):
+
+        self.set_id()
+        self.set_frame()
+
+
+    def set_id(self):
+
         i = self.world.Map_mountains[self.y][self.x]-1
-        
-        if i>0:
-            
-            self.image = self.world.Block_images[self.world.weather.get_season()][0]
             
         x_mn, y_mn = self.x - 1, self.y - 1
         
@@ -60,20 +64,20 @@ class Block(pygame.sprite.Sprite):
             # Ouest
 
             if self.world.Map_mountains[self.y][x_mn]<=i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][1]
+
+                self.id = 1
                 
                 return
             
             # Est
 
             if self.world.Map_mountains[self.y][x_mx]<=i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][3]
+
+                self.id = 3
                 
                 return
-            
-            self.image = self.world.Block_images[self.world.weather.get_season()][5]
+
+            self.id = 5
 
             return
         
@@ -84,36 +88,36 @@ class Block(pygame.sprite.Sprite):
             # Ouest
 
             if self.world.Map_mountains[self.y][x_mn]<=i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][2]
+
+                self.id = 2
                 
                 return
             
             # Est
 
             if self.world.Map_mountains[self.y][x_mx]<=i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][4]
+
+                self.id = 4
                 
                 return
-            
-            self.image = self.world.Block_images[self.world.weather.get_season()][6]
+
+            self.id = 6
             
             return
         
         # Est 
 
         if self.world.Map_mountains[self.y][x_mx]<=i:
-            
-            self.image = self.world.Block_images[self.world.weather.get_season()][7]
+
+            self.id = 7
             
             return
         
          # Ouest
 
         if self.world.Map_mountains[self.y][x_mn]<=i:
-            
-            self.image = self.world.Block_images[self.world.weather.get_season()][8]
+
+            self.id = 8
             
             return
         
@@ -122,8 +126,8 @@ class Block(pygame.sprite.Sprite):
         if self.world.Map_mountains[y_mx][x_mx]==i:
             
             if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][11]
+
+                self.id = 11
                 
                 return
             
@@ -132,8 +136,8 @@ class Block(pygame.sprite.Sprite):
         if self.world.Map_mountains[y_mx][x_mn]==i:
             
             if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][12]
+
+                self.id = 12
                 
                 return
 
@@ -142,8 +146,8 @@ class Block(pygame.sprite.Sprite):
         if self.world.Map_mountains[y_mn][x_mn]==i:
             
             if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
-                
-                self.image = self.world.Block_images[self.world.weather.get_season()][10]
+
+                self.id = 10
                 
                 return
 
@@ -153,11 +157,8 @@ class Block(pygame.sprite.Sprite):
 
             if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
 
-                self.image = self.world.Block_images[self.world.weather.get_season()][9]
+                self.id = 9
 
                 return
-            
-        self.image = self.world.Block_images[self.world.weather.get_season()][0]
 
-        return
 

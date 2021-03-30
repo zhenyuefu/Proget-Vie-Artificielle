@@ -55,6 +55,9 @@ class Image:
             ],
             [
                 self.load_image("PNG/split/rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
+            ],
+            [
+                self.load_image("PNG/split/cloud.png", 128, 128)
             ]
 
         ]
