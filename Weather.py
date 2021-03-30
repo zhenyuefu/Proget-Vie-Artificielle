@@ -2,6 +2,14 @@ import pygame
 
 import random
 
+
+SUMMER = 0
+FALL = 1
+WINTER = 2
+SPRING = 3
+NIGHT = 4
+
+
 class Time:
 
     def __init__(self):
@@ -15,7 +23,7 @@ class Time:
 
         self.time += 1
 
-        if self.time > 3:
+        if self.time > 50:
 
             self.time = 0
 
@@ -31,13 +39,11 @@ class Time:
         return self.hour
 
 
-
-
 class Weather:
 
     def __init__(self):
 
-        self.season = 0
+        self.season = random.randint(0,3)
 
         self.heure = Time()
 
@@ -60,7 +66,7 @@ class Weather:
 
         self.delay += 1
 
-        if self.delay>= 600:
+        if self.delay>= 2000:
 
            self.reset_time()
            
@@ -75,7 +81,7 @@ class Weather:
 
         # summer
 
-        if self.season == 0:
+        if self.season == SUMMER:
 
             if self.heure.get_hour() > 6 and self.heure.get_hour() < 22:
                 
@@ -89,7 +95,7 @@ class Weather:
 
         # fall
 
-        if self.season == 1:
+        if self.season == FALL:
 
             if self.heure.get_hour() > 6 and self.heure.get_hour() < 20:
                 
@@ -103,7 +109,7 @@ class Weather:
         
         # winter
         
-        if self.season == 2:
+        if self.season == WINTER:
 
             if self.heure.get_hour() > 6 and self.heure.get_hour() < 20:
                 
@@ -117,7 +123,7 @@ class Weather:
 
         # spring
 
-        if self.season == 3:
+        if self.season == SPRING:
 
             if self.heure.get_hour() > 6 and self.heure.get_hour() < 21:
                 
@@ -137,13 +143,18 @@ class Weather:
 
     def get_season(self):
 
+        if self.heure.get_hour() < 6 or self.heure.get_hour() > 20:
+
+            return NIGHT
+
         return self.season
         
 
     def update_weather(self):
 
         self.heure.update_hour()
-        self.update_season()
+        if self.heure.get_hour() > 6 or self.heure.get_hour() < 20:
+            self.update_season()
         self.update_temperature()
         
 
