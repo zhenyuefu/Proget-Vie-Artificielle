@@ -22,10 +22,10 @@ class Image:
 
         self.world.Environment_images = [
             [
-                self.load_image("PNG/background/winter.png", self.world.size_bg_X, self.world.size_bg_Y),
-                self.load_image("PNG/background/spring.png", self.world.size_bg_X, self.world.size_bg_Y),
                 self.load_image("PNG/background/summer.png", self.world.size_bg_X, self.world.size_bg_Y),
                 self.load_image("PNG/background/fall.png", self.world.size_bg_X, self.world.size_bg_Y),
+                self.load_image("PNG/background/winter.png", self.world.size_bg_X, self.world.size_bg_Y),
+                self.load_image("PNG/background/spring.png", self.world.size_bg_X, self.world.size_bg_Y), 
                 self.load_image("PNG/background/night.png", self.world.size_bg_X, self.world.size_bg_Y),
 
             ],
@@ -78,36 +78,7 @@ class Image:
         )
 
         self.world.Block_images = [
-            [
-                self.load_image("PNG/Block/ice_inside.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_SW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_S.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_N.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_E.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_W.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/ice_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
-            ],
-            [
-                self.load_image("PNG/Block/green_inside.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_SW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_S.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_N.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_E.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_W.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/green_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
-            ],
+
             [
                 self.load_image("PNG/Block/sand_inside.png", self.world.size_block_X, self.world.size_block_Y),
                 self.load_image("PNG/Block/sand_SW.png", self.world.size_block_X, self.world.size_block_Y),
@@ -137,6 +108,36 @@ class Image:
                 self.load_image("PNG/Block/orange_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
                 self.load_image("PNG/Block/orange_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
                 self.load_image("PNG/Block/orange_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+            [
+                self.load_image("PNG/Block/ice_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/ice_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+            [
+                self.load_image("PNG/Block/green_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/green_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
             ],
             [
                 self.load_image("PNG/Block/night_inside.png", self.world.size_block_X, self.world.size_block_Y),

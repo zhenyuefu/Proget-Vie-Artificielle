@@ -5,6 +5,7 @@ from pygame.locals import *  # PYGAME constant & functions
 import random
 
 import Agent
+import Tree
 from Tree import *
 from Grass import *
 from Obstacle import *
@@ -206,9 +207,9 @@ class World:
 
                 if not self.Map_mountains[y][x] or (self.Map_mountains[y_mx][x] > 0 and self.Map_mountains[y_mn][x] > 0 and self.Map_mountains[y][x_mx] > 0 and self.Map_mountains[y][x_mn] > 0):
 
-                    if random.random() < 0.01:
+                    if random.random() < 0.03:
 
-                        self.Map_trees[y][x] = Tree(self, x, y)
+                        self.Map_trees[y][x] = Tree.Tree(self, x, y)
 
                         self.Trees.append((x, y))
 
@@ -287,7 +288,14 @@ class World:
 
     def update_object(self):
 
-        
+        # Weather
+
+        self.weather.update_weather() 
+
+        if self.weather.delay == 1:
+            print("p_fire=",Tree.P_FIRE)
+            print("p_gen=",Tree.P_REGEN)
+            print("saison=",self.weather.season)
         
         # BLOCK
 
@@ -309,9 +317,9 @@ class World:
 
         if self.Map_trees[y][x] == None:
 
-            if random.random() < 0.001: #probabilté qu'un arbre repousse (change par rapport à la saison et température)
+            if random.random() < Tree.P_REGEN: #probabilté qu'un arbre repousse (change par rapport à la saison et température)
 
-                self.Map_trees[y][x] = Tree(self, x, y)
+                self.Map_trees[y][x] = Tree.Tree(self, x, y)
 
                 self.tree_group.add(self.Map_trees[y][x])
 
@@ -374,10 +382,6 @@ class World:
 
         self.obstacle_group.draw(self.screen)
 
-        # Weather
-
-        self.weather.update_weather()
-
         # CLOUD
 
         for cloud in self.cloud_group:
@@ -394,6 +398,7 @@ class World:
         lecture événementielles du jeux
 
         """
+        
 
         # lecture des événements Pygame
         for event in pygame.event.get():
@@ -406,7 +411,10 @@ class World:
                 
                 self.screen.blit(self.Environment_images[0][self.weather.get_season()], (x * self.size_bg_X, y * self.size_bg_Y))
 
+
         self.update_object()
+
+        
 
         pygame.display.update()
 

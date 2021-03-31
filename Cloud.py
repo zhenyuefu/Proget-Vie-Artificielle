@@ -2,6 +2,10 @@ import pygame
 
 import random
 
+SPEED_X = random.randint(-1,1)
+SPEED_Y = random.randint(-1,1)
+SPEED_FACTOR = random.randint(1,4)
+
 class Cloud(pygame.sprite.Sprite):
 
     def __init__(self,world):
@@ -16,15 +20,11 @@ class Cloud(pygame.sprite.Sprite):
 
         self.rect.topleft = (random.randint(0,self.world.screenWidth),random.randint(0,self.world.screenHeight))
 
-        self.speed = 1
-
-        self.wind = 5
-
         self.loop = 0
 
     def update(self):
         
-        if self.loop == self.wind:
+        if self.loop == SPEED_FACTOR:
             
             self.move()
 
@@ -37,23 +37,32 @@ class Cloud(pygame.sprite.Sprite):
 
     def move(self):
 
+        #réapparaît à gauche
+
         if self.rect.x > self.world.screenWidth:
 
             self.rect.left = -(self.world.size_cloud_X)
 
+        #réapparaît à droite
+
         if self.rect.x < -(self.world.size_cloud_X) :
 
-            self.rect.right = self.world.screenWidth
+            self.rect.left = self.world.screenWidth
+
+        #réapparaît en bas
 
         if self.rect.y < -(self.world.size_cloud_Y):
 
             self.rect.top = self.world.screenHeight
 
+        #réapparaît en haut
+
         if self.rect.y > self.world.screenHeight:
 
-            self.rect.bottom = -(self.world.size_cloud_Y)
+            self.rect.bottom = 0
             
-        self.rect.x += self.speed
+        self.rect.x += SPEED_X
+        self.rect.y += SPEED_Y
 
             
 

@@ -4,6 +4,9 @@ import pygame  # PYGAME package
 
 from Fire import *
 
+P_FIRE = 0
+P_REGEN = 0
+
 class Tree(pygame.sprite.Sprite):
 
     def __init__(self,world,x,y):
@@ -53,7 +56,7 @@ class Tree(pygame.sprite.Sprite):
 
         if not self.inFire:
 
-            if random.random() < 0.004:
+            if random.random() < P_FIRE:
 
                 self.in_Fire()
             
