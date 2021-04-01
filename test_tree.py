@@ -5,7 +5,6 @@ from pygame.locals import *  # PYGAME constant & functions
 import random
 
 import Agent
-import Tree
 from Tree import *
 from Grass import *
 from Obstacle import *
