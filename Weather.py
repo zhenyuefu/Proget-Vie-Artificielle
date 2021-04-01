@@ -11,8 +11,8 @@ FALL = 1
 WINTER = 2
 SPRING = 3
 NIGHT = 4
-NB_ITERATION = 500
-IT = 20
+NB_ITERATION = 2000
+IT = 50
 
 
 class Time:
@@ -90,7 +90,7 @@ class Weather:
             
             self.temperature = random.uniform(float(-10), float(-6))
 
-            Tree.P_FIRE = 0#self.temperature / 10**4
+            Tree.P_FIRE = 0
 
             Tree.P_REGEN = (self.season+1) / 10**3
 
