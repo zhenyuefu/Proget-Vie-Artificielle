@@ -41,10 +41,10 @@ class BasicAgent(pygame.sprite.Sprite):
 
     def turn(self):
         self.direction += 2
-        if self.direction>3:
-            self.direction-=4
-        if self.direction<0:
-            self.direction+=4
+        if self.direction > 3:
+            self.direction -= 4
+        if self.direction < 0:
+            self.direction += 4
 
     def move(self):
         self.frame_change_counter += 1
@@ -64,7 +64,7 @@ class BasicAgent(pygame.sprite.Sprite):
         self.direction_change_counter += 1
         if self.direction_change_counter > self.direction_change_time:
             self.direction_change_counter = 0
-            self.direction_change_time = random.randint(30,150)
+            self.direction_change_time = random.randint(30, 150)
             if self.next_direction == -1:
                 if random.random() > 0.5:
                     self.next_direction = (self.direction + 1) % 4
@@ -107,16 +107,27 @@ class BasicAgent(pygame.sprite.Sprite):
 
 
 class Sheep(BasicAgent):
-    p_reproduce = 0.00
+    p_reproduce = 0.0015
     delai_de_famine = 10
 
     def __init__(self, world, init_pos):
         super().__init__(world, world.sheep_images[0][0], init_pos)
         self.frame = world.sheep_images
+        self.iter = 0
+
+    def reproduire(self):
+        if random.random() < Sheep.p_reproduce:
+            agent = Sheep(self.world, self.rect.topleft)
+            agent.add(self.world.sheep_group)
+
 
     def update(self):
         super().update()
+        self.reproduire()
         pos = pygame.math.Vector2(self.x, self.y)
+        if self.iter > 10:
+            self.it_non_mange += 1
+            self.iter = 0
         min = 6
         cloest = None
         for wolf in self.world.wolf_group:
@@ -141,10 +152,12 @@ class Sheep(BasicAgent):
                 grass.kill()
                 self.world.Map_grass[grass.y][grass.x] = None
                 self.reset_mange()
+        if self.it_non_mange > Wolf.delai_de_famine:
+            self.kill()
 
 
 class Wolf(BasicAgent):
-    p_reproduce = 0.00
+    p_reproduce = 0.001
     delai_de_famine = 100
 
     def __init__(self, world, init_pos):
@@ -153,8 +166,14 @@ class Wolf(BasicAgent):
         self.speed = 3
         self.iter = 0
 
+    def reproduire(self):
+        if random.random() < Wolf.p_reproduce:
+            agent = Wolf(self.world, self.rect.topleft)
+            agent.add(self.world.wolf_group)
+
     def update(self):
         super().update()
+        self.reproduire()
         pos = pygame.math.Vector2(self.x, self.y)
         self.iter += 1
         if self.iter > 10:
@@ -166,7 +185,7 @@ class Wolf(BasicAgent):
             if pygame.sprite.collide_rect(self, sheep):
                 sheep.kill()
                 self.reset_mange()
-                
+
             distance = pos.distance_to(pygame.math.Vector2(sheep.x, sheep.y))
             if min > distance:
                 min = distance
@@ -174,7 +193,7 @@ class Wolf(BasicAgent):
         if cloest:
             x_distance = cloest.x - self.x
             y_distance = cloest.y - self.y
-            if abs(x_distance) < abs(y_distance) :
+            if abs(x_distance) < abs(y_distance):
                 if y_distance > 0:
                     self.set_direction(2)
                 if y_distance < 0:
