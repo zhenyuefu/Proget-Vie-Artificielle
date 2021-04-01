@@ -426,11 +426,16 @@ class World:
         pygame.quit()  # ferme la fenêtre principale
         exit()
 
+    def events(self):
+        for event in pygame.event.get():
+            if event.type == QUIT or (event.type == KEYDOWN and event.key == K_ESCAPE):
+                self.destroy()
 
 if __name__ == "__main__":
     world = World()
     clock = pygame.time.Clock()
     while True:
+        world.events()
         try:
             world.update_world()
         except KeyboardInterrupt:  # interruption clavier CTRL-C: appel à la méthode destroy().
