@@ -5,7 +5,7 @@ import pygame  # PYGAME package
 from Fire import *
 
 P_FIRE = 0
-P_REGEN = 0
+P_REPOUSSE = 0
 
 class Tree(pygame.sprite.Sprite):
 

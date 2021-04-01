@@ -244,7 +244,7 @@ class World:
 
             for y in range(len(self.Map_grass)):
 
-                grass = Grass(self, x, y)
+                grass = Grass.Grass(self, x, y)
 
                 if not pygame.sprite.spritecollideany(grass, self.all_object_group):
 
@@ -291,7 +291,7 @@ class World:
 
         # générer nuages
 
-        for _ in range(15):
+        for _ in range(25):
             cloud = Cloud(self)
             self.cloud_group.add(cloud)
 
@@ -303,14 +303,13 @@ class World:
 
         if self.weather.delay == 1:
             print("p_fire=", Tree.P_FIRE)
-            print("p_gen=", Tree.P_REGEN)
+            print("p_gen=", Tree.P_REPOUSSE)
             print("saison=", self.weather.season)
 
         # BLOCK
-
-        for block in self.block_group:
-            block.set_frame()
-
+        
+        self.block_group.update()
+        
         self.block_group.draw(self.screen)
 
         # TREE
@@ -325,7 +324,7 @@ class World:
         if self.Map_trees[y][x] == None:
 
             if (
-                random.random() < Tree.P_REGEN
+                random.random() < Tree.P_REPOUSSE
             ):  # probabilté qu'un arbre repousse (change par rapport à la saison et température)
 
                 self.Map_trees[y][x] = Tree.Tree(self, x, y)
@@ -363,10 +362,10 @@ class World:
         if self.Map_grass[y][x] == None:
 
             if (
-                random.random() < 0.004
+                random.random() < Grass.P_REPOUSSE
             ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)
 
-                self.Map_grass[y][x] = Grass(self, x, y)
+                self.Map_grass[y][x] = Grass.Grass(self, x, y)
 
                 self.grass_group.add(self.Map_grass[y][x])
 
@@ -390,12 +389,11 @@ class World:
 
         # OBSTACLE
 
+        self.obstacle_group.update()
+
         self.obstacle_group.draw(self.screen)
 
         # CLOUD
-
-        for cloud in self.cloud_group:
-            cloud.update()
 
         self.cloud_group.update()
 

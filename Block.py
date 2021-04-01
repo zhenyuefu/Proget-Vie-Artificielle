@@ -22,7 +22,7 @@ class Block(pygame.sprite.Sprite):
         self.rect.topleft = (self.x * self.world.size_block_X, self.y * self.world.size_block_Y)
 
 
-    def set_frame(self):
+    def update(self):
 
         self.image = self.world.Block_images[self.world.weather.get_season()][self.id]
 
@@ -30,7 +30,9 @@ class Block(pygame.sprite.Sprite):
     def update_block(self):
 
         self.set_id()
-        self.set_frame()
+        self.update()
+
+    
 
 
     def set_id(self):

@@ -2,6 +2,8 @@
 
 import pygame  # PYGAME package
 
+P_REPOUSSE = 0
+
 
 class Grass(pygame.sprite.Sprite):
 
@@ -25,6 +27,14 @@ class Grass(pygame.sprite.Sprite):
 
         self.time_state = 0
 
+    def update(self):
+
+        if self.world.weather.season == 2 and self.state == 1:
+            self.image = self.world.Environment_images[2][2]
+            return
+        self.image = self.world.Environment_images[2][self.state]
+        
+
     
     def reset_step_state(self):
 
@@ -33,7 +43,7 @@ class Grass(pygame.sprite.Sprite):
 
     def grass_gen(self):
 
-        if self.state < len(self.world.Environment_images[2]) - 1:
+        if self.state < len(self.world.Environment_images[2]) - 2:
             
             self.step_state += 1
             

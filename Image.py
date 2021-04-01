@@ -51,13 +51,17 @@ class Image:
             [
                 self.load_image("PNG/split/grass_repousse.png", self.world.size_grass_X, self.world.size_grass_Y),
                 self.load_image("PNG/split/grass.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/ice_grass.png", self.world.size_grass_X, self.world.size_grass_Y),
 
             ],
             [
-                self.load_image("PNG/split/rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
+                self.load_image("PNG/split/summer_rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
+                self.load_image("PNG/split/fall_rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
+                self.load_image("PNG/split/ice_rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
+                self.load_image("PNG/split/spring_rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
             ],
             [
-                self.load_image("PNG/split/cloud.png", 128, 128)
+                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y)
             ]
 
         ]
@@ -69,7 +73,7 @@ class Image:
                 self.load_image("PNG/split/fire6.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/fire7.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/fire8.png", self.world.size_tree_X, self.world.size_tree_Y),
-                self.load_image("PNG/split/cendre3.png", self.world.size_tree_X, self.world.size_tree_Y),
+                self.load_image("PNG/split/cendre0.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/cendre1.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/cendre2.png", self.world.size_tree_X, self.world.size_tree_Y),
                 
@@ -95,19 +99,19 @@ class Image:
                 self.load_image("PNG/Block/sand_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
             ],
             [
-                self.load_image("PNG/Block/orange_inside.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_SW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_S.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_N.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_E.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_W.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/orange_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/fall_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
             ],
             [
                 self.load_image("PNG/Block/ice_inside.png", self.world.size_block_X, self.world.size_block_Y),

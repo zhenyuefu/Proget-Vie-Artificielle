@@ -3,6 +3,7 @@ import pygame
 import random
 
 import Tree
+import Grass
 import Cloud
 
 
@@ -11,8 +12,8 @@ FALL = 1
 WINTER = 2
 SPRING = 3
 NIGHT = 4
-NB_ITERATION = 2000
-IT = 50
+NB_ITERATION = 300
+IT = 15
 
 
 class Time:
@@ -92,7 +93,9 @@ class Weather:
 
             Tree.P_FIRE = 0
 
-            Tree.P_REGEN = (self.season+1) / 10**3
+            Tree.P_REPOUSSE = (self.season+1) / 10**3
+
+            Grass.P_REPOUSSE = Tree.P_REPOUSSE
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -108,7 +111,9 @@ class Weather:
 
             Tree.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REGEN = (self.season+1) / 10**3
+            Tree.P_REPOUSSE = (self.season+1) / 10**3
+
+            Grass.P_REPOUSSE = Tree.P_REPOUSSE
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -124,7 +129,9 @@ class Weather:
 
             Tree.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REGEN = (self.season+1) / 10**3
+            Tree.P_REPOUSSE= (self.season+1) / 10**3
+
+            Grass.P_REPOUSSE = Tree.P_REPOUSSE
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -140,7 +147,9 @@ class Weather:
 
             Tree.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REGEN = (self.season+1) / 10**3
+            Tree.P_REPOUSSE = (self.season+1) / 10**3
+
+            Grass.P_REPOUSSE = Tree.P_REPOUSSE
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
