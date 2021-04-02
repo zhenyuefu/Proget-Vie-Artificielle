@@ -5,13 +5,14 @@ from pygame.locals import *  # PYGAME constant & functions
 import random
 
 import Agent
-from Tree import *
-from Grass import *
-from Obstacle import *
-from Block import *
+import Tree
+import Grass
+#from Grass import *
+import Obstacle
+import Block
 from Image import *
-from Weather import *
-from Cloud import *
+import Weather
+import Cloud
 
 
 class World:
@@ -61,6 +62,12 @@ class World:
             * (self.screenHeight // self.size_block_Y)
         ]
 
+        self.Map_lake = [
+            x[:]
+            for x in [[0] * (self.screenWidth // self.size_block_X)]
+            * (self.screenHeight // self.size_block_Y)
+        ]
+
         pygame.init()
 
         self.screen = pygame.display.set_mode(
@@ -72,7 +79,7 @@ class World:
         )
         pygame.display.set_caption("WORLD TEST")
 
-        self.weather = Weather()
+        self.weather = Weather.Weather()
 
         self.Environment_images = []
 
@@ -82,13 +89,15 @@ class World:
 
         self.Block_images = []
 
+        self.Lake_images = []
+
         self.Fire_images = []
 
         self.image = Image(self)
 
         self.image.load_all_image()
 
-        self.MountainsType = []
+        self.BlockType = []
 
         self.Trees = []
 
@@ -120,40 +129,29 @@ class World:
 
     # Type de montagnes
 
-    def create_mountain(self):
+    def create_block(self):
 
         for _ in range(3):
-            longueur, largeur = random.randint(5, 8), random.randint(5, 8)
+            longueur, largeur = random.randint(8, 10), random.randint(8, 10)
 
-            self.MountainsType.append([x[:] for x in [[1] * largeur] * longueur])
-
-        self.MountainsType.append(
-            [
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-                [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 1],
-                [1, 2, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 2, 1],
-                [1, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 1],
-                [1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1],
-            ]
-        )
+            self.BlockType.append([x[:] for x in [[1] * largeur] * longueur])
 
     # Mountains random placement
 
     def object_placment(self):
 
-        self.create_mountain()
+        self.create_block()
 
-        nbMountains = random.randint(2, 4)
+        i = 0
 
-        for _ in range(nbMountains):
+        for _ in range(6):
 
             x_offset, y_offset = (
                 random.randint(0, len(self.Map_mountains[0]) - 1),
                 random.randint(0, len(self.Map_mountains) - 1),
             )
 
-            M = self.MountainsType[random.randint(0, len(self.MountainsType) - 1)]
+            M = self.BlockType[random.randint(0, len(self.BlockType) - 1)]
 
             for x in range(len(M[0])):
 
@@ -173,14 +171,29 @@ class World:
                     if y2 >= len(self.Map_mountains):
                         y2 -= len(self.Map_mountains)
 
-                    if not self.Map_mountains[y2][x2]:
-                        self.Map_mountains[y2][x2] = M[y][x]
+                    if not self.Map_mountains[y2][x2] and not self.Map_lake[y2][x2]:
+                        
+                        if i%2==0:
+                            
+                            self.Map_mountains[y2][x2] = M[y][x]
+                            
+                            block = Block.Mountain(self, x2, y2)
+                            
+                            self.block_group.add(block)
+                            
+                            self.all_object_group.add(block)
+                            
+                        else:
+                            
+                            self.Map_lake[y2][x2] = M[y][x]
+                            
+                            block = Block.Lake(self, x2, y2)
+                            
+                            self.block_group.add(block)
+                            
+                            self.all_object_group.add(block)
+            i += 1
 
-                        block = Block(self, x2, y2)
-
-                        self.block_group.add(block)
-
-                        self.all_object_group.add(block)
 
         # Tree and obstacle random placment
 
@@ -204,11 +217,11 @@ class World:
                 if y_mx >= len(self.Map_mountains):
                     y_mx -= len(self.Map_mountains)
 
-                if not self.Map_mountains[y][x] or (
+                if not self.Map_mountains[y][x] and not self.Map_lake[y][x] or (
                     self.Map_mountains[y_mx][x] > 0
-                    and self.Map_mountains[y_mn][x] > 0
-                    and self.Map_mountains[y][x_mx] > 0
-                    and self.Map_mountains[y][x_mn] > 0
+                    and self.Map_mountains[y_mn][x] == self.Map_mountains[y_mx][x]
+                    and self.Map_mountains[y][x_mx] == self.Map_mountains[y_mx][x]
+                    and self.Map_mountains[y][x_mn] == self.Map_mountains[y_mx][x]
                 ):
 
                     if random.random() < 0.03:
@@ -223,7 +236,7 @@ class World:
                         continue
 
                     if random.random() < 0.01:
-                        obstacle = Obstacle(self, x, y)
+                        obstacle = Obstacle.Obstacle(self, x, y)
 
                         self.obstacle_group.add(obstacle)
 
@@ -232,11 +245,6 @@ class World:
                         continue
 
                     # self.Trees.append((x, y))
-
-        # set frame block
-
-        for block in self.block_group:
-            block.update_block()
 
         # Grass random placment
 
@@ -292,7 +300,7 @@ class World:
         # générer nuages
 
         for _ in range(25):
-            cloud = Cloud(self)
+            cloud = Cloud.Cloud(self)
             self.cloud_group.add(cloud)
 
     def update_object(self):
@@ -308,7 +316,8 @@ class World:
 
         # BLOCK
         
-        self.block_group.update()
+        if self.weather.delay == 1:
+            self.block_group.update()
         
         self.block_group.draw(self.screen)
 
@@ -346,8 +355,6 @@ class World:
 
         # FIRE
 
-        self.fire_group.update()
-
         self.fire_group.draw(self.screen)
 
         # GRASS
@@ -375,7 +382,8 @@ class World:
 
             self.Map_grass[y][x].update_grass()
 
-        self.grass_group.update()
+        if self.weather.delay == 1:
+            self.grass_group.update()
 
         self.grass_group.draw(self.screen)
 
@@ -389,7 +397,8 @@ class World:
 
         # OBSTACLE
 
-        self.obstacle_group.update()
+        if self.weather.delay == 1:
+            self.obstacle_group.update()
 
         self.obstacle_group.draw(self.screen)
 

@@ -5,7 +5,7 @@ import pygame  # PYGAME package
 
 class Block(pygame.sprite.Sprite):
 
-    def __init__(self,world,x,y):
+    def __init__(self,world,x,y,img):
 
         pygame.sprite.Sprite.__init__(self)
 
@@ -15,29 +15,30 @@ class Block(pygame.sprite.Sprite):
 
         self.id = 0
 
-        self.image = self.world.Environment_images[0][self.id]
+        self.image = img
 
         self.rect = self.image.get_rect()
 
         self.rect.topleft = (self.x * self.world.size_block_X, self.y * self.world.size_block_Y)
 
+        self.frame = []
 
+        self.Map = []
+
+
+    def set_image(self):
+
+        self.image = self.frame[self.world.weather.get_season()][self.id]
+
+    
     def update(self):
-
-        self.image = self.world.Block_images[self.world.weather.get_season()][self.id]
-
-    
-    def update_block(self):
-
         self.set_id()
-        self.update()
-
-    
+        self.set_image()
 
 
     def set_id(self):
 
-        i = self.world.Map_mountains[self.y][self.x]-1
+        i = self.Map[self.y][self.x]-1
             
         x_mn, y_mn = self.x - 1, self.y - 1
         
@@ -45,27 +46,27 @@ class Block(pygame.sprite.Sprite):
         
         if x_mn < 0:
             
-            x_mn += len(self.world.Map_mountains[0])
+            x_mn += len(self.Map[0])
             
-        if x_mx >= len(self.world.Map_mountains[0]):
+        if x_mx >= len(self.Map[0]):
             
-            x_mx -= len(self.world.Map_mountains[0])
+            x_mx -= len(self.Map[0])
             
         if y_mn < 0:
             
-            y_mn += len(self.world.Map_mountains)
+            y_mn += len(self.Map)
             
-        if y_mx >= len(self.world.Map_mountains):
+        if y_mx >= len(self.Map):
             
-            y_mx -= len(self.world.Map_mountains)
+            y_mx -= len(self.Map)
             
         # Sud
 
-        if self.world.Map_mountains[y_mx][self.x]<=i: 
+        if self.Map[y_mx][self.x]<=i: 
             
             # Ouest
 
-            if self.world.Map_mountains[self.y][x_mn]<=i:
+            if self.Map[self.y][x_mn]<=i:
 
                 self.id = 1
                 
@@ -73,7 +74,7 @@ class Block(pygame.sprite.Sprite):
             
             # Est
 
-            if self.world.Map_mountains[self.y][x_mx]<=i:
+            if self.Map[self.y][x_mx]<=i:
 
                 self.id = 3
                 
@@ -85,11 +86,11 @@ class Block(pygame.sprite.Sprite):
         
         # Nord
 
-        if self.world.Map_mountains[y_mn][self.x]<=i: 
+        if self.Map[y_mn][self.x]<=i: 
             
             # Ouest
 
-            if self.world.Map_mountains[self.y][x_mn]<=i:
+            if self.Map[self.y][x_mn]<=i:
 
                 self.id = 2
                 
@@ -97,7 +98,7 @@ class Block(pygame.sprite.Sprite):
             
             # Est
 
-            if self.world.Map_mountains[self.y][x_mx]<=i:
+            if self.Map[self.y][x_mx]<=i:
 
                 self.id = 4
                 
@@ -109,7 +110,7 @@ class Block(pygame.sprite.Sprite):
         
         # Est 
 
-        if self.world.Map_mountains[self.y][x_mx]<=i:
+        if self.Map[self.y][x_mx]<=i:
 
             self.id = 7
             
@@ -117,7 +118,7 @@ class Block(pygame.sprite.Sprite):
         
          # Ouest
 
-        if self.world.Map_mountains[self.y][x_mn]<=i:
+        if self.Map[self.y][x_mn]<=i:
 
             self.id = 8
             
@@ -125,9 +126,9 @@ class Block(pygame.sprite.Sprite):
         
         # SE corner
 
-        if self.world.Map_mountains[y_mx][x_mx]==i:
+        if self.Map[y_mx][x_mx]==i:
             
-            if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
+            if self.Map[y_mx][self.x]>i and self.Map[self.y][x_mx]>i:
 
                 self.id = 11
                 
@@ -135,9 +136,9 @@ class Block(pygame.sprite.Sprite):
             
         #SW corner
 
-        if self.world.Map_mountains[y_mx][x_mn]==i:
+        if self.Map[y_mx][x_mn]==i:
             
-            if self.world.Map_mountains[y_mx][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
+            if self.Map[y_mx][self.x]>i and self.Map[self.y][x_mn]>i:
 
                 self.id = 12
                 
@@ -145,9 +146,9 @@ class Block(pygame.sprite.Sprite):
 
         #NW corner
 
-        if self.world.Map_mountains[y_mn][x_mn]==i:
+        if self.Map[y_mn][x_mn]==i:
             
-            if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mn]>i:
+            if self.Map[y_mn][self.x]>i and self.Map[self.y][x_mn]>i:
 
                 self.id = 10
                 
@@ -155,12 +156,31 @@ class Block(pygame.sprite.Sprite):
 
         # NE corner
 
-        if self.world.Map_mountains[y_mn][x_mx]==i:
+        if self.Map[y_mn][x_mx]==i:
 
-            if self.world.Map_mountains[y_mn][self.x]>i and self.world.Map_mountains[self.y][x_mx]>i:
+            if self.Map[y_mn][self.x]>i and self.Map[self.y][x_mx]>i:
 
                 self.id = 9
 
                 return
 
 
+class Mountain(Block):
+    
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Block_images[world.weather.get_season()][0])
+        self.frame = world.Block_images
+        self.Map = world.Map_mountains
+        
+    def update(self):
+        super().update()
+
+class Lake(Block):
+
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Lake_images[world.weather.get_season()][0])
+        self.frame = world.Lake_images
+        self.Map = world.Map_lake
+        
+    def update(self):
+        super().update()

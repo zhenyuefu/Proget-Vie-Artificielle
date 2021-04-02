@@ -16,33 +16,33 @@ NB_ITERATION = 300
 IT = 15
 
 
-class Time:
+# class Time:
 
-    def __init__(self):
+#     def __init__(self):
 
-        self.hour = 0
+#         self.hour = 0
 
-        self.time = 0
+#         self.time = 0
 
 
-    def update_hour(self):
+#     def update_hour(self):
 
-        self.time += 1
+#         self.time += 1
 
-        if self.time > IT:
+#         if self.time > IT:
 
-            self.time = 0
+#             self.time = 0
 
-            self.hour += 1
+#             self.hour += 1
             
-        if self.hour > 23:
+#         if self.hour > 23:
             
-            self.hour = 0
+#             self.hour = 0
                 
             
-    def get_hour(self):
+#     def get_hour(self):
 
-        return self.hour
+#         return self.hour
 
 
 class Weather:
@@ -51,7 +51,7 @@ class Weather:
 
         self.season = random.randint(0,3)
 
-        self.heure = Time()
+        #self.heure = Time()
 
         self.temperature = 0
 
@@ -164,20 +164,20 @@ class Weather:
 
     def get_season(self):
 
-        if self.heure.get_hour() < 6 or self.heure.get_hour() > 20:
+        # if self.heure.get_hour() < 6 or self.heure.get_hour() > 20:
 
-            return NIGHT
+        #     return NIGHT
 
         return self.season
         
 
     def update_weather(self):
 
-        self.heure.update_hour()
+        #self.heure.update_hour()
         if not self.delay:
             self.update_temperature()
-        if self.heure.get_hour() > 6 or self.heure.get_hour() < 20:
-            self.update_season()
+        #if self.heure.get_hour() > 6 or self.heure.get_hour() < 20:
+        self.update_season()
         
 
 

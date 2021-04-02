@@ -160,6 +160,70 @@ class Image:
             ]
         ]
 
+        self.world.Lake_images = [
+
+            [
+                self.load_image("PNG/Block/lake_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+            [
+                self.load_image("PNG/Block/lake2_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake2_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+            [
+                self.load_image("PNG/Block/lake3_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake3_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+            [
+                self.load_image("PNG/Block/lake4_inside.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_SW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_S.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_N.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_E.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_W.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
+                self.load_image("PNG/Block/lake4_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
+            ],
+        ]
+
         # sheep_images[0] -> up
         # sheep_images[1] -> right
         # sheep_images[2] -> down
