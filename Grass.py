@@ -15,7 +15,7 @@ class Grass(pygame.sprite.Sprite):
 
         self.x, self.y = x, y
 
-        self.state = 1
+        self.state = 0
 
         self.image = self.world.Environment_images[2][self.state]
 
@@ -25,7 +25,7 @@ class Grass(pygame.sprite.Sprite):
 
         self.step_state = 0
 
-        self.time_state = 0
+        self.time_state = 5
 
     def update(self):
 

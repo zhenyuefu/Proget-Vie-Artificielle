@@ -3,6 +3,7 @@ import random
 import pygame  # PYGAME package
 
 from Fire import *
+import Cloud
 
 P_FIRE = 0
 P_REPOUSSE = 0
@@ -17,7 +18,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.state = 0
 
-        self.image = self.world.Environment_images[1][self.state]
+        self.image = self.world.Environment_images[1][16]
         
         self.x, self.y = x, y
 
@@ -68,9 +69,110 @@ class Tree(pygame.sprite.Sprite):
 
         if self.inFire and self.stateF < len(self.world.Fire_images[0]) - 1:
 
-            for x2 in range(self.x-1,self.x+2):
+            # Le feu se propage dans la direction du vent
 
-                for y2 in range(self.y-1,self.y+2):
+            # Aucun vent
+            if Cloud.SPEED_X == 0 and Cloud.SPEED_Y == 0:
+                xm = self.x-1
+                xp = self.x+2
+                ym = self.y-1
+                yp = self.y+2
+            
+            # Vent NORD 
+            elif Cloud.SPEED_X > 0:
+
+                # Vent NE 
+                if Cloud.SPEED_Y > 0:
+                    xm = self.x
+                    xp = self.x+2
+                    ym = self.y
+                    yp = self.y+2
+
+                # Vent NW
+                elif Cloud.SPEED_Y < 0:
+                    xm = self.x
+                    xp = self.x+2
+                    ym = self.y-1
+                    yp = self.y+1
+                    
+                else:   
+                    xm = self.x+1
+                    xp = self.x+2
+                    ym = self.y-1
+                    yp = self.y+2
+
+            # Vent SUD
+            elif Cloud.SPEED_X < 0:
+
+                # Vent SE
+                if Cloud.SPEED_Y > 0:
+                    xm = self.x-1
+                    xp = self.x+1
+                    ym = self.y
+                    yp = self.y+2
+                
+                # Vent SW
+                elif Cloud.SPEED_Y < 0:
+                    xm = self.x-1
+                    xp = self.x+1
+                    ym = self.y-1
+                    yp = self.y+1
+                
+                else:
+                    xm = self.x-1
+                    xp = self.x
+                    ym = self.y-1
+                    yp = self.y+2
+
+            # Vent EST
+            elif Cloud.SPEED_Y > 0:
+
+                # Vent NE
+                if Cloud.SPEED_X > 0:
+                    xm = self.x
+                    xp = self.x+2
+                    ym = self.y
+                    yp = self.y+2
+
+                # Vent SE
+                elif Cloud.SPEED_X < 0:
+                    xm = self.x-1
+                    xp = self.x+1
+                    ym = self.y
+                    yp = self.y+2
+
+                else:
+                    xm = self.x-1
+                    xp = self.x+2
+                    ym = self.y+1
+                    yp = self.y+2
+
+            # Vent WEST
+            elif Cloud.SPEED_Y < 0:
+
+                # Vent NW
+                if Cloud.SPEED_X > 0:
+                    xm = self.x
+                    xp = self.x+2
+                    ym = self.y-1
+                    yp = self.y+1
+
+                # Vent SW
+                elif Cloud.SPEED_X < 0:
+                    xm = self.x-1
+                    xp = self.x+1
+                    ym = self.y-1
+                    yp = self.y+1
+
+                else:
+                    xm = self.x-1
+                    xp = self.x+2
+                    ym = self.y-1
+                    yp = self.y 
+            
+            for x2 in range(xm,xp):
+
+                for y2 in range(ym,yp):
 
                     x3 = x2
 
