@@ -16,9 +16,9 @@ class Tree(pygame.sprite.Sprite):
 
         self.world = world
 
-        self.state = 0
+        self.state = len(self.world.Environment_images[1])-1
 
-        self.image = self.world.Environment_images[1][16]
+        self.image = self.world.Environment_images[1][self.state]
         
         self.x, self.y = x, y
 
@@ -80,103 +80,89 @@ class Tree(pygame.sprite.Sprite):
             
             # Vent NORD 
             elif Cloud.SPEED_X > 0:
+                xm = self.x
+                xp = self.x+2
 
                 # Vent NE 
                 if Cloud.SPEED_Y > 0:
-                    xm = self.x
-                    xp = self.x+2
                     ym = self.y
                     yp = self.y+2
 
                 # Vent NW
                 elif Cloud.SPEED_Y < 0:
-                    xm = self.x
-                    xp = self.x+2
                     ym = self.y-1
                     yp = self.y+1
                     
                 else:   
                     xm = self.x+1
-                    xp = self.x+2
                     ym = self.y-1
                     yp = self.y+2
 
             # Vent SUD
             elif Cloud.SPEED_X < 0:
+                xm = self.x-1
+                xp = self.x+1
 
                 # Vent SE
                 if Cloud.SPEED_Y > 0:
-                    xm = self.x-1
-                    xp = self.x+1
                     ym = self.y
                     yp = self.y+2
                 
                 # Vent SW
                 elif Cloud.SPEED_Y < 0:
-                    xm = self.x-1
-                    xp = self.x+1
                     ym = self.y-1
                     yp = self.y+1
                 
                 else:
-                    xm = self.x-1
                     xp = self.x
                     ym = self.y-1
                     yp = self.y+2
 
             # Vent EST
             elif Cloud.SPEED_Y > 0:
+                ym = self.y
+                yp = self.y+2
 
                 # Vent NE
                 if Cloud.SPEED_X > 0:
                     xm = self.x
                     xp = self.x+2
-                    ym = self.y
-                    yp = self.y+2
 
                 # Vent SE
                 elif Cloud.SPEED_X < 0:
                     xm = self.x-1
                     xp = self.x+1
-                    ym = self.y
-                    yp = self.y+2
 
                 else:
                     xm = self.x-1
                     xp = self.x+2
                     ym = self.y+1
-                    yp = self.y+2
 
             # Vent WEST
             elif Cloud.SPEED_Y < 0:
+                ym = self.y-1
+                yp = self.y+1
 
                 # Vent NW
                 if Cloud.SPEED_X > 0:
                     xm = self.x
                     xp = self.x+2
-                    ym = self.y-1
-                    yp = self.y+1
 
                 # Vent SW
                 elif Cloud.SPEED_X < 0:
                     xm = self.x-1
                     xp = self.x+1
-                    ym = self.y-1
-                    yp = self.y+1
 
                 else:
                     xm = self.x-1
                     xp = self.x+2
-                    ym = self.y-1
                     yp = self.y 
             
             for x2 in range(xm,xp):
 
                 for y2 in range(ym,yp):
 
-                    x3 = x2
-
-                    y3 = y2
+                    x3, y3 = x2, y2
 
                     if x3 < 0:
 

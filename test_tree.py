@@ -68,6 +68,15 @@ class World:
             * (self.screenHeight // self.size_block_Y)
         ]
 
+        self.altitude = []
+
+        for _ in range(self.screenHeight // self.size_block_Y):
+            m=[]
+            for _ in range(self.screenWidth // self.size_block_X):
+                m.append(random.randint(0,2000))
+            
+            self.altitude.append(m)
+
         pygame.init()
 
         self.screen = pygame.display.set_mode(
@@ -129,70 +138,141 @@ class World:
 
     # Type de montagnes
 
-    def create_block(self):
+    # def create_block(self):
 
-        for _ in range(3):
-            longueur, largeur = random.randint(8, 10), random.randint(8, 10)
+    #     for _ in range(3):
+    #         longueur, largeur = random.randint(8, 10), random.randint(8, 10)
 
-            self.BlockType.append([x[:] for x in [[1] * largeur] * longueur])
+    #         self.BlockType.append([x[:] for x in [[1] * largeur] * longueur])
 
     # Mountains random placement
 
     def object_placment(self):
 
-        self.create_block()
+        # self.create_block()
 
-        i = 0
+        # i = 0
 
-        for _ in range(6):
+        # for _ in range(6):
 
-            x_offset, y_offset = (
-                random.randint(0, len(self.Map_mountains[0]) - 1),
-                random.randint(0, len(self.Map_mountains) - 1),
-            )
+        #     x_offset, y_offset = (
+        #         random.randint(0, len(self.Map_mountains[0]) - 1),
+        #         random.randint(0, len(self.Map_mountains) - 1),
+        #     )
 
-            M = self.BlockType[random.randint(0, len(self.BlockType) - 1)]
+        #     M = self.BlockType[random.randint(0, len(self.BlockType) - 1)]
 
-            for x in range(len(M[0])):
+        #     for x in range(len(M[0])):
 
-                for y in range(len(M)):
+        #         for y in range(len(M)):
 
-                    x2, y2 = x + x_offset, y + y_offset
+        #             x2, y2 = x + x_offset, y + y_offset
 
-                    if x2 < 0:
-                        x2 += len(self.Map_mountains[0])
+        #             if x2 < 0:
+        #                 x2 += len(self.Map_mountains[0])
 
-                    if x2 >= len(self.Map_mountains[0]):
-                        x2 -= len(self.Map_mountains[0])
+        #             if x2 >= len(self.Map_mountains[0]):
+        #                 x2 -= len(self.Map_mountains[0])
 
-                    if y2 < 0:
-                        y2 += len(self.Map_mountains)
+        #             if y2 < 0:
+        #                 y2 += len(self.Map_mountains)
 
-                    if y2 >= len(self.Map_mountains):
-                        y2 -= len(self.Map_mountains)
+        #             if y2 >= len(self.Map_mountains):
+        #                 y2 -= len(self.Map_mountains)
 
-                    if not self.Map_mountains[y2][x2] and not self.Map_lake[y2][x2]:
+        #             if not self.Map_mountains[y2][x2] and not self.Map_lake[y2][x2]:
                         
-                        if i%2==0:
+        #                 if i%2==0:
                             
-                            self.Map_mountains[y2][x2] = M[y][x]
+        #                     self.Map_mountains[y2][x2] = M[y][x]
                             
-                            block = Block.Mountain(self, x2, y2)
+        #                     block = Block.Mountain(self, x2, y2)
                             
-                            self.block_group.add(block)
+        #                     self.block_group.add(block)
                             
-                            self.all_object_group.add(block)
+        #                     self.all_object_group.add(block)
                             
-                        else:
+        #                 else:
                             
-                            self.Map_lake[y2][x2] = M[y][x]
+        #                     self.Map_lake[y2][x2] = M[y][x]
                             
-                            block = Block.Lake(self, x2, y2)
+        #                     block = Block.Lake(self, x2, y2)
                             
-                            self.block_group.add(block)
+        #                     self.block_group.add(block)
+
+        #                     self.all_object_group.add(block)
                             
-                            self.all_object_group.add(block)
-            i += 1
+                            
+        #     i += 1
+
+        n = 60
+
+        for x in range(len(self.altitude[0])):
+            for y in range(len(self.altitude)):
+
+                if self.altitude[y][x] <= n and not self.Map_lake[y][x]:
+
+                    for x2 in range(x-2,x+3):
+                        for y2 in range(y-2,y+3):
+                            
+                            x3, y3 = x2, y2
+                            
+                            if x3 < 0:
+                                x3+= len(self.altitude[0])
+                                
+                            if x3 >= len(self.altitude[0]):
+                                x3 -= len(self.altitude[0])
+                                
+                            if y3< 0:
+                                y3 += len(self.altitude)
+                                
+                            if y3 >= len(self.altitude):
+                                y3 -= len(self.altitude)
+                                
+                            if not self.Map_lake[y3][x3]:
+                                
+                                self.Map_lake[y3][x3]=1
+
+
+        for x in range(len(self.Map_lake[0])):
+            for y in range(len(self.Map_lake)):
+
+                if self.Map_lake[y][x]:
+                    x_mn, y_mn = x - 1, y - 1
+                    x_mx, y_mx = x + 1, y + 1
+
+                    if x_mn < 0:
+                        x_mn += len(self.Map_lake[0])
+                    
+                    if x_mx >= len(self.Map_lake[0]):
+                        x_mx -= len(self.Map_lake[0])
+                        
+                    if y_mn < 0:
+                        y_mn += len(self.Map_lake)
+                        
+                    if y_mx >= len(self.Map_lake):
+                        y_mx -= len(self.Map_lake)
+
+                    if ((not self.Map_lake[y_mn][x_mn] and not self.Map_lake[y_mx][x_mx]) and (self.Map_lake[y_mx][x_mn] and self.Map_lake[y_mn][x_mx])) or ((self.Map_lake[y_mn][x_mn] and self.Map_lake[y_mx][x_mx]) and (not self.Map_lake[y_mx][x_mn] and not self.Map_lake[y_mn][x_mx])):
+                        self.Map_lake[y][x]=0
+
+                    else:
+                        block = Block.Lake(self,x,y)
+                        self.block_group.add(block)
+                        self.all_object_group.add(block)
+                        
+
+
+
+
+
+
+                    
+
+                    
+
+                    
+
 
 
         # Tree and obstacle random placment
@@ -326,7 +406,8 @@ class World:
         if not self.Tmp1:
             self.Tmp1 = self.Trees.copy()
 
-        i = random.randint(0, len(self.Tmp1) - 1)
+        if self.Tmp1:
+            i = random.randint(0, len(self.Tmp1) - 1)
 
         x, y = self.Tmp1[i]
 
