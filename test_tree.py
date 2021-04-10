@@ -5,9 +5,7 @@ from pygame.locals import *  # PYGAME constant & functions
 import random
 
 import Agent
-import Tree
-import Grass
-#from Grass import *
+import Plant
 import Obstacle
 import Block
 from Image import *
@@ -205,7 +203,7 @@ class World:
                             
         #     i += 1
 
-        n = 60
+        n = 1
 
         for x in range(len(self.altitude[0])):
             for y in range(len(self.altitude)):
@@ -305,7 +303,7 @@ class World:
                 ):
 
                     if random.random() < 0.03:
-                        self.Map_trees[y][x] = Tree.Tree(self, x, y)
+                        self.Map_trees[y][x] = Plant.Tree(self, x, y)
 
                         self.Trees.append((x, y))
 
@@ -332,7 +330,7 @@ class World:
 
             for y in range(len(self.Map_grass)):
 
-                grass = Grass.Grass(self, x, y)
+                grass = Plant.Grass(self, x, y)
 
                 if not pygame.sprite.spritecollideany(grass, self.all_object_group):
 
@@ -390,8 +388,8 @@ class World:
         self.weather.update_weather()
 
         if self.weather.delay == 1:
-            print("p_fire=", Tree.P_FIRE)
-            print("p_gen=", Tree.P_REPOUSSE)
+            print("p_fire=", Plant.P_FIRE)
+            print("p_gen=", Plant.P_REPOUSSE)
             print("saison=", self.weather.season)
 
         # BLOCK
@@ -406,33 +404,26 @@ class World:
         if not self.Tmp1:
             self.Tmp1 = self.Trees.copy()
 
-        if self.Tmp1:
-            i = random.randint(0, len(self.Tmp1) - 1)
-
-        x, y = self.Tmp1[i]
-
-        if self.Map_trees[y][x] == None:
-
-            if (
-                random.random() < Tree.P_REPOUSSE
-            ):  # probabilté qu'un arbre repousse (change par rapport à la saison et température)
-
-                self.Map_trees[y][x] = Tree.Tree(self, x, y)
-
-                self.tree_group.add(self.Map_trees[y][x])
-
-                self.all_object_group.add(self.Map_trees[y][x])
-
-                self.Map_trees[y][x].update_tree()
         else:
+            i = random.randint(0, len(self.Tmp1) - 1)
+            x, y = self.Tmp1[i]
+            
+            if self.Map_trees[y][x] == None:
+                
+                if (random.random() < Plant.P_REPOUSSE):  # probabilté qu'un arbre repousse (change par rapport à la saison et température)
+                    
+                    self.Map_trees[y][x] = Plant.Tree(self, x, y)
+                    self.tree_group.add(self.Map_trees[y][x])
+                    self.all_object_group.add(self.Map_trees[y][x])
+                    self.Map_trees[y][x].update_plant()
+            else:
+                self.Map_trees[y][x].update_plant()
 
-            self.Map_trees[y][x].update_tree()
-
-        self.tree_group.update()
+            del self.Tmp1[i]
 
         self.tree_group.draw(self.screen)
 
-        del self.Tmp1[i]
+        
 
         # FIRE
 
@@ -443,32 +434,31 @@ class World:
         if not self.Tmp2:
             self.Tmp2 = self.Grass.copy()
 
-        i = random.randint(0, len(self.Tmp2) - 1)
-
-        x, y = self.Tmp2[i]
-
-        if self.Map_grass[y][x] == None:
-
-            if (
-                random.random() < Grass.P_REPOUSSE
-            ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)
-
-                self.Map_grass[y][x] = Grass.Grass(self, x, y)
-
-                self.grass_group.add(self.Map_grass[y][x])
-
-                self.Map_grass[y][x].update_grass()
-
         else:
+            i = random.randint(0, len(self.Tmp2) - 1)
+            x, y = self.Tmp2[i]
+            
+            if self.Map_grass[y][x] == None:
+                
+                if (
+                    random.random() < Plant.P_REPOUSSE
+                    ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)
+                    
+                    self.Map_grass[y][x] = Plant.Grass(self, x, y)
+                    self.grass_group.add(self.Map_grass[y][x])
+                    self.Map_grass[y][x].update_plant()
+                    
+            else:
+                self.Map_grass[y][x].update_plant()
 
-            self.Map_grass[y][x].update_grass()
+            del self.Tmp2[i]
 
         if self.weather.delay == 1:
             self.grass_group.update()
 
         self.grass_group.draw(self.screen)
 
-        del self.Tmp2[i]
+        
 
         # agents
         self.wolf_group.update()
