@@ -8,23 +8,31 @@ import Cloud
 P_FIRE = 0
 P_REPOUSSE = 0
 
-class Tree(pygame.sprite.Sprite):
+class Plant(pygame.sprite.Sprite):
 
-    def __init__(self,world,x,y):
+    def __init__(self,world,x,y,img):
 
         pygame.sprite.Sprite.__init__(self)
 
         self.world = world
 
-        self.state = len(self.world.Environment_images[1])-1
+        self.factor_x, self.factor_y = 36,32
 
-        self.image = self.world.Environment_images[1][self.state]
+        self.frame = []
+
+        self.fire_frame = []
+
+        self.state = 0#len(self.frame)-1
+
+        self.image = img
+
+        self.Map = []
         
         self.x, self.y = x, y
 
         self.rect = self.image.get_rect()
 
-        self.rect.topleft = (self.x * self.world.size_tree_X, self.y * self.world.size_tree_Y)
+        self.rect.topleft = (self.x * self.factor_x, self.y * self.factor_y)
 
         self.inFire = False
 
@@ -34,7 +42,7 @@ class Tree(pygame.sprite.Sprite):
 
         self.step_state = 0
 
-        self.time_state = 3 # nb d'itérations avant de passer à le prochain state
+        self.time_state = 1 # nb d'itérations avant de passer à le prochain state
 
         self.loop = 0 # itérateur boucle de feu
 
@@ -47,13 +55,11 @@ class Tree(pygame.sprite.Sprite):
     def in_Fire(self):
 
         self.inFire = True
-        
-        self.fire = Fire(self,self.x,self.y,self.world.Fire_images[0][0])
 
         self.world.fire_group.add(self.fire)
 
 
-    def tree_in_fire(self):
+    def plant_in_fire(self):
 
         if not self.inFire:
 
@@ -61,13 +67,13 @@ class Tree(pygame.sprite.Sprite):
 
                 self.in_Fire()
             
-        if self.stateF == len(self.world.Fire_images[0]) - 1:
+        if self.stateF == len(self.fire_frame) - 1:
 
             self.fire.kill()
 
-            self.world.Map_trees[self.y][self.x] = None
+            self.Map[self.y][self.x] = None
 
-        if self.inFire and self.stateF < len(self.world.Fire_images[0]) - 1:
+        if self.inFire and self.stateF < len(self.fire_frame) - 1:
 
             # Le feu se propage dans la direction du vent
 
@@ -166,23 +172,23 @@ class Tree(pygame.sprite.Sprite):
 
                     if x3 < 0:
 
-                        x3 += len(self.world.Map_trees[0])
+                        x3 += len(self.Map[0])
 
-                    if x3 >= len(self.world.Map_trees[0]):
+                    if x3 >= len(self.Map[0]):
 
-                        x3 -= len(self.world.Map_trees[0])
+                        x3 -= len(self.Map[0])
 
                     if y3 < 0:
 
-                        y3 += len(self.world.Map_trees)
+                        y3 += len(self.Map)
 
-                    if y3 >= len(self.world.Map_trees):
+                    if y3 >= len(self.Map):
 
-                        y3 -= len(self.world.Map_trees)
+                        y3 -= len(self.Map)
 
-                    if self.world.Map_trees[y3][x3] != None and not self.world.Map_trees[y3][x3].inFire:
+                    if self.Map[y3][x3] != None and not self.Map[y3][x3].inFire:
 
-                        self.world.Map_trees[y3][x3].in_Fire()
+                        self.Map[y3][x3].in_Fire()
 
 
             if self.stateF == 4:
@@ -200,12 +206,12 @@ class Tree(pygame.sprite.Sprite):
 
             self.stateF += 1
 
-            self.fire.set_frame(self.world.Fire_images[0][self.stateF])
+            self.fire.set_frame(self.fire_frame[self.stateF])
 
 
-    def tree_gen(self):
+    def plant_gen(self):
         
-        if not self.inFire and self.state < len(self.world.Environment_images[1]) - 1:
+        if not self.inFire and self.state < len(self.frame) - 1:
             
             self.step_state += 1
             
@@ -215,13 +221,46 @@ class Tree(pygame.sprite.Sprite):
                 
                 self.state += 1
                 
-                self.image = self.world.Environment_images[1][self.state]
+                self.image = self.frame[self.state]
             
             
         
 
-    def update_tree(self):
+    def update_plant(self):
 
-        self.tree_in_fire()
-        self.tree_gen()
+        self.plant_in_fire()
+        self.plant_gen()
+
+
+class Tree(Plant):
+
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Environment_images[1][0])
+        self.frame=world.Environment_images[1]
+        self.fire_frame=world.Fire_images[0]
+        self.Map=world.Map_trees
+        self.fire=Fire(self,x,y,self.fire_frame[0],world.size_tree_X,world.size_tree_Y)
+
+    def update_plant(self):
+        super().update_plant()
+
+class Grass(Plant):
+
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Environment_images[2][0])
+        self.factor_x, self.factor_y = world.size_grass_X, world.size_grass_Y
+        self.frame=world.Environment_images[2]
+        self.fire_frame=world.Fire_images[1]
+        self.Map=world.Map_grass
+        self.fire=Fire(self,x,y,self.fire_frame[0],self.factor_x,self.factor_y)
+
+    def update_plant(self):
+        super().update_plant()
+
+    def update(self):
+
+        if self.world.weather.season == 2 and self.state == 1:
+            self.image = self.world.Environment_images[5][0]
+            return
+        self.image = self.frame[self.state]
         
