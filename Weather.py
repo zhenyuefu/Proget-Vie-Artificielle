@@ -2,7 +2,7 @@ import pygame
 
 import random
 
-import Tree
+import Plant
 import Grass
 import Cloud
 
@@ -91,11 +91,9 @@ class Weather:
             
             self.temperature = random.uniform(float(-10), float(-6))
 
-            Tree.P_FIRE = 0
+            Plant.P_FIRE = 0
 
-            Tree.P_REPOUSSE = (self.season+1) / 10**3
-
-            Grass.P_REPOUSSE = Tree.P_REPOUSSE
+            Plant.P_REPOUSSE = (self.season+1) / 10**3
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -109,11 +107,9 @@ class Weather:
             
             self.temperature = random.uniform(float(15), float(20))
 
-            Tree.P_FIRE = self.temperature / 10**4
+            Plant.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REPOUSSE = (self.season+1) / 10**3
-
-            Grass.P_REPOUSSE = Tree.P_REPOUSSE
+            Plant.P_REPOUSSE = (self.season+1) / 10**3
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -127,11 +123,9 @@ class Weather:
             
             self.temperature = random.uniform(float(30), float(35))
 
-            Tree.P_FIRE = self.temperature / 10**4
+            Plant.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REPOUSSE= (self.season+1) / 10**3
-
-            Grass.P_REPOUSSE = Tree.P_REPOUSSE
+            Plant.P_REPOUSSE= (self.season+1) / 10**3
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 
@@ -145,11 +139,9 @@ class Weather:
             
             self.temperature = random.uniform(float(13), float(16))
 
-            Tree.P_FIRE = self.temperature / 10**4
+            Plant.P_FIRE = self.temperature / 10**4
 
-            Tree.P_REPOUSSE = (self.season+1) / 10**3
-
-            Grass.P_REPOUSSE = Tree.P_REPOUSSE
+            Plant.P_REPOUSSE = (self.season+1) / 10**3
 
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
 

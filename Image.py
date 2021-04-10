@@ -51,7 +51,6 @@ class Image:
             [
                 self.load_image("PNG/split/grass_repousse.png", self.world.size_grass_X, self.world.size_grass_Y),
                 self.load_image("PNG/split/grass.png", self.world.size_grass_X, self.world.size_grass_Y),
-                self.load_image("PNG/split/ice_grass.png", self.world.size_grass_X, self.world.size_grass_Y),
 
             ],
             [
@@ -62,11 +61,15 @@ class Image:
             ],
             [
                 self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y)
-            ]
+            ],
+            [
+                self.load_image("PNG/split/ice_grass.png", self.world.size_grass_X, self.world.size_grass_Y),
+            ],
+
 
         ]
 
-        self.world.Fire_images.append(
+        self.world.Fire_images = [
             [
                 self.load_image("PNG/split/fire4.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/fire5.png", self.world.size_tree_X, self.world.size_tree_Y),
@@ -77,9 +80,20 @@ class Image:
                 self.load_image("PNG/split/cendre1.png", self.world.size_tree_X, self.world.size_tree_Y),
                 self.load_image("PNG/split/cendre2.png", self.world.size_tree_X, self.world.size_tree_Y),
                 
+            ],
+            [
+                self.load_image("PNG/split/fire4.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/fire5.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/fire6.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/fire7.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/fire8.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/cendre0.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/cendre1.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/cendre2.png", self.world.size_grass_X, self.world.size_grass_Y),
+                
             ]
 
-        )
+        ]
 
         self.world.Block_images = [
 

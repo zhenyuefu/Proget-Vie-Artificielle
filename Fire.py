@@ -2,19 +2,21 @@ import pygame
 
 class Fire(pygame.sprite.Sprite):
 
-    def __init__(self,tree,x,y,img):
+    def __init__(self,plant,x,y,img,f_x,f_y):
 
         pygame.sprite.Sprite.__init__(self)
 
-        self.tree = tree
+        self.plant = plant
 
         self.x, self.y = x, y
+
+        self.f_x, self.f_y = f_x, f_y
 
         self.image = img
 
         self.rect = self.image.get_rect()
 
-        self.rect.topleft = (self.x * self.tree.world.size_tree_X, self.y * self.tree.world.size_tree_Y)
+        self.rect.topleft = (self.x * self.f_x, self.y * self.f_y)
 
 
     def set_frame(self,img):
