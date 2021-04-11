@@ -1,29 +1,19 @@
-
-import pygame  # PYGAME package
+import pygame
 
 
 class Obstacle(pygame.sprite.Sprite):
 
     def __init__(self,world,x,y,img,f_x,f_y):
-
         pygame.sprite.Sprite.__init__(self)
-
         self.world = world
-
         self.x, self.y = x, y
-
         self.frame = []
-
         self.image = img
-
         self.rect = self.image.get_rect()
-
         self.factor_x, self.factor_y = f_x, f_y
-
         self.rect.topleft = (self.x * self.factor_x, self.y * self.factor_y)
 
     def update(self):
-
         self.image = self.frame[self.world.weather.season]
 
 class Rock(Obstacle):

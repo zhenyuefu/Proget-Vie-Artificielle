@@ -1,5 +1,4 @@
 import pygame
-
 import random
 
 SPEED_X = random.randint(-1,1)
@@ -9,7 +8,6 @@ SPEED_FACTOR = random.randint(1,4)
 class Cloud(pygame.sprite.Sprite):
 
     def __init__(self,world):
-        
         pygame.sprite.Sprite.__init__(self)
         self.world = world
         self.image = self.world.Environment_images[5][0]
@@ -18,7 +16,6 @@ class Cloud(pygame.sprite.Sprite):
         self.loop = 0
 
     def update(self):
-        
         if self.loop == SPEED_FACTOR:
             self.move()
             self.loop = 0
