@@ -142,7 +142,7 @@ class BasicAgent(pygame.sprite.Sprite):
 
 
 class Sheep(BasicAgent):
-    p_reproduce = 0.00015
+    p_reproduce = 0.0015
     delai_de_famine = 100
 
     def __init__(self, world, init_pos):
@@ -162,7 +162,7 @@ class Sheep(BasicAgent):
         if self.iter > 3:
             self.it_non_mange += 1
             self.iter = 0
-        min = 6
+        min = 20
         closest = None
         for wolf in self.world.wolf_group:
             distance = pos.distance_to(pygame.math.Vector2(wolf.x, wolf.y))
@@ -192,7 +192,7 @@ class Sheep(BasicAgent):
 
 
 class Wolf(BasicAgent):
-    p_reproduce = 0.0001
+    p_reproduce = 0.001
     delai_de_famine = 100
 
     def __init__(self, world, init_pos):
@@ -213,7 +213,7 @@ class Wolf(BasicAgent):
         if self.iter > 10:
             self.it_non_mange += 1
             self.iter = 0
-        min = 5
+        min = 15
         closest = None
         for sheep in self.world.sheep_group:
             if pygame.sprite.collide_rect(self, sheep):
@@ -225,7 +225,7 @@ class Wolf(BasicAgent):
                 min = distance
                 closest = sheep
         if closest:
-            self.state = AgentState.MOVE
+            # self.state = AgentState.MOVE
             x_distance = closest.x - self.x
             y_distance = closest.y - self.y
             if abs(x_distance) < abs(y_distance):
