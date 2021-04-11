@@ -4,7 +4,7 @@ import pygame  # PYGAME package
 
 class Obstacle(pygame.sprite.Sprite):
 
-    def __init__(self,world,x,y):
+    def __init__(self,world,x,y,img,f_x,f_y):
 
         pygame.sprite.Sprite.__init__(self)
 
@@ -12,12 +12,34 @@ class Obstacle(pygame.sprite.Sprite):
 
         self.x, self.y = x, y
 
-        self.image = self.world.Environment_images[3][self.world.weather.season]
+        self.frame = []
+
+        self.image = img
 
         self.rect = self.image.get_rect()
 
-        self.rect.topleft = (self.x * self.world.size_tree_X, self.y * self.world.size_tree_Y)
+        self.factor_x, self.factor_y = f_x, f_y
+
+        self.rect.topleft = (self.x * self.factor_x, self.y * self.factor_y)
 
     def update(self):
 
-        self.image = self.world.Environment_images[3][self.world.weather.season]
+        self.image = self.frame[self.world.weather.season]
+
+class Rock(Obstacle):
+
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Environment_images[3][world.weather.season],world.size_obstacle_X,world.size_obstacle_Y)
+        self.frame=world.Environment_images[3]
+
+    def update(self):
+        super().update()
+
+class Trunk(Obstacle):
+
+    def __init__(self,world,x,y):
+        super().__init__(world,x,y,world.Environment_images[4][world.weather.season],world.size_trunk_X,world.size_trunk_Y)
+        self.frame=world.Environment_images[4]
+
+    def update(self):
+        super().update()

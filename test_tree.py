@@ -23,7 +23,11 @@ class World:
         constructeur de la classe
         """
 
+        # Taille fenêtre
+
         self.screenWidth, self.screenHeight = screenWidth, screenHeight
+
+        # Initialisation de la taille des tuiles
 
         self.size_tile_X, self.size_tile_Y = 32, 32
 
@@ -40,7 +44,11 @@ class World:
 
         self.size_obstacle_X, self.size_obstacle_Y = self.size_tree_X, self.size_tree_Y
 
+        self.size_trunk_X, self.size_trunk_Y = 36, 22
+
         self.size_block_X, self.size_block_Y = self.size_tree_X, self.size_tree_Y
+
+        # Création des Maps
 
         self.Map_trees = [
             x[:]
@@ -66,11 +74,13 @@ class World:
             * (self.screenHeight // self.size_block_Y)
         ]
 
+        # Carte d'altitude (placement des points d'eau)
+
         self.altitude = []
 
-        for _ in range(self.screenHeight // self.size_block_Y):
+        for i in range(self.screenHeight // self.size_block_Y):
             m=[]
-            for _ in range(self.screenWidth // self.size_block_X):
+            for j in range(self.screenWidth // self.size_block_X):
                 m.append(random.randint(0,2000))
             
             self.altitude.append(m)
@@ -86,52 +96,47 @@ class World:
         )
         pygame.display.set_caption("WORLD TEST")
 
+        # Météo
+
         self.weather = Weather.Weather()
 
+        # Frame
+
         self.Environment_images = []
-
         self.sheep_images = []
-
         self.wolf_images = []
-
         self.Block_images = []
-
         self.Lake_images = []
-
         self.Fire_images = []
 
-        self.image = Image(self)
+        # Initialisation des tuiles
 
+        self.image = Image(self)
         self.image.load_all_image()
 
-        self.BlockType = []
+        # Position de chaque sprite (arbre et herbe)
+
+        #self.BlockType = []
 
         self.Trees = []
-
         self.Grass = []
 
-        self.Tmp1 = []
+        # Liste temporaire
 
-        self.Tmp2 = []
+        self.Tmp1 = [] # ---> Tree
+        self.Tmp2 = [] # ---> Grass
+
+        # Group Lists
 
         self.tree_group = pygame.sprite.Group()
-
         self.fire_group = pygame.sprite.Group()
-
         self.grass_group = pygame.sprite.Group()
-
         self.obstacle_group = pygame.sprite.Group()
-
         self.block_group = pygame.sprite.Group()
-
         self.wolf_group = pygame.sprite.Group()
-
         self.sheep_group = pygame.sprite.Group()
-
         self.cloud_group = pygame.sprite.Group()
-
         self.all_object_group = pygame.sprite.Group()
-
         self.object_placment()
 
     # Type de montagnes
@@ -203,7 +208,7 @@ class World:
                             
         #     i += 1
 
-        n = 1
+        n = 20
 
         for x in range(len(self.altitude[0])):
             for y in range(len(self.altitude)):
@@ -304,22 +309,18 @@ class World:
 
                     if random.random() < 0.03:
                         self.Map_trees[y][x] = Plant.Tree(self, x, y)
-
                         self.Trees.append((x, y))
-
                         self.tree_group.add(self.Map_trees[y][x])
-
                         self.all_object_group.add(self.Map_trees[y][x])
-
                         continue
 
                     if random.random() < 0.01:
-                        obstacle = Obstacle.Obstacle(self, x, y)
-
+                        if random.random() < 0.5:
+                            obstacle = Obstacle.Rock(self, x, y)
+                        else:
+                            obstacle = Obstacle.Trunk(self, x, y)
                         self.obstacle_group.add(obstacle)
-
                         self.all_object_group.add(obstacle)
-
                         continue
 
                     # self.Trees.append((x, y))
@@ -327,22 +328,16 @@ class World:
         # Grass random placment
 
         for x in range(len(self.Map_grass[0])):
-
             for y in range(len(self.Map_grass)):
-
                 grass = Plant.Grass(self, x, y)
-
                 if not pygame.sprite.spritecollideany(grass, self.all_object_group):
-
                     if random.random() < 0.1:
                         self.Map_grass[y][x] = grass
-
                         self.Grass.append((x, y))
-
                         self.grass_group.add(self.Map_grass[y][x])
 
         # Générer des agents
-        for i in range(10):
+        for i in range(1):
             sheep = Agent.Sheep(
                 self,
                 (
@@ -358,7 +353,7 @@ class World:
                 i -= 1
                 continue
             self.sheep_group.add(sheep)
-        for i in range(5):
+        for i in range(1):
             wolf = Agent.Wolf(
                 self,
                 (
@@ -415,25 +410,19 @@ class World:
                     self.Map_trees[y][x] = Plant.Tree(self, x, y)
                     self.tree_group.add(self.Map_trees[y][x])
                     self.all_object_group.add(self.Map_trees[y][x])
-                    self.Map_trees[y][x].update_plant()
+                    self.Map_trees[y][x].update()
             else:
-                self.Map_trees[y][x].update_plant()
+                self.Map_trees[y][x].update()
 
             del self.Tmp1[i]
 
         self.tree_group.draw(self.screen)
 
-        
-
-        # FIRE
-
-        self.fire_group.draw(self.screen)
 
         # GRASS
 
         if not self.Tmp2:
             self.Tmp2 = self.Grass.copy()
-
         else:
             i = random.randint(0, len(self.Tmp2) - 1)
             x, y = self.Tmp2[i]
@@ -446,19 +435,19 @@ class World:
                     
                     self.Map_grass[y][x] = Plant.Grass(self, x, y)
                     self.grass_group.add(self.Map_grass[y][x])
-                    self.Map_grass[y][x].update_plant()
+                    self.Map_grass[y][x].update()
                     
             else:
-                self.Map_grass[y][x].update_plant()
+                self.Map_grass[y][x].update()
 
             del self.Tmp2[i]
 
-        if self.weather.delay == 1:
-            self.grass_group.update()
 
         self.grass_group.draw(self.screen)
 
-        
+        # FIRE
+
+        self.fire_group.draw(self.screen)
 
         # agents
         self.wolf_group.update()

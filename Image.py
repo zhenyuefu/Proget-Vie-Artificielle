@@ -60,6 +60,12 @@ class Image:
                 self.load_image("PNG/split/spring_rock.png", self.world.size_obstacle_X, self.world.size_obstacle_Y),
             ],
             [
+                self.load_image("PNG/split/summer_tronc.png", self.world.size_trunk_X, self.world.size_trunk_Y),
+                self.load_image("PNG/split/fall_tronc.png", self.world.size_trunk_X, self.world.size_trunk_Y),
+                self.load_image("PNG/split/winter_tronc.png", self.world.size_trunk_X, self.world.size_trunk_Y),
+                self.load_image("PNG/split/spring_tronc.png", self.world.size_trunk_X, self.world.size_trunk_Y),
+            ],
+            [
                 self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y)
             ],
             [
