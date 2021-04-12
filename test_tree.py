@@ -35,7 +35,7 @@ class World:
             self.size_tree_Y // 2,
         )
         self.size_obstacle_X, self.size_obstacle_Y = self.size_tree_X, self.size_tree_Y
-        self.size_trunk_X, self.size_trunk_Y = 36, 22
+        self.size_trunk_X, self.size_trunk_Y = 36, 32
         self.size_block_X, self.size_block_Y = self.size_tree_X, self.size_tree_Y
 
         # Création des Maps
@@ -67,10 +67,11 @@ class World:
         # Carte d'altitude (placement des points d'eau)
 
         self.altitude = []
+        a_max=500
         for i in range(self.screenHeight // self.size_block_Y):
             m=[]
             for j in range(self.screenWidth // self.size_block_X):
-                m.append(random.randint(0,2000))            
+                m.append(random.randint(0,a_max))            
             self.altitude.append(m)
 
         pygame.init()
@@ -104,8 +105,6 @@ class World:
 
         # Position de chaque sprite (arbre et herbe)
 
-        self.BlockType = []
-
         self.Trees = []
         self.Grass = []
 
@@ -127,107 +126,68 @@ class World:
         self.all_object_group = pygame.sprite.Group()
         self.object_placment()
 
-    # Type de montagnes
+    # Fonction de placements des blocks
+    def block_placment(self,Map,h):
+        for x in range(len(self.altitude[0])):
+            for y in range(len(self.altitude)):
+                if h < 250:
+                    b=self.altitude[y][x] < h
+                if h > 250:
+                    b=self.altitude[y][x] > h
+                if b and not self.Map_mountains[y][x] and not self.Map_lake[y][x]:
+                    for x2 in range(x-2,x+3):
+                        for y2 in range(y-2,y+3):                            
+                            x3, y3 = x2, y2                            
+                            if x3 < 0:
+                                x3+= len(self.altitude[0])                                
+                            if x3 >= len(self.altitude[0]):
+                                x3 -= len(self.altitude[0])                               
+                            if y3< 0:
+                                y3 += len(self.altitude)                                
+                            if y3 >= len(self.altitude):
+                                y3 -= len(self.altitude)                                
+                            if not Map[y3][x3] and not self.Map_mountains[y3][x3] and not self.Map_lake[y3][x3]:                                
+                                Map[y3][x3]=1
 
-    def create_block(self):
-        for _ in range(3):
-            longueur, largeur = random.randint(8, 10), random.randint(8, 10)
-            self.BlockType.append([x[:] for x in [[1] * largeur] * longueur])
+        for x in range(len(Map[0])):
+            for y in range(len(Map)):
+                if Map[y][x]:
+                    x_mn, y_mn = x - 1, y - 1
+                    x_mx, y_mx = x + 1, y + 1
+
+                    if x_mn < 0:
+                        x_mn += len(Map[0])
+                    
+                    if x_mx >= len(Map[0]):
+                        x_mx -= len(Map[0])
+                        
+                    if y_mn < 0:
+                        y_mn += len(Map)
+                        
+                    if y_mx >= len(Map):
+                        y_mx -= len(Map)
+
+                    if ((not Map[y_mn][x_mn] and not Map[y_mx][x_mx]) and (Map[y_mx][x_mn] and Map[y_mn][x_mx])) or ((Map[y_mn][x_mn] and Map[y_mx][x_mx]) and (not Map[y_mx][x_mn] and not Map[y_mn][x_mx])) or (not Map[y_mn][x] and not Map[y_mx][x]) or (not Map[y][x_mn] and not Map[y][x_mx]):
+                        Map[y][x]=0
+
+                    elif Map==self.Map_mountains:
+                        block = Block.Mountain(self,x,y)
+                        self.block_group.add(block)
+                        self.all_object_group.add(block)
+                    elif Map==self.Map_lake:
+                        block = Block.Lake(self,x,y)
+                        self.block_group.add(block)
+                        self.all_object_group.add(block)
 
     # Mountains random placement
 
     def object_placment(self):
-        self.create_block()
-        i = 0
-        for _ in range(6):
-            x_offset, y_offset = (
-                random.randint(0, len(self.Map_mountains[0]) - 1),
-                random.randint(0, len(self.Map_mountains) - 1),
-            )
-            M = self.BlockType[random.randint(0, len(self.BlockType) - 1)]
-            for x in range(len(M[0])):
-                for y in range(len(M)):
-                    x2, y2 = x + x_offset, y + y_offset
-                    if x2 < 0:
-                        x2 += len(self.Map_mountains[0])
-                    if x2 >= len(self.Map_mountains[0]):
-                        x2 -= len(self.Map_mountains[0])
-                    if y2 < 0:
-                        y2 += len(self.Map_mountains)
-                    if y2 >= len(self.Map_mountains):
-                        y2 -= len(self.Map_mountains)
-                    if not self.Map_mountains[y2][x2] and not self.Map_lake[y2][x2]:                        
-                        if i%2==0:                            
-                            self.Map_mountains[y2][x2] = M[y][x]                            
-                            block = Block.Mountain(self, x2, y2)                            
-                            self.block_group.add(block)                            
-                            self.all_object_group.add(block)                            
-                        else:                            
-                            self.Map_lake[y2][x2] = M[y][x]                            
-                            block = Block.Lake(self, x2, y2)                            
-                            self.block_group.add(block)
-                            self.all_object_group.add(block)
-            i += 1
 
-        # n = 20
-
-        # for x in range(len(self.altitude[0])):
-        #     for y in range(len(self.altitude)):
-
-        #         if self.altitude[y][x] <= n and not self.Map_lake[y][x]:
-
-        #             for x2 in range(x-2,x+3):
-        #                 for y2 in range(y-2,y+3):
-                            
-        #                     x3, y3 = x2, y2
-                            
-        #                     if x3 < 0:
-        #                         x3+= len(self.altitude[0])
-                                
-        #                     if x3 >= len(self.altitude[0]):
-        #                         x3 -= len(self.altitude[0])
-                                
-        #                     if y3< 0:
-        #                         y3 += len(self.altitude)
-                                
-        #                     if y3 >= len(self.altitude):
-        #                         y3 -= len(self.altitude)
-                                
-        #                     if not self.Map_lake[y3][x3]:
-                                
-        #                         self.Map_lake[y3][x3]=1
-
-
-        # for x in range(len(self.Map_lake[0])):
-        #     for y in range(len(self.Map_lake)):
-
-        #         if self.Map_lake[y][x]:
-        #             x_mn, y_mn = x - 1, y - 1
-        #             x_mx, y_mx = x + 1, y + 1
-
-        #             if x_mn < 0:
-        #                 x_mn += len(self.Map_lake[0])
-                    
-        #             if x_mx >= len(self.Map_lake[0]):
-        #                 x_mx -= len(self.Map_lake[0])
-                        
-        #             if y_mn < 0:
-        #                 y_mn += len(self.Map_lake)
-                        
-        #             if y_mx >= len(self.Map_lake):
-        #                 y_mx -= len(self.Map_lake)
-
-        #             if ((not self.Map_lake[y_mn][x_mn] and not self.Map_lake[y_mx][x_mx]) and (self.Map_lake[y_mx][x_mn] and self.Map_lake[y_mn][x_mx])) or ((self.Map_lake[y_mn][x_mn] and self.Map_lake[y_mx][x_mx]) and (not self.Map_lake[y_mx][x_mn] and not self.Map_lake[y_mn][x_mx])):
-        #                 self.Map_lake[y][x]=0
-
-        #             else:
-        #                 block = Block.Lake(self,x,y)
-        #                 self.block_group.add(block)
-        #                 self.all_object_group.add(block)
-                        
+        # Placement des montagnes et lacs selon la carte d'altitude
+        self.block_placment(self.Map_mountains,490)
+        self.block_placment(self.Map_lake,5)
 
         # Tree and obstacle random placment
-
         for x in range(len(self.Map_trees[0])):
             for y in range(len(self.Map_trees)):
                 x_mn, y_mn = x - 1, y - 1
@@ -263,7 +223,6 @@ class World:
                     # self.Trees.append((x, y))
 
         # Grass random placment
-
         for x in range(len(self.Map_grass[0])):
             for y in range(len(self.Map_grass)):
                 grass = Plant.Grass(self, x, y)
@@ -274,7 +233,7 @@ class World:
                         self.grass_group.add(self.Map_grass[y][x])
 
         # Générer des agents
-        for i in range(1):
+        for i in range(10):
             sheep = Agent.Sheep(
                 self,
                 (
@@ -290,7 +249,7 @@ class World:
                 i -= 1
                 continue
             self.sheep_group.add(sheep)
-        for i in range(1):
+        for i in range(10):
             wolf = Agent.Wolf(
                 self,
                 (
@@ -362,9 +321,23 @@ class World:
             else:
                 self.Map_grass[y][x].update()
             del self.Tmp2[i]
+        # for grass in self.grass_group:
+        #     if grass.inFire:
+        #         if random.random() < 0.1:
+        #             grass.plant_in_fire()
         self.grass_group.draw(self.screen)
 
         # FIRE
+        # Le feu s'estompe en hiver
+        if self.weather.season==2:
+            for tree in self.tree_group:
+                if tree.inFire:
+                    tree.loop=4
+                    tree.stateF=4
+            for grass in self.grass_group:
+                if grass.inFire:
+                    grass.loop=4
+                    grass.stateF=4
         self.fire_group.draw(self.screen)
 
         # agents
@@ -374,7 +347,7 @@ class World:
         self.sheep_group.draw(self.screen)
 
         # OBSTACLE
-        # Besoin de mettre à jour une seule fois
+        # Besoin de mettre à jour une seule fois à chaque nouvelle saison
         if self.weather.delay == 1:
             self.obstacle_group.update()
         self.obstacle_group.draw(self.screen)
