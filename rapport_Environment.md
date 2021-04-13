@@ -12,9 +12,18 @@ Le monde est composé :
 
 #### **Montagnes et Points d'eau**
 
->Les montagnes et les points d'eau sont placées selon une carte d'altitude (max altitude : 500m) qui déterminera leurs emplacements (exemple : les points ayant une altitude supérieur à 495m signifie qu'il y a un sommet, donc une montagne ; les points ayant une altitude inférieur à 5m sont des creux, donc un lac).
+Les montagnes et les points d'eau sont placées selon une carte d'altitude (max altitude : 500m) qui déterminera leurs emplacements (exemple : les points ayant une altitude supérieur à 495m signifie qu'il y a un sommet, donc une montagne ; les points ayant une altitude inférieur à 5m sont des creux, donc un lac).
+
 >De plus, leurs apparences dépendent de la saison :
 
 ![Winter](PNG/Aperçu/M_winter.png)      ![Fall](PNG/Aperçu/M_fall.png)      ![Spring](PNG/Aperçu/M_spring.png)      ![Summer](PNG/Aperçu/M_summer.png)
 
 ![Winter](PNG/Aperçu/L_winter.png)      ![Fall](PNG/Aperçu/L_fall.png)      ![Spring](PNG/Aperçu/L_spring.png)      ![Summer](PNG/Aperçu/L_summer.png)
+
+### **Rochers et Troncs d'arbre**
+
+Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul fonction est de jouer le rôle d'obstacle pour les agents
+
+>Leurs apparences changent aussi :
+
+![Winter](PNG/split/ice_rock.png)      ![Fall](PNG/split/fall_rock.png)      ![Spring](PNG/Aperçu/spring_rock.png)      ![Summer](PNG/split/summer_rock.png)
