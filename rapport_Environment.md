@@ -16,4 +16,5 @@ Le monde est composé :
 >De plus, leurs apparences dépendent de la saison :
 
 ![Winter](PNG/Aperçu/M_winter.png)      ![Fall](PNG/Aperçu/M_fall.png)      ![Spring](PNG/Aperçu/M_spring.png)      ![Summer](PNG/Aperçu/M_summer.png)
+
 ![Winter](PNG/Aperçu/L_winter.png)      ![Fall](PNG/Aperçu/L_fall.png)      ![Spring](PNG/Aperçu/L_spring.png)      ![Summer](PNG/Aperçu/L_summer.png)
