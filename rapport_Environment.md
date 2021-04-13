@@ -30,11 +30,11 @@ Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul foncti
 
 ### **Végétation**
 
-## **Arbres et Herbes**
+#### **Arbres et Herbes**
 
 Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
 
->Le temps d'une plante dépend de la distance de l'eau à laquelle il se trouve :
+>Le temps d'évolution d'une plante dépend de la distance de l'eau à laquelle il se trouve :
 
 ![](PNG/split/tree1.png) ![](PNG/split/tree2.png) ![](PNG/split/tree3.png) ![](PNG/split/tree4.png) ![](PNG/split/tree5.png)
 ![](PNG/split/tree6.png) ![](PNG/split/tree7.png) ![](PNG/split/tree8.png) ![](PNG/split/tree9.png) ![](PNG/split/tree10.png)
@@ -49,7 +49,11 @@ Ici on peut apercevoir que l'arbe se trouvant à proximité d'un point d'eau pou
 
 ![Ev](PNG/Aperçu/pousse_arbre.png)
 
-Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
+Une plante peut prendre feu à n'importe quel moment, cela dépend de la température et de la saison, et le feu se propage selon la direction dans laquelle souffle le vent.
+
+Voici les étapes du feu :
+
+![Fire](PNG/split/fire4.png) ![Fire](PNG/split/fire5.png) ![Fire](PNG/split/fire6.png) ![Fire](PNG/split/fire7.png) ![Fire](PNG/split/fire8.png) ![Fire](PNG/split/cendre0.png) ![Fire](PNG/split/cendre1.png) ![Fire](PNG/split/cendre2.png)
 
 Arbre en feu : 
 
