@@ -45,7 +45,7 @@ Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant p
 
 Ici on peut apercevoir que l'arbe se trouvant à proximité d'un point d'eau pousse beaucoup plus vite:
 
-![Ev](PNG/Aperçu/pousse_inFire.png)
+![Ev](PNG/Aperçu/pousse_arbre.png)
 
 Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
 
