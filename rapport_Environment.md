@@ -22,8 +22,21 @@ Les montagnes et les points d'eau sont placées selon une carte d'altitude (max 
 
 ### **Rochers et Troncs d'arbre**
 
-Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul fonction est de jouer le rôle d'obstacle pour les agents
+Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul fonction est de jouer le rôle d'obstacle pour les agents.
 
 >Leurs apparences changent aussi :
 
-![Winter](PNG/split/ice_rock.png)      ![Fall](PNG/split/fall_rock.png)      ![Spring](PNG/split/spring_rock.png)      ![Summer](PNG/split/summer_rock.png)
+![Winter](PNG/split/ice_rock.png)      ![Fall/Summer](PNG/split/fall_rock.png)      ![Spring](PNG/split/spring_rock.png)
+
+### **Végétation**
+
+#### **Arbres**
+
+Les arbres sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
+
+>Le temps d'évolution d'un arbre dépend de la distance de l'eau à laquelle il se trouve :
+
+![](PNG/split/tree1.png) ![](PNG/split/tree2.png) ![](PNG/split/tree3.png) ![](PNG/split/tree4.png) ![](PNG/split/tree5.png)
+![](PNG/split/tree6.png) ![](PNG/split/tree7.png) ![](PNG/split/tree8.png) ![](PNG/split/tree9.png) ![](PNG/split/tree10.png)
+![](PNG/split/tree11.png) ![](PNG/split/tree12.png) ![](PNG/split/tree13.png) ![](PNG/split/tree14.png) ![](PNG/split/tree15.png)
+![](PNG/split/tree16.png) ![](PNG/split/tree17.png)
