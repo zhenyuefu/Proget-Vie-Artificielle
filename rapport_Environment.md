@@ -26,4 +26,4 @@ Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul foncti
 
 >Leurs apparences changent aussi :
 
-![Winter](PNG/split/ice_rock.png)      ![Fall](PNG/split/fall_rock.png)      ![Spring](PNG/Aperçu/spring_rock.png)      ![Summer](PNG/split/summer_rock.png)
+![Winter](PNG/split/ice_rock.png)      ![Fall](PNG/split/fall_rock.png)      ![Spring](PNG/split/spring_rock.png)      ![Summer](PNG/split/summer_rock.png)
