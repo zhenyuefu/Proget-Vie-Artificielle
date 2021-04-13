@@ -34,14 +34,25 @@ Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul foncti
 
 Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
 
->Le temps d'évolution d'un arbre dépend de la distance de l'eau à laquelle il se trouve :
+>Le temps d'une plante dépend de la distance de l'eau à laquelle il se trouve :
 
 ![](PNG/split/tree1.png) ![](PNG/split/tree2.png) ![](PNG/split/tree3.png) ![](PNG/split/tree4.png) ![](PNG/split/tree5.png)
 ![](PNG/split/tree6.png) ![](PNG/split/tree7.png) ![](PNG/split/tree8.png) ![](PNG/split/tree9.png) ![](PNG/split/tree10.png)
 ![](PNG/split/tree11.png) ![](PNG/split/tree12.png) ![](PNG/split/tree13.png) ![](PNG/split/tree14.png) ![](PNG/split/tree15.png)
 ![](PNG/split/tree16.png) ![](PNG/split/tree17.png)
 
+![](PNG/split/grass1.png) ![](PNG/split/grass2.png) ![](PNG/split/grass3.png)
+
+Ici on peut apercevoir que l'arbe se trouvant à proximité d'un point d'eau pousse beaucoup plus vite:
+
+![Ev](PNG/Aperçu/pousse_inFire.png)
+
 Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
 
 Arbre en feu : 
+
 ![Fire](PNG/Aperçu/tree_inFire.png)
+
+Propagation du feu avec un vent qui souffle au Nord-Est:
+
+![Fire](PNG/Aperçu/grass_inFire.png)
