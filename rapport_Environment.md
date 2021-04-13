@@ -42,3 +42,6 @@ Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant p
 ![](PNG/split/tree16.png) ![](PNG/split/tree17.png)
 
 Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
+
+>Arbre en feu
+![Fire](PNG/Aperçu/tree_inFire.png)
