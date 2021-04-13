@@ -7,8 +7,8 @@ SUMMER = 0
 FALL = 1
 WINTER = 2
 SPRING = 3
-NB_ITERATION = 1500
-IT = 50
+NB_ITERATION = 2000
+IT = 60
 
 class Weather:
 

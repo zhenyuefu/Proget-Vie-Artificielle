@@ -25,9 +25,20 @@ class Plant(pygame.sprite.Sprite):
         self.fire = None
         self.stateF = -1
         self.step_state = 0
-        self.time_state = 10 # nb d'itérations avant de passer à la prochaine évolution
+        self.time_state = 0 # nb d'itérations avant de passer à la prochaine évolution
         self.loop = 0 # itérateur boucle de feu
         self.fire_loop = 4 # nb de boucle de feu
+
+    def set_time_state(self):
+        if self.Map==self.world.Map_grass:
+            pos=pygame.math.Vector2((self.x//2), (self.y//2))
+        elif self.Map==self.world.Map_trees:
+            pos=pygame.math.Vector2(self.x, self.y)
+        time=25
+        for lake in self.world.lake_group:
+            distance=pos.distance_to(pygame.math.Vector2(lake.x, lake.y))
+            time=min(time,distance)
+        self.time_state=time
 
 
     def reset_step_state(self):
@@ -195,34 +206,8 @@ class Tree(Plant):
         self.fire_frame=world.Fire_images[0]
         self.Map=world.Map_trees
         self.fire=Fire(x,y,self.fire_frame[0],self.factor_x,self.factor_y)
-        self.set_time_state(5)
+        super().set_time_state()
 
-    # Distance entre deux objets
-    def distance(self,x,y):
-        return abs(self.x-x)+abs(self.y-y)
-
-    # Détermine si un arbre est proche d'un point d'eau
-    def set_time_state(self,rayon):
-        d=self.time_state
-        # Voisinage de Moore
-        for x in range(self.x-rayon,self.x+(rayon+1)):
-            for y in range(self.y-rayon,self.y+(rayon+1)):
-                x2,y2=x,y
-                if x2 < 0:
-                    x2 += len(self.world.Map_lake[0])
-
-                if x2 >= len(self.world.Map_lake[0]):
-                    x2 -= len(self.world.Map_lake[0])
-
-                if y2 < 0:
-                    y2 += len(self.world.Map_lake)
-
-                if y2 >= len(self.world.Map_lake):
-                    y2 -= len(self.world.Map_lake)
-
-                if self.world.Map_lake[y2][x2]:
-                    d=min(d,self.distance(x2,y2))
-        self.time_state-=(rayon-d)
 
 	# Maj arbre
     def update(self):
@@ -232,17 +217,21 @@ class Grass(Plant):
 
     def __init__(self,world,x,y):
         super().__init__(world,x,y,world.Environment_images[2][0],world.size_grass_X,world.size_grass_Y)
-        self.frame=world.Environment_images[2]
+        self.set_frame()
+        self.image=self.frame[0]
         self.fire_frame=world.Fire_images[1]
         self.Map=world.Map_grass
         self.fire=Fire(x,y,self.fire_frame[0],self.factor_x,self.factor_y)
+        super().set_time_state()
         self.fire_loop=1
-        self.time_state=1
+
+    def set_frame(self):
+        if self.world.weather.season == 2:
+            self.frame=self.world.Environment_images[6]
+        else:
+            self.frame=self.world.Environment_images[2]
 
     # Maj herbe
     def update(self):
         super().update_plant()
-        if self.world.weather.season == 2 and self.state == 1:
-            self.image = self.world.Environment_images[6][0]
-        else:
-            self.image = self.frame[self.state]
+        self.set_frame()

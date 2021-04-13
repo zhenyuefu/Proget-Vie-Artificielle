@@ -49,8 +49,9 @@ class Image:
                 self.load_image("PNG/split/tree17.png", self.world.size_tree_X, self.world.size_tree_Y),
             ],
             [
-                self.load_image("PNG/split/grass_repousse.png", self.world.size_grass_X, self.world.size_grass_Y),
-                self.load_image("PNG/split/grass.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/grass1.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/grass2.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/grass3.png", self.world.size_grass_X, self.world.size_grass_Y),
 
             ],
             [
@@ -69,7 +70,9 @@ class Image:
                 self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y)
             ],
             [
-                self.load_image("PNG/split/ice_grass.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/winter_grass1.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/winter_grass2.png", self.world.size_grass_X, self.world.size_grass_Y),
+                self.load_image("PNG/split/winter_grass3.png", self.world.size_grass_X, self.world.size_grass_Y),
             ],
 
 

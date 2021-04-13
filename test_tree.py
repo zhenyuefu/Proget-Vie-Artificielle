@@ -119,7 +119,8 @@ class World:
         self.fire_group = pygame.sprite.Group()
         self.grass_group = pygame.sprite.Group()
         self.obstacle_group = pygame.sprite.Group()
-        self.block_group = pygame.sprite.Group()
+        self.lake_group = pygame.sprite.Group()
+        self.mountain_group = pygame.sprite.Group()
         self.wolf_group = pygame.sprite.Group()
         self.sheep_group = pygame.sprite.Group()
         self.cloud_group = pygame.sprite.Group()
@@ -148,6 +149,19 @@ class World:
                                 y3 -= len(self.altitude)                                
                             if not Map[y3][x3] and not self.Map_mountains[y3][x3] and not self.Map_lake[y3][x3]:                                
                                 Map[y3][x3]=1
+                    # if Map==self.Map_mountains:
+                    #     for x2 in range(x-1,x+2):
+                    #         for y2 in range(y-1,y+2):                            
+                    #             x3, y3 = x2, y2                            
+                    #             if x3 < 0:
+                    #                 x3+= len(self.altitude[0])                                
+                    #             if x3 >= len(self.altitude[0]):
+                    #                 x3 -= len(self.altitude[0])                               
+                    #             if y3< 0:
+                    #                 y3 += len(self.altitude)                                
+                    #             if y3 >= len(self.altitude):
+                    #                 y3 -= len(self.altitude)
+                    #             Map[y3][x3]=2
 
         for x in range(len(Map[0])):
             for y in range(len(Map)):
@@ -172,11 +186,11 @@ class World:
 
                     elif Map==self.Map_mountains:
                         block = Block.Mountain(self,x,y)
-                        self.block_group.add(block)
+                        self.mountain_group.add(block)
                         self.all_object_group.add(block)
                     elif Map==self.Map_lake:
                         block = Block.Lake(self,x,y)
-                        self.block_group.add(block)
+                        self.lake_group.add(block)
                         self.all_object_group.add(block)
 
     # Mountains random placement
@@ -253,10 +267,10 @@ class World:
             wolf = Agent.Wolf(
                 self,
                 (
-                    random.randint(0, self.screenWidth // self.size_tile_X)
-                    * self.size_tile_X,
-                    random.randint(0, self.screenHeight // self.size_tile_Y)
-                    * self.size_tile_Y,
+                    random.randint(0, self.screenWidth)
+                    ,
+                    random.randint(0, self.screenHeight)
+                    
                 ),
             )
             collide = pygame.sprite.spritecollideany(wolf, self.all_object_group)
@@ -284,8 +298,10 @@ class World:
         # BLOCK    
         # BEsoin de mettre à jour une seule fois    
         if self.weather.delay == 1:
-            self.block_group.update()        
-        self.block_group.draw(self.screen)
+            self.mountain_group.update()
+            self.lake_group.update()        
+        self.mountain_group.draw(self.screen)
+        self.lake_group.draw(self.screen)
 
         # TREE
         if not self.Tmp1:

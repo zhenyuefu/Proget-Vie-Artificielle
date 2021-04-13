@@ -30,9 +30,9 @@ Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul foncti
 
 ### **Végétation**
 
-#### **Arbres**
+## **Arbres et Herbes**
 
-Les arbres sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
+Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
 
 >Le temps d'évolution d'un arbre dépend de la distance de l'eau à laquelle il se trouve :
 
@@ -40,3 +40,5 @@ Les arbres sont répartis aléatoirement sur la map. Ils évoluent en passant pa
 ![](PNG/split/tree6.png) ![](PNG/split/tree7.png) ![](PNG/split/tree8.png) ![](PNG/split/tree9.png) ![](PNG/split/tree10.png)
 ![](PNG/split/tree11.png) ![](PNG/split/tree12.png) ![](PNG/split/tree13.png) ![](PNG/split/tree14.png) ![](PNG/split/tree15.png)
 ![](PNG/split/tree16.png) ![](PNG/split/tree17.png)
+
+Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
