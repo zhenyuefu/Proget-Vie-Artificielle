@@ -43,6 +43,8 @@ Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant p
 
 ![](PNG/split/grass1.png) ![](PNG/split/grass2.png) ![](PNG/split/grass3.png)
 
+![](PNG/split/winter_grass1.png) ![](PNG/split/winter_grass2.png) ![](PNG/split/winter_grass3.png)
+
 Ici on peut apercevoir que l'arbe se trouvant à proximité d'un point d'eau pousse beaucoup plus vite:
 
 ![Ev](PNG/Aperçu/pousse_arbre.png)
