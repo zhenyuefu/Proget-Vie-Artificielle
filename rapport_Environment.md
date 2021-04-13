@@ -5,7 +5,7 @@
 Le monde est composé :
 - d'éléments adaptatifs (montagnes, lacs, rochers, troncs d'arbre)
 - de la végétation (arbres, herbes)
-- d'un système cyclique de saison (vent,températures...)
+- d'une météo(saison, vent, températures...)
 - d'agents (proies/prédateurs)
 
 ### **Elements adaptatifs**
@@ -16,9 +16,9 @@ Les montagnes et les points d'eau sont placées selon une carte d'altitude (max 
 
 >De plus, leurs apparences dépendent de la saison :
 
-![Winter](PNG/Aperçu/M_winter.png)      ![Fall](PNG/Aperçu/M_fall.png)      ![Spring](PNG/Aperçu/M_spring.png)      ![Summer](PNG/Aperçu/M_summer.png)
+![Winter](PNG/Aperçu/M_winter.png)      ![Spring](PNG/Aperçu/M_spring.png)      ![Summer](PNG/Aperçu/M_summer.png)      ![Fall](PNG/Aperçu/M_fall.png)      
 
-![Winter](PNG/Aperçu/L_winter.png)      ![Fall](PNG/Aperçu/L_fall.png)      ![Spring](PNG/Aperçu/L_spring.png)      ![Summer](PNG/Aperçu/L_summer.png)
+![Winter](PNG/Aperçu/L_winter.png)      ![Spring](PNG/Aperçu/L_spring.png)      ![Summer](PNG/Aperçu/L_summer.png)      ![Fall](PNG/Aperçu/L_fall.png)      
 
 ### **Rochers et Troncs d'arbre**
 
@@ -26,15 +26,17 @@ Les rochers et troncs sont répartis aléatoirement sur la map. Leur seul foncti
 
 >Leurs apparences changent aussi :
 
-![Winter](PNG/split/ice_rock.png)      ![Fall/Summer](PNG/split/fall_rock.png)      ![Spring](PNG/split/spring_rock.png)
+![Winter](PNG/split/ice_rock.png)      ![Spring](PNG/split/spring_rock.png)     ![Fall/Summer](PNG/split/fall_rock.png)      
+
+![Winter](PNG/split/winter_tronc.png)      ![Spring](PNG/split/spring_tronc.png)        ![Fall/Summer](PNG/split/fall_tronc.png)      
 
 ### **Végétation**
 
-## **Arbres et Herbes**
+#### **Arbres et Herbes**
 
 Les plantes sont répartis aléatoirement sur la map. Ils évoluent en passant par différentes formes et ce jusqu'à atteindre leur maturité :
 
->Le temps d'une plante dépend de la distance de l'eau à laquelle il se trouve :
+>Le temps d'évolution d'une plante dépend de la distance de l'eau à laquelle il se trouve :
 
 ![](PNG/split/tree1.png) ![](PNG/split/tree2.png) ![](PNG/split/tree3.png) ![](PNG/split/tree4.png) ![](PNG/split/tree5.png)
 ![](PNG/split/tree6.png) ![](PNG/split/tree7.png) ![](PNG/split/tree8.png) ![](PNG/split/tree9.png) ![](PNG/split/tree10.png)
@@ -49,7 +51,11 @@ Ici on peut apercevoir que l'arbe se trouvant à proximité d'un point d'eau pou
 
 ![Ev](PNG/Aperçu/pousse_arbre.png)
 
-Un arbre peut prendre feu à n'importe quel moment, cela dépend de la température et le feu se propage selon la direction dans laquelle souffle le vent :
+Une plante peut prendre feu à n'importe quel moment, cela dépend de la température et de la saison, et le feu se propage selon la direction dans laquelle souffle le vent.
+
+Voici les étapes du feu :
+
+![Fire](PNG/split/fire4.png) ![Fire](PNG/split/fire5.png) ![Fire](PNG/split/fire6.png) ![Fire](PNG/split/fire7.png) ![Fire](PNG/split/fire8.png) ![Fire](PNG/split/cendre0.png) ![Fire](PNG/split/cendre1.png) ![Fire](PNG/split/cendre2.png)
 
 Arbre en feu : 
 
@@ -58,3 +64,9 @@ Arbre en feu :
 Propagation du feu avec un vent qui souffle au Nord-Est:
 
 ![Fire](PNG/Aperçu/grass_inFire.png)
+
+## **Météo**
+
+Le système cyclique comporte 4 saisons : Eté, Automne, Hiver et Printemps. A chaque saison est réatribué une température moyenne, le sens du vent (nuages), sa vitesse ainsi que la probabilité de mise à feu et de repousse pour la végétation.
+
+![Winter](PNG/Aperçu/winter.png) ![Spring](PNG/Aperçu/spring.png) ![Spring](PNG/Aperçu/summer.png) ![Spring](PNG/Aperçu/fall.png)
