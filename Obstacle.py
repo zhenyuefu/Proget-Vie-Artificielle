@@ -14,7 +14,8 @@ class Obstacle(pygame.sprite.Sprite):
         self.rect.topleft = (self.x * self.factor_x, self.y * self.factor_y)
 
     def update(self):
-        self.image = self.frame[self.world.weather.season]
+        if self.world.weather.delay:
+            self.image = self.frame[self.world.weather.season]
 
 class Rock(Obstacle):
 

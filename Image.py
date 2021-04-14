@@ -74,15 +74,7 @@ class Image:
 
         ]
 
-        self.world.cloud_images = [
-            [
-                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
-                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
-                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
-                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
-
-            ],
-        ]
+        self.world.cloud_images = [self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),self.load_image("PNG/split/cloud2.png", self.world.size_cloud_X, self.world.size_cloud_Y)]
 
         self.world.Fire_images = [
             [

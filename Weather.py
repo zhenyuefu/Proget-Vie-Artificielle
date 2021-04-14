@@ -7,8 +7,7 @@ SUMMER = 0
 FALL = 1
 WINTER = 2
 SPRING = 3
-NB_ITERATION = 2000
-IT = 60
+NB_ITERATION = 1200
 
 class Weather:
 
@@ -40,7 +39,7 @@ class Weather:
         if self.season == WINTER:
             self.temperature = random.uniform(float(-10), float(-6))
             Plant.P_FIRE = 0
-            Plant.P_REPOUSSE = (self.season+1) / 10**3
+            Plant.P_REPOUSSE = 0.001
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
             Cloud.SPEED_FACTOR = random.randint(1,4)
             return
@@ -49,7 +48,7 @@ class Weather:
         if self.season == SPRING:
             self.temperature = random.uniform(float(15), float(20))
             Plant.P_FIRE = self.temperature / 10**4
-            Plant.P_REPOUSSE = (self.season+1) / 10**3
+            Plant.P_REPOUSSE = 0.0035
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
             Cloud.SPEED_FACTOR = random.randint(1,4)
             return
@@ -58,7 +57,7 @@ class Weather:
         if self.season == SUMMER:
             self.temperature = random.uniform(float(30), float(35))
             Plant.P_FIRE = self.temperature / 10**4
-            Plant.P_REPOUSSE= (self.season+1) / 10**3
+            Plant.P_REPOUSSE= 0.003
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
             Cloud.SPEED_FACTOR = random.randint(1,4)
             return 
@@ -67,14 +66,14 @@ class Weather:
         if self.season == FALL:
             self.temperature = random.uniform(float(13), float(16))
             Plant.P_FIRE = self.temperature / 10**4
-            Plant.P_REPOUSSE = (self.season+1) / 10**3
+            Plant.P_REPOUSSE = 0.0015
             Cloud.SPEED_X, Cloud.SPEED_Y = random.randint(-1,1), random.randint(-1,1)
             Cloud.SPEED_FACTOR = random.randint(1,4)
 
         
     # Maj météo
     def update_weather(self):
-        if not self.delay:
+        if self.delay==1:
             self.update_temperature()
         self.update_season()
         

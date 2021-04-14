@@ -31,9 +31,11 @@ class Plant(pygame.sprite.Sprite):
         self.loop = 0 # itérateur boucle de feu
         self.fire_loop = 4 # nb de boucle de feu
 
+    # Détermine le temps d'évolution
     def set_time_state(self):
+        self.time_state=0
         if self.world.weather.season==Weather.WINTER:
-            self.time_state=20
+            self.time_state=15
         if self.world.weather.season==Weather.SPRING:
             self.time_state=0
         if self.world.weather.season==Weather.SUMMER:
@@ -222,6 +224,8 @@ class Tree(Plant):
 
 	# Maj arbre
     def update(self):
+        if self.world.weather.delay==2:
+            super().set_time_state()
         super().update_plant()
 
 class Grass(Plant):
@@ -233,8 +237,9 @@ class Grass(Plant):
         self.fire_frame=world.Fire_images[1]
         self.Map=world.Map_grass
         self.fire=Fire(x,y,self.fire_frame[0],self.factor_x,self.factor_y)
-        super().set_time_state()
         self.fire_loop=1
+        super().set_time_state()
+        
 
     # l'apparence change en hiver
     def set_frame(self):
@@ -247,6 +252,8 @@ class Grass(Plant):
 
     # Maj herbe
     def update(self):
+        if self.world.weather.delay==2:
+            super().set_time_state()
         super().update_plant()
         self.set_frame()
         if self.state == len(self.frame)-1 and self.stateF == -1:

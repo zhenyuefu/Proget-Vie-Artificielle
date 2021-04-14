@@ -228,7 +228,7 @@ class World:
                         and (self.Map_mountains[y_mx][x_mx]==self.Map_mountains[y_mx][x]
                         and self.Map_mountains[y_mx][x_mn]==self.Map_mountains[y_mx][x])
                 ):
-                    if random.random() < 0.03:
+                    if random.random() < 0.04:
                         self.Map_trees[y][x] = Plant.Tree(self, x, y)
                         self.Trees.append((x, y))
                         self.tree_group.add(self.Map_trees[y][x])
@@ -249,7 +249,7 @@ class World:
             for y in range(len(self.Map_grass)):
                 grass = Plant.Grass(self, x, y)
                 if not pygame.sprite.spritecollideany(grass, self.all_object_group):
-                    if random.random() < 0.05:
+                    if random.random() < 0.04:
                         self.Map_grass[y][x] = grass
                         self.Grass.append((x, y))
                         self.grass_group.add(self.Map_grass[y][x])
@@ -288,9 +288,8 @@ class World:
             i += 1
 
         # générer nuages
-
         for _ in range(18):
-            cloud = Cloud.Cloud(self)
+            cloud = Cloud.Cloud(self,random.randint(0,self.screenWidth),random.randint(0,self.screenHeight))
             self.cloud_group.add(cloud)
 
     def update_object(self):
@@ -300,13 +299,12 @@ class World:
         if self.weather.delay == 2:
             print("p_fire=", Plant.P_FIRE)
             print("p_gen=", Plant.P_REPOUSSE)
-            print("time_repousse=", Plant.TIME_REPOUSSE)
             print("saison=", self.weather.season)
             print("température=", self.weather.temperature)
 
         # BLOCK    
         # BEsoin de mettre à jour une seule fois    
-        if self.weather.delay == 1:
+        if self.weather.delay == 2:
             self.mountain_group.update()
             self.lake_group.update()
         self.mountain_group.draw(self.screen)
@@ -351,7 +349,7 @@ class World:
         #     if grass.inFire:
         #         if random.random() < 0.1:
         #             grass.plant_in_fire()
-        if self.weather.delay==1:
+        if self.weather.delay==2:
             for grass in self.grass_group:
                 grass.set_frame()
         self.grass_group.draw(self.screen)

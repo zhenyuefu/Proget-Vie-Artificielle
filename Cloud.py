@@ -7,18 +7,15 @@ SPEED_FACTOR = random.randint(1,4)
 
 class Cloud(pygame.sprite.Sprite):
 
-    def __init__(self,world):
+    def __init__(self,world,x,y):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
-        self.frame = self.world.cloud_images[0]
-        self.image = self.frame[self.world.weather.season]
+        self.image = self.world.cloud_images[random.randint(0,1)]
         self.rect = self.image.get_rect()
-        self.rect.topleft = (random.randint(0,self.world.screenWidth),random.randint(0,self.world.screenHeight))
+        self.rect.topleft = (x,y)
         self.loop = 0
 
     def update(self):
-        if self.world.weather.delay==1:
-            self.image=self.frame[self.world.weather.season]
         if self.loop == SPEED_FACTOR:
             self.move()
             self.loop = 0
