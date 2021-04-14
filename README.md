@@ -1,5 +1,14 @@
 # **Présentation Partie Agent**
 
+## **Descritpif du Monde**
+
+Le monde est composé :
+- d'éléments adaptatifs (montagnes, lacs, rochers, troncs d'arbre)
+- de la végétation (arbres, herbes)
+- d'une météo(saison, vent, températures...)
+- d'agents (proies/prédateurs)
+
+
 ## Animation
 
 Les proies et les prédateurs peuvent se déplacer dans 4 directions.
@@ -12,7 +21,7 @@ L'animation dans chaque direction est composée de 3 images
 
 ## Manger
 
-Un prédateur rencontre une proie et la mange. La proie mangera aussi l'herbe mature quand elle la rencontrera.
+Un prédateur rencontre une proie et la mange. La proie peut aussi se nourrir d'herbe.
 
 ![](Rapport/mange1.gif)![](Rapport/mange2.gif)
 
@@ -32,7 +41,7 @@ Les prédateurs vont trouver la proie la plus proche dans un certain rayon d'act
 
 ## Pause
 
-L'agent s'arrête pour se reposer après une période de mouvement. Lorsqu'il a faim après n'avoir pas mangé pendant un certain temps, il recommence à se dépenser.
+L'agent s'arrête pour se reposer après une période de mouvement. Lorsqu'il a faim après ne pas avoir mangé pendant un certain temps, il se remet en mouvement.
 
 ![](Rapport/pause.gif)
 
@@ -45,14 +54,6 @@ L'agent a une chance de se reproduire en se déplaçant.
 
 
 # **Présentation Partie Environnement**
-
-## **Descritpif du Monde**
-
-Le monde est composé :
-- d'éléments adaptatifs (montagnes, lacs, rochers, troncs d'arbre)
-- de la végétation (arbres, herbes)
-- d'une météo(saison, vent, températures...)
-- d'agents (proies/prédateurs)
 
 ### **Elements adaptatifs**
 
@@ -113,7 +114,7 @@ Propagation du feu avec un vent qui souffle au Nord-Est:
 
 ## **Météo**
 
-Le système cyclique comporte 4 saisons : Eté, Automne, Hiver et Printemps. A chaque saison est réatribué une température moyenne, le sens du vent (nuages), sa vitesse ainsi que la probabilité de mise à feu et de repousse pour la végétation.
+Le système cyclique comporte 4 saisons : Hiver, Printemps, Eté, et Automne. A chaque saison est réatribué une température moyenne, le sens du vent (nuages), sa vitesse ainsi que la probabilité de mise à feu et de repousse pour la végétation.
 
 ![Winter](PNG/Aperçu/winter.png) ![Spring](PNG/Aperçu/spring.png) ![Spring](PNG/Aperçu/summer.png) ![Spring](PNG/Aperçu/fall.png)
 
