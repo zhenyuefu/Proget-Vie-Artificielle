@@ -237,5 +237,5 @@ class Grass(Plant):
     def update(self):
         super().update_plant()
         self.set_frame()
-        if self.state == len(self.frame)-1:
+        if self.state == len(self.frame)-1 and self.stateF == -1:
             return True
