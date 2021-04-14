@@ -117,4 +117,6 @@ Le système cyclique comporte 4 saisons : Eté, Automne, Hiver et Printemps. A c
 
 ![Winter](PNG/Aperçu/winter.png) ![Spring](PNG/Aperçu/spring.png) ![Spring](PNG/Aperçu/summer.png) ![Spring](PNG/Aperçu/fall.png)
 
+Il y a deux forme de nuage :
+
 ![Winter](PNG/split/cloud.png) ![Winter](PNG/split/cloud2.png)
