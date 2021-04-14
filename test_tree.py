@@ -10,6 +10,7 @@ from Image import *
 import Weather
 import Cloud
 
+
 class World:
     """
     classe principale du jeux
@@ -43,35 +44,35 @@ class World:
         self.Map_trees = [
             x[:]
             for x in [[None] * (self.screenWidth // self.size_tree_X)]
-            * (self.screenHeight // self.size_tree_Y)
+                     * (self.screenHeight // self.size_tree_Y)
         ]
 
         self.Map_grass = [
             x[:]
             for x in [[None] * (self.screenWidth // self.size_grass_X)]
-            * (self.screenHeight // self.size_grass_Y)
+                     * (self.screenHeight // self.size_grass_Y)
         ]
 
         self.Map_mountains = [
             x[:]
             for x in [[0] * (self.screenWidth // self.size_block_X)]
-            * (self.screenHeight // self.size_block_Y)
+                     * (self.screenHeight // self.size_block_Y)
         ]
 
         self.Map_lake = [
             x[:]
             for x in [[0] * (self.screenWidth // self.size_block_X)]
-            * (self.screenHeight // self.size_block_Y)
+                     * (self.screenHeight // self.size_block_Y)
         ]
 
         # Carte d'altitude (placement des points d'eau)
 
         self.altitude = []
-        a_max=500
+        a_max = 500
         for i in range(self.screenHeight // self.size_block_Y):
-            m=[]
+            m = []
             for j in range(self.screenWidth // self.size_block_X):
-                m.append(random.randint(0,a_max))            
+                m.append(random.randint(0, a_max))
             self.altitude.append(m)
 
         pygame.init()
@@ -110,14 +111,15 @@ class World:
 
         # Liste temporaire
 
-        self.Tmp1 = [] # ---> Tree
-        self.Tmp2 = [] # ---> Grass
+        self.Tmp1 = []  # ---> Tree
+        self.Tmp2 = []  # ---> Grass
 
         # Group Lists
 
         self.tree_group = pygame.sprite.Group()
         self.fire_group = pygame.sprite.Group()
         self.grass_group = pygame.sprite.Group()
+        self.grass_mature_group = pygame.sprite.Group()
         self.obstacle_group = pygame.sprite.Group()
         self.lake_group = pygame.sprite.Group()
         self.mountain_group = pygame.sprite.Group()
@@ -128,27 +130,27 @@ class World:
         self.object_placment()
 
     # Fonction de placements des blocks
-    def block_placment(self,Map,h):
+    def block_placment(self, Map, h):
         for x in range(len(self.altitude[0])):
             for y in range(len(self.altitude)):
                 if h < 250:
-                    b=self.altitude[y][x] < h
+                    b = self.altitude[y][x] < h
                 if h > 250:
-                    b=self.altitude[y][x] > h
+                    b = self.altitude[y][x] > h
                 if b and not self.Map_mountains[y][x] and not self.Map_lake[y][x]:
-                    for x2 in range(x-2,x+3):
-                        for y2 in range(y-2,y+3):                            
-                            x3, y3 = x2, y2                            
+                    for x2 in range(x - 2, x + 3):
+                        for y2 in range(y - 2, y + 3):
+                            x3, y3 = x2, y2
                             if x3 < 0:
-                                x3+= len(self.altitude[0])                                
+                                x3 += len(self.altitude[0])
                             if x3 >= len(self.altitude[0]):
-                                x3 -= len(self.altitude[0])                               
-                            if y3< 0:
-                                y3 += len(self.altitude)                                
+                                x3 -= len(self.altitude[0])
+                            if y3 < 0:
+                                y3 += len(self.altitude)
                             if y3 >= len(self.altitude):
-                                y3 -= len(self.altitude)                                
-                            if not Map[y3][x3] and not self.Map_mountains[y3][x3] and not self.Map_lake[y3][x3]:                                
-                                Map[y3][x3]=1
+                                y3 -= len(self.altitude)
+                            if not Map[y3][x3] and not self.Map_mountains[y3][x3] and not self.Map_lake[y3][x3]:
+                                Map[y3][x3] = 1
                     # if Map==self.Map_mountains:
                     #     for x2 in range(x-1,x+2):
                     #         for y2 in range(y-1,y+2):                            
@@ -171,25 +173,28 @@ class World:
 
                     if x_mn < 0:
                         x_mn += len(Map[0])
-                    
+
                     if x_mx >= len(Map[0]):
                         x_mx -= len(Map[0])
-                        
+
                     if y_mn < 0:
                         y_mn += len(Map)
-                        
+
                     if y_mx >= len(Map):
                         y_mx -= len(Map)
 
-                    if ((not Map[y_mn][x_mn] and not Map[y_mx][x_mx]) and (Map[y_mx][x_mn] and Map[y_mn][x_mx])) or ((Map[y_mn][x_mn] and Map[y_mx][x_mx]) and (not Map[y_mx][x_mn] and not Map[y_mn][x_mx])) or (not Map[y_mn][x] and not Map[y_mx][x]) or (not Map[y][x_mn] and not Map[y][x_mx]):
-                        Map[y][x]=0
+                    if ((not Map[y_mn][x_mn] and not Map[y_mx][x_mx]) and (Map[y_mx][x_mn] and Map[y_mn][x_mx])) or (
+                            (Map[y_mn][x_mn] and Map[y_mx][x_mx]) and (
+                            not Map[y_mx][x_mn] and not Map[y_mn][x_mx])) or (
+                            not Map[y_mn][x] and not Map[y_mx][x]) or (not Map[y][x_mn] and not Map[y][x_mx]):
+                        Map[y][x] = 0
 
-                    elif Map==self.Map_mountains:
-                        block = Block.Mountain(self,x,y)
+                    elif Map == self.Map_mountains:
+                        block = Block.Mountain(self, x, y)
                         self.mountain_group.add(block)
                         self.all_object_group.add(block)
-                    elif Map==self.Map_lake:
-                        block = Block.Lake(self,x,y)
+                    elif Map == self.Map_lake:
+                        block = Block.Lake(self, x, y)
                         self.lake_group.add(block)
                         self.all_object_group.add(block)
 
@@ -198,8 +203,8 @@ class World:
     def object_placment(self):
 
         # Placement des montagnes et lacs selon la carte d'altitude
-        self.block_placment(self.Map_mountains,490)
-        self.block_placment(self.Map_lake,5)
+        self.block_placment(self.Map_mountains, 490)
+        self.block_placment(self.Map_lake, 5)
 
         # Tree and obstacle random placment
         for x in range(len(self.Map_trees[0])):
@@ -215,10 +220,10 @@ class World:
                 if y_mx >= len(self.Map_mountains):
                     y_mx -= len(self.Map_mountains)
                 if not self.Map_mountains[y][x] and not self.Map_lake[y][x] or (
-                    self.Map_mountains[y_mx][x] > 0
-                    and self.Map_mountains[y_mn][x] == self.Map_mountains[y_mx][x]
-                    and self.Map_mountains[y][x_mx] == self.Map_mountains[y_mx][x]
-                    and self.Map_mountains[y][x_mn] == self.Map_mountains[y_mx][x]
+                        self.Map_mountains[y_mx][x] > 0
+                        and self.Map_mountains[y_mn][x] == self.Map_mountains[y_mx][x]
+                        and self.Map_mountains[y][x_mx] == self.Map_mountains[y_mx][x]
+                        and self.Map_mountains[y][x_mn] == self.Map_mountains[y_mx][x]
                 ):
                     if random.random() < 0.03:
                         self.Map_trees[y][x] = Plant.Tree(self, x, y)
@@ -247,38 +252,37 @@ class World:
                         self.grass_group.add(self.Map_grass[y][x])
 
         # Générer des agents
-        for i in range(10):
+        i = 0
+        while i < 10:
             sheep = Agent.Sheep(
                 self,
                 (
-                    random.randint(0, self.screenWidth // self.size_tile_X)
-                    * self.size_tile_X,
-                    random.randint(0, self.screenHeight // self.size_tile_Y)
-                    * self.size_tile_Y,
+                    random.randint(0, self.screenWidth - self.size_tile_X),
+                    random.randint(0, self.screenHeight - self.size_tile_Y)
                 ),
             )
             collide = pygame.sprite.spritecollideany(sheep, self.all_object_group)
+            self.sheep_group.add(sheep)
             if collide:
                 sheep.kill()
-                i -= 1
                 continue
-            self.sheep_group.add(sheep)
-        for i in range(10):
+            i += 1
+        i = 0
+        while i < 10:
             wolf = Agent.Wolf(
                 self,
                 (
-                    random.randint(0, self.screenWidth)
+                    random.randint(0, self.screenWidth - self.size_tile_X)
                     ,
-                    random.randint(0, self.screenHeight)
-                    
+                    random.randint(0, self.screenHeight - self.size_tile_Y)
                 ),
             )
+            self.wolf_group.add(wolf)
             collide = pygame.sprite.spritecollideany(wolf, self.all_object_group)
             if collide:
                 wolf.kill()
-                i -= 1
                 continue
-            self.wolf_group.add(wolf)
+            i += 1
 
         # générer nuages
 
@@ -299,7 +303,7 @@ class World:
         # BEsoin de mettre à jour une seule fois    
         if self.weather.delay == 1:
             self.mountain_group.update()
-            self.lake_group.update()        
+            self.lake_group.update()
         self.mountain_group.draw(self.screen)
         self.lake_group.draw(self.screen)
 
@@ -308,9 +312,10 @@ class World:
             self.Tmp1 = self.Trees.copy()
         else:
             i = random.randint(0, len(self.Tmp1) - 1)
-            x, y = self.Tmp1[i]           
-            if self.Map_trees[y][x] == None:                
-                if (random.random() < Plant.P_REPOUSSE):  # probabilté qu'un arbre repousse (change par rapport à la saison et température)                    
+            x, y = self.Tmp1[i]
+            if self.Map_trees[y][x] == None:
+                if (
+                        random.random() < Plant.P_REPOUSSE):  # probabilté qu'un arbre repousse (change par rapport à la saison et température)
                     self.Map_trees[y][x] = Plant.Tree(self, x, y)
                     self.tree_group.add(self.Map_trees[y][x])
                     self.all_object_group.add(self.Map_trees[y][x])
@@ -320,22 +325,23 @@ class World:
             del self.Tmp1[i]
         self.tree_group.draw(self.screen)
 
-
         # GRASS
         if not self.Tmp2:
             self.Tmp2 = self.Grass.copy()
         else:
             i = random.randint(0, len(self.Tmp2) - 1)
-            x, y = self.Tmp2[i]            
-            if self.Map_grass[y][x] == None:               
+            x, y = self.Tmp2[i]
+            if self.Map_grass[y][x] == None:
                 if (
-                    random.random() < Plant.P_REPOUSSE
-                    ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)                   
+                        random.random() < Plant.P_REPOUSSE
+                ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)
                     self.Map_grass[y][x] = Plant.Grass(self, x, y)
                     self.grass_group.add(self.Map_grass[y][x])
-                    self.Map_grass[y][x].update()                    
+                    if self.Map_grass[y][x].update():
+                        self.grass_mature_group.add(self.Map_grass[y][x])
             else:
-                self.Map_grass[y][x].update()
+                if self.Map_grass[y][x].update():
+                    self.grass_mature_group.add(self.Map_grass[y][x])
             del self.Tmp2[i]
         # for grass in self.grass_group:
         #     if grass.inFire:
@@ -348,15 +354,15 @@ class World:
 
         # FIRE
         # Le feu s'estompe en hiver
-        if self.weather.season==2:
+        if self.weather.season == 2:
             for tree in self.tree_group:
                 if tree.inFire:
-                    tree.loop=4
-                    tree.stateF=4
+                    tree.loop = 4
+                    tree.stateF = 4
             for grass in self.grass_group:
                 if grass.inFire:
-                    grass.loop=4
-                    grass.stateF=4
+                    grass.loop = 4
+                    grass.stateF = 4
         self.fire_group.draw(self.screen)
 
         # agents

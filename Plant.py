@@ -236,3 +236,6 @@ class Grass(Plant):
     # Maj herbe
     def update(self):
         super().update_plant()
+        self.set_frame()
+        if self.state == len(self.frame)-1:
+            return True
