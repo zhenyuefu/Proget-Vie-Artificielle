@@ -60,9 +60,7 @@ class BasicAgent(pygame.sprite.Sprite):
         return d
 
     def turn(self):
-        print(self.rect.x)
         self.rect.x = self.last_x
-        print(self.rect.x)
         self.rect.y = self.last_y
         self.obstacle_direction = self.direction
         self.direction = self.rand_direction(self.direction)
