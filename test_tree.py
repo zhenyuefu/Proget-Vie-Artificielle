@@ -342,8 +342,7 @@ class World:
                 ):  # probabilté que de l'herbe repousse (change par rapport à la saison et température)
                     self.Map_grass[y][x] = Plant.Grass(self, x, y)
                     self.grass_group.add(self.Map_grass[y][x])
-                    if self.Map_grass[y][x].update():
-                        self.grass_mature_group.add(self.Map_grass[y][x])
+                    self.Map_grass[y][x].update()
             else:
                 if self.Map_grass[y][x].update():
                     self.grass_mature_group.add(self.Map_grass[y][x])
