@@ -228,8 +228,10 @@ class Grass(Plant):
     def set_frame(self):
         if self.world.weather.season == 2:
             self.frame=self.world.Environment_images[6]
+            self.image=self.frame[self.state]
         else:
             self.frame=self.world.Environment_images[2]
+            self.image=self.frame[self.state]
 
     # Maj herbe
     def update(self):

@@ -347,6 +347,9 @@ class World:
         #     if grass.inFire:
         #         if random.random() < 0.1:
         #             grass.plant_in_fire()
+        if self.weather.delay == 1:
+            for grass in self.grass_group:
+                grass.set_frame()
         self.grass_group.draw(self.screen)
 
         # FIRE
