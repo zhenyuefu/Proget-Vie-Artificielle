@@ -10,12 +10,15 @@ class Cloud(pygame.sprite.Sprite):
     def __init__(self,world):
         pygame.sprite.Sprite.__init__(self)
         self.world = world
-        self.image = self.world.Environment_images[5][0]
+        self.frame = self.world.cloud_images[0]
+        self.image = self.frame[self.world.weather.season]
         self.rect = self.image.get_rect()
         self.rect.topleft = (random.randint(0,self.world.screenWidth),random.randint(0,self.world.screenHeight))
         self.loop = 0
 
     def update(self):
+        if self.world.weather.delay==1:
+            self.image=self.frame[self.world.weather.season]
         if self.loop == SPEED_FACTOR:
             self.move()
             self.loop = 0

@@ -26,7 +26,6 @@ class Image:
                 self.load_image("PNG/background/fall.png", self.world.size_bg_X, self.world.size_bg_Y),
                 self.load_image("PNG/background/winter.png", self.world.size_bg_X, self.world.size_bg_Y),
                 self.load_image("PNG/background/spring.png", self.world.size_bg_X, self.world.size_bg_Y), 
-                self.load_image("PNG/background/night.png", self.world.size_bg_X, self.world.size_bg_Y),
 
             ],
             [
@@ -67,15 +66,22 @@ class Image:
                 self.load_image("PNG/split/spring_tronc.png", self.world.size_trunk_X, self.world.size_trunk_Y),
             ],
             [
-                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y)
-            ],
-            [
                 self.load_image("PNG/split/winter_grass1.png", self.world.size_grass_X, self.world.size_grass_Y),
                 self.load_image("PNG/split/winter_grass2.png", self.world.size_grass_X, self.world.size_grass_Y),
                 self.load_image("PNG/split/winter_grass3.png", self.world.size_grass_X, self.world.size_grass_Y),
             ],
 
 
+        ]
+
+        self.world.cloud_images = [
+            [
+                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
+                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
+                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
+                self.load_image("PNG/split/cloud.png", self.world.size_cloud_X, self.world.size_cloud_Y),
+
+            ],
         ]
 
         self.world.Fire_images = [
@@ -166,21 +172,7 @@ class Image:
                 self.load_image("PNG/Block/green_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
                 self.load_image("PNG/Block/green_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
             ],
-            [
-                self.load_image("PNG/Block/night_inside.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_SW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_S.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_N.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_E.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_W.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_corner_NE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_corner_NW.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_corner_SE.png", self.world.size_block_X, self.world.size_block_Y),
-                self.load_image("PNG/Block/night_corner_SW.png", self.world.size_block_X, self.world.size_block_Y),
-            ]
+            
         ]
 
         self.world.Lake_images = [
