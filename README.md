@@ -1,6 +1,4 @@
-# **Présentation Partie Agent**
-
-## **Descritpif du Monde**
+# **Descritpif du Monde**
 
 Le monde est composé :
 - d'éléments adaptatifs (montagnes, lacs, rochers, troncs d'arbre)
@@ -8,6 +6,7 @@ Le monde est composé :
 - d'une météo(saison, vent, températures...)
 - d'agents (proies/prédateurs)
 
+# **Présentation Partie Agent**
 
 ## Animation
 
