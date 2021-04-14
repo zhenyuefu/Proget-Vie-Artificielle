@@ -30,7 +30,7 @@ class World:
         self.size_tile_X, self.size_tile_Y = 32, 32
         self.size_tree_X, self.size_tree_Y = 36, 32
         self.size_bg_X, self.size_bg_Y = self.size_tree_X, self.size_tree_Y
-        self.size_cloud_X, self.size_cloud_Y = 128, 128
+        self.size_cloud_X, self.size_cloud_Y = 250, 128
         self.size_grass_X, self.size_grass_Y = (
             self.size_tree_X // 2,
             self.size_tree_Y // 2,
@@ -93,6 +93,7 @@ class World:
         # Frame
 
         self.Environment_images = []
+        self.cloud_images = []
         self.sheep_images = []
         self.wolf_images = []
         self.Block_images = []
@@ -347,7 +348,7 @@ class World:
         #     if grass.inFire:
         #         if random.random() < 0.1:
         #             grass.plant_in_fire()
-        if self.weather.delay == 1:
+        if self.weather.delay==1:
             for grass in self.grass_group:
                 grass.set_frame()
         self.grass_group.draw(self.screen)
@@ -372,9 +373,7 @@ class World:
         self.sheep_group.draw(self.screen)
 
         # OBSTACLE
-        # Besoin de mettre à jour une seule fois à chaque nouvelle saison
-        if self.weather.delay == 1:
-            self.obstacle_group.update()
+        self.obstacle_group.update()
         self.obstacle_group.draw(self.screen)
 
         # CLOUD
