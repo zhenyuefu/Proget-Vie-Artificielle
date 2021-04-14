@@ -220,11 +220,13 @@ class World:
                     y_mn += len(self.Map_mountains)
                 if y_mx >= len(self.Map_mountains):
                     y_mx -= len(self.Map_mountains)
-                if not self.Map_mountains[y][x] and not self.Map_lake[y][x] or (
+                if (not self.Map_mountains[y][x] and not self.Map_lake[y][x]) or (
                         self.Map_mountains[y_mx][x] > 0
                         and self.Map_mountains[y_mn][x] == self.Map_mountains[y_mx][x]
                         and self.Map_mountains[y][x_mx] == self.Map_mountains[y_mx][x]
                         and self.Map_mountains[y][x_mn] == self.Map_mountains[y_mx][x]
+                        and (self.Map_mountains[y_mx][x_mx]==self.Map_mountains[y_mx][x]
+                        and self.Map_mountains[y_mx][x_mn]==self.Map_mountains[y_mx][x])
                 ):
                     if random.random() < 0.03:
                         self.Map_trees[y][x] = Plant.Tree(self, x, y)
@@ -247,7 +249,7 @@ class World:
             for y in range(len(self.Map_grass)):
                 grass = Plant.Grass(self, x, y)
                 if not pygame.sprite.spritecollideany(grass, self.all_object_group):
-                    if random.random() < 0.1:
+                    if random.random() < 0.05:
                         self.Map_grass[y][x] = grass
                         self.Grass.append((x, y))
                         self.grass_group.add(self.Map_grass[y][x])
@@ -287,7 +289,7 @@ class World:
 
         # générer nuages
 
-        for _ in range(25):
+        for _ in range(18):
             cloud = Cloud.Cloud(self)
             self.cloud_group.add(cloud)
 
@@ -295,10 +297,12 @@ class World:
 
         # Weather
         self.weather.update_weather()
-        if self.weather.delay == 1:
+        if self.weather.delay == 2:
             print("p_fire=", Plant.P_FIRE)
             print("p_gen=", Plant.P_REPOUSSE)
+            print("time_repousse=", Plant.TIME_REPOUSSE)
             print("saison=", self.weather.season)
+            print("température=", self.weather.temperature)
 
         # BLOCK    
         # BEsoin de mettre à jour une seule fois    
