@@ -3,9 +3,11 @@ import math
 import pygame
 from Fire import *
 import Cloud
+import Weather
 
 P_FIRE = 0
 P_REPOUSSE = 0
+TIME_REPOUSSE = 0
 
 class Plant(pygame.sprite.Sprite):
 
@@ -30,6 +32,14 @@ class Plant(pygame.sprite.Sprite):
         self.fire_loop = 4 # nb de boucle de feu
 
     def set_time_state(self):
+        if self.world.weather.season==Weather.WINTER:
+            self.time_state=20
+        if self.world.weather.season==Weather.SPRING:
+            self.time_state=0
+        if self.world.weather.season==Weather.SUMMER:
+            self.time_state=5
+        if self.world.weather.season==Weather.FALL:
+            self.time_state=10
         if self.Map==self.world.Map_grass:
             pos=pygame.math.Vector2((self.x//2), (self.y//2))
         elif self.Map==self.world.Map_trees:
@@ -38,7 +48,7 @@ class Plant(pygame.sprite.Sprite):
         for lake in self.world.lake_group:
             distance=pos.distance_to(pygame.math.Vector2(lake.x, lake.y))
             time=min(time,distance)
-        self.time_state=time
+        self.time_state+=time
 
 
     def reset_step_state(self):
@@ -52,10 +62,12 @@ class Plant(pygame.sprite.Sprite):
     # Propagation du feu
     def plant_in_fire(self):
 
+        # probabilité que l'arbre brûle
         if not self.inFire:
             if random.random() < P_FIRE:
                 self.in_Fire()
-            
+
+        # Le feu s'éteint    
         if self.stateF == len(self.fire_frame) - 1:
             self.fire.kill()
             self.Map[self.y][self.x] = None
@@ -152,7 +164,6 @@ class Plant(pygame.sprite.Sprite):
                     yp = self.y 
 
             # Voisinage de Moore (propagation du feu)
-            
             for x2 in range(xm,xp):
                 for y2 in range(ym,yp):
 
@@ -225,9 +236,10 @@ class Grass(Plant):
         super().set_time_state()
         self.fire_loop=1
 
+    # l'apparence change en hiver
     def set_frame(self):
         if self.world.weather.season == 2:
-            self.frame=self.world.Environment_images[6]
+            self.frame=self.world.Environment_images[5]
             self.image=self.frame[self.state]
         else:
             self.frame=self.world.Environment_images[2]
@@ -237,5 +249,5 @@ class Grass(Plant):
     def update(self):
         super().update_plant()
         self.set_frame()
-        if self.state == len(self.frame)-1:
+        if self.state == len(self.frame)-1 and self.stateF == -1:
             return True
